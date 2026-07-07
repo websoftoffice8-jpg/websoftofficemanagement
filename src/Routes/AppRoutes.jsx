@@ -18,7 +18,7 @@ import EmployeeDashboard from "../Pages/Employee/EmployeeDashboard";
 import React from 'react'
 
 const AppRoutes = () => {
-    return (
+    return ( 
         <Routes>
             <Route path="/" element={<Login />} />
 
