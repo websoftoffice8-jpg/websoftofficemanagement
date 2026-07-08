@@ -30,13 +30,7 @@ const EmployeeTable = ({ onEdit }) => {
 
         try {
             await axios.delete(`http://localhost:3000/users/${id}`);
-
-            // Option 1: Fetch data again
             fetchEmployees();
-
-            // Option 2 (faster):
-            // setEmployees((prev) => prev.filter((emp) => emp.id !== id));
-
         } catch (error) {
             console.error("Error deleting employee:", error);
         }
@@ -54,7 +48,7 @@ const EmployeeTable = ({ onEdit }) => {
                             <th className="px-6 py-4">Department</th>
                             <th className="px-6 py-4">Position</th>
                             <th className="px-6 py-4 text-center">Actions</th>\
-                            
+
                         </tr>
                     </thead>
 
@@ -68,15 +62,15 @@ const EmployeeTable = ({ onEdit }) => {
                   {employee.employeeId}
                 </td> */}
 
-                                 <td className="px-6 py-4">{employee.employeeId}</td>
-                                    
+                                <td className="px-6 py-4">{employee.employeeId}</td>
+
                                 <td className="px-6 py-4">{employee.name}</td>
 
                                 <td className="px-6 py-4">{employee.department}</td>
 
                                 <td className="px-6 py-4">{employee.position}</td>
 
-                               
+
 
 
                                 <td className="px-6 py-4">
