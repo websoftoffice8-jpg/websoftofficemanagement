@@ -11,6 +11,60 @@
       "password": "employee",
       "name": "employee",
       "role": "employee"
+    },
+    {
+      "id": 2,
+      "password": "emp_secure_99",
+      "name": "Michael Chen",
+      "role": "employee"
+    },
+    {
+      "id": 3,
+      "password": "mgr_lead_456",
+      "name": "Elena Rostova",
+      "role": "manager"
+    },
+    {
+      "id": 4,
+      "password": "dev_code_p@ss",
+      "name": "David Kim",
+      "role": "developer"
+    },
+    {
+      "id": 5,
+      "password": "hr_people_first",
+      "name": "Amanda Rogers",
+      "role": "hr"
+    },
+    {
+      "id": 6,
+      "password": "sup_help_desk",
+      "name": "Marcus Vance",
+      "role": "support"
+    },
+    {
+      "id": 7,
+      "password": "dev_stack_77",
+      "name": "Priya Patel",
+      "role": "developer"
+    },
+    {
+      "id": 8,
+      "password": "fin_audit_secure",
+      "name": "Carlos Mendez",
+      "role": "finance"
+    },
+    {
+      "id": 9,
+      "password": "mgr_ops_2026",
+      "name": "Jordan Smith",
+      "role": "manager"
+    },
+    {
+      "id": 10,
+      "password": "guest_temp_pass",
+      "name": "Taylor Swift",
+      "role": "guest"
     }
   ]
 }
