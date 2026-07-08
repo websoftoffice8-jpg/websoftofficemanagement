@@ -6,7 +6,7 @@ import AuthLayout from "../Layouts/AuthLayouts";
 const Login = () => {
   const navigate = useNavigate();
 
-  const [name, setName] = useState("");
+  const [employeeId, setEmployeeId] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = async (e) => {
@@ -14,7 +14,7 @@ const Login = () => {
 
     try {
       const res = await axios.get(
-        `http://localhost:3000/users?name=${name}&password=${password}`
+        `http://localhost:3000/users?employeeId=${employeeId}&password=${password}`
       );
 
       if (res.data.length > 0) {
@@ -47,10 +47,10 @@ const Login = () => {
           </label>
 
           <input
-            type="text"
-            placeholder="Enter Employee Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            type="text  "
+            placeholder="Enter Employee Id"
+            value={employeeId}
+            onChange={(e) => setEmployeeId(e.target.value)}
             className="w-full rounded-lg border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>

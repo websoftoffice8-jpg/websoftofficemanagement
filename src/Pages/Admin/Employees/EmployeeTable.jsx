@@ -49,10 +49,12 @@ const EmployeeTable = ({ onEdit }) => {
                     <thead className="bg-gray-100">
                         <tr className="text-left text-gray-600 text-sm">
                             {/* <th className="px-6 py-4">Employee ID</th> */}
+                            <th className="px-6 py-4">Employee Id</th>
                             <th className="px-6 py-4">Name</th>
                             <th className="px-6 py-4">Department</th>
                             <th className="px-6 py-4">Position</th>
-                            <th className="px-6 py-4 text-center">Actions</th>
+                            <th className="px-6 py-4 text-center">Actions</th>\
+                            
                         </tr>
                     </thead>
 
@@ -66,11 +68,16 @@ const EmployeeTable = ({ onEdit }) => {
                   {employee.employeeId}
                 </td> */}
 
+                                 <td className="px-6 py-4">{employee.employeeId}</td>
+                                    
                                 <td className="px-6 py-4">{employee.name}</td>
 
                                 <td className="px-6 py-4">{employee.department}</td>
 
                                 <td className="px-6 py-4">{employee.position}</td>
+
+                               
+
 
                                 <td className="px-6 py-4">
                                     {/* <span
