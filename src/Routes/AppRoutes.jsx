@@ -5,7 +5,7 @@ import { createBrowserRouter, RouterProvider, Routes, Route } from 'react-router
 
 // Admin
 import AdminDashboard from "../pages/admin/Dashboard"; 
-import Employees from "../Pages/Admin/Employees"; 
+import Employees from "../Pages/Admin/Employees/Employees"; 
 import Reports from "../Pages/Admin/Reports"; 
 import Settings from "../Pages/Admin/Settings";
 
