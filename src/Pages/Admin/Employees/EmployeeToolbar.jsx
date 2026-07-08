@@ -1,6 +1,8 @@
 // src/components/employees/EmployeeToolbar.jsx
 
+import { useState } from "react";
 import { Search, Plus } from "lucide-react";
+import PostEmployee from "./PostEmployee";
 
 const EmployeeToolbar = ({
   search,
@@ -11,6 +13,14 @@ const EmployeeToolbar = ({
   setStatus,
   onAddEmployee,
 }) => {
+  const [isAddOpen, setIsAddOpen] = useState(false);
+
+  const handleAddEmployee = (formData) => {
+    // Bubble the new employee data up to the parent (e.g. to call the API
+    // or update the employees list), if a handler was passed in.
+    onAddEmployee?.(formData);
+  };
+
   return (
     <div className="bg-white rounded-xl shadow-sm border p-6 mb-6">
       {/* Header */}
@@ -23,7 +33,7 @@ const EmployeeToolbar = ({
         </div>
 
         <button
-          onClick={onAddEmployee}
+          onClick={() => setIsAddOpen(true)}
           className="flex items-center gap-2 bg-blue-600 text-white px-5 py-2.5 rounded-lg hover:bg-blue-700 transition"
         >
           <Plus size={18} />
@@ -73,6 +83,13 @@ const EmployeeToolbar = ({
           <option>Inactive</option>
         </select>
       </div>
+
+      {/* Add Employee popup */}
+      <PostEmployee
+        isOpen={isAddOpen}
+        onClose={() => setIsAddOpen(false)}
+        onSubmit={handleAddEmployee}
+      />
     </div>
   );
 };
