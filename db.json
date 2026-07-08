@@ -1,70 +1,77 @@
 {
   "users": [
     {
-      "id": 1,
-      "password": "admin",
-      "name": "admin",
-      "role": "admin"
-    },
-    {
-      "id": 2,
-      "password": "employee",
-      "name": "employee",
-      "role": "employee"
-    },
-    {
-      "id": 2,
-      "password": "emp_secure_99",
+      "employeeID": "EMP02",
       "name": "Michael Chen",
-      "role": "employee"
+      "password": "emp_secure_99",
+      "department": "Engineering",
+      "position": "Software Engineer",
+      "id": "W_ByI7acPlw"
     },
     {
-      "id": 3,
-      "password": "mgr_lead_456",
+      "employeeID": "EMP03",
       "name": "Elena Rostova",
-      "role": "manager"
+      "password": "mgr_lead_456",
+      "department": "Operations",
+      "position": "Operations Manager",
+      "id": "5YwkqpeOM5Y"
     },
     {
-      "id": 4,
-      "password": "dev_code_p@ss",
+      "employeeID": "EMP04",
       "name": "David Kim",
-      "role": "developer"
+      "password": "dev_code_p@ss",
+      "department": "Engineering",
+      "position": "Frontend Developer",
+      "id": "nw8EUzMD7ZQ"
     },
     {
-      "id": 5,
-      "password": "hr_people_first",
+      "employeeID": "EMP05",
       "name": "Amanda Rogers",
-      "role": "hr"
+      "password": "hr_people_first",
+      "department": "Human Resources",
+      "position": "HR Specialist",
+      "id": "Xv3alESU9y8"
     },
     {
-      "id": 6,
-      "password": "sup_help_desk",
+      "employeeID": "EMP06",
       "name": "Marcus Vance",
-      "role": "support"
+      "password": "sup_help_desk",
+      "department": "Customer Success",
+      "position": "Support Tier 2",
+      "id": "hyd_0nAb6gA"
     },
     {
-      "id": 7,
-      "password": "dev_stack_77",
+      "employeeID": "EMP07",
       "name": "Priya Patel",
-      "role": "developer"
+      "password": "dev_stack_77",
+      "department": "Engineering",
+      "position": "DevOps Engineer",
+      "id": "0fmXwvjBiy0"
     },
     {
-      "id": 8,
-      "password": "fin_audit_secure",
+      "employeeID": "EMP08",
       "name": "Carlos Mendez",
-      "role": "finance"
+      "password": "fin_audit_secure",
+      "department": "Finance",
+      "position": "Financial Analyst",
+      "id": "4MC3NTD1KZA"
     },
     {
-      "id": 9,
-      "password": "mgr_ops_2026",
+      "employeeID": "EMP09",
       "name": "Jordan Smith",
-      "role": "manager"
+      "password": "mgr_ops_2026",
+      "department": "Marketing",
+      "position": "Creative Director",
+      "id": "BbmQ_ehHNjs"
     },
     {
-      "id": 10,
-      "password": "guest_temp_pass",
+      "employeeID": "EMP010",
       "name": "Taylor Swift",
-      "role": "guest"
+      "password": "guest_temp_pass",
+      "department": "Sales",
+      "position": "Account Executive",
+      "id": "iHpdD6czB7A"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }
