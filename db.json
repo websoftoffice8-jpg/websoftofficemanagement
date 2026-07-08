@@ -1,35 +1,11 @@
 {
   "users": [
     {
-      "employeeID": "EMP02",
-      "name": "Michael Chen",
-      "password": "emp_secure_99",
-      "department": "Engineering",
-      "position": "Software Engineer",
-      "id": "W_ByI7acPlw"
-    },
-    {
-      "employeeID": "EMP03",
-      "name": "Elena Rostova",
-      "password": "mgr_lead_456",
-      "department": "Operations",
-      "position": "Operations Manager",
-      "id": "5YwkqpeOM5Y"
-    },
-    {
-      "employeeID": "EMP04",
-      "name": "David Kim",
-      "password": "dev_code_p@ss",
-      "department": "Engineering",
-      "position": "Frontend Developer",
-      "id": "nw8EUzMD7ZQ"
-    },
-    {
       "employeeID": "EMP05",
       "name": "Amanda Rogers",
       "password": "hr_people_first",
       "department": "Human Resources",
-      "position": "HR Specialist",
+      "position": "Manager",
       "id": "Xv3alESU9y8"
     },
     {
