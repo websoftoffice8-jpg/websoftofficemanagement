@@ -14,11 +14,6 @@ export const adminLinks = [
     path: "/admin/reports",
     icon: "FileText",
   },
-  {
-    name: "Settings",
-    path: "/admin/settings",
-    icon: "Settings",
-  },
 ];
 
 export const employeeLinks = [
