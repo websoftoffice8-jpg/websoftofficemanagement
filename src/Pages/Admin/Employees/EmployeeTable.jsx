@@ -1,27 +1,13 @@
 // src/components/employees/EmployeeTable.jsx
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import axios from "axios";
 import EmployeeModal from "./EmployeeModal";
 
-const EmployeeTable = () => {
-    const [employees, setEmployees] = useState([]);
+const EmployeeTable = ({ employees = [], onEmployeeUpdated, onEmployeeDeleted }) => {
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [isEditOpen, setIsEditOpen] = useState(false);
-
-    useEffect(() => {
-        fetchEmployees();
-    }, []);
-
-    const fetchEmployees = async () => {
-        try {
-            const res = await axios.get("http://localhost:3000/users");
-            setEmployees(res.data);
-        } catch (error) {
-            console.error("Error fetching employees:", error);
-        }
-    };
 
     const handleEdit = (employee) => {
         setSelectedEmployee(employee);
@@ -29,10 +15,9 @@ const EmployeeTable = () => {
     };
 
     const handleEmployeeUpdated = (updatedEmployee) => {
-        // Swap in the updated record immediately, no need to re-fetch everything.
-        setEmployees((prev) =>
-            prev.map((emp) => (emp.id === updatedEmployee.id ? updatedEmployee : emp))
-        );
+        // Notify the parent so the single source-of-truth list
+        // (and therefore the filters) stay in sync.
+        onEmployeeUpdated?.(updatedEmployee);
     };
 
     const handleDelete = async (id) => {
@@ -44,7 +29,7 @@ const EmployeeTable = () => {
 
         try {
             await axios.delete(`http://localhost:3000/users/${id}`);
-            fetchEmployees();
+            onEmployeeDeleted?.(id);
         } catch (error) {
             console.error("Error deleting employee:", error);
         }
@@ -56,13 +41,11 @@ const EmployeeTable = () => {
                 <table className="min-w-full">
                     <thead className="bg-gray-100">
                         <tr className="text-left text-gray-600 text-sm">
-                            {/* <th className="px-6 py-4">Employee ID</th> */}
                             <th className="px-6 py-4">Employee Id</th>
                             <th className="px-6 py-4">Name</th>
                             <th className="px-6 py-4">Department</th>
                             <th className="px-6 py-4">Position</th>
-                            <th className="px-6 py-4 text-center">Actions</th>\
-
+                            <th className="px-6 py-4 text-center">Actions</th>
                         </tr>
                     </thead>
 
@@ -72,8 +55,6 @@ const EmployeeTable = () => {
                                 key={employee.id}
                                 className="border-t hover:bg-gray-50 transition"
                             >
-                            
-
                                 <td className="px-6 py-4">{employee.employeeId}</td>
 
                                 <td className="px-6 py-4">{employee.name}</td>
@@ -81,9 +62,6 @@ const EmployeeTable = () => {
                                 <td className="px-6 py-4">{employee.department}</td>
 
                                 <td className="px-6 py-4">{employee.position}</td>
-
-
-
 
                                 <td className="px-6 py-4">
                                     <div className="flex justify-center gap-3">

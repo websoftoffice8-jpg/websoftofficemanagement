@@ -10,15 +10,6 @@
       "id": "W_ByI7acPlw"
     },
     {
-      "employeeId": "EMP03",
-      "name": "Elena Rostova",
-      "password": "mgr_lead_456",
-      "department": "Operations",
-      "position": "Operations Manager",
-      "role": "employee",
-      "id": "5YwkqpeOM5Y"
-    },
-    {
       "employeeId": "EMP04",
       "name": "David Kim",
       "password": "dev_code_p@ss",
@@ -73,13 +64,12 @@
       "id": "BbmQ_ehHNjs"
     },
     {
-      "employeeId": "EMP012",
-      "name": "admin1",
-      "password": "admin1",
+      "employeeId": "EMP12",
+      "name": "gaurav",
+      "password": "sunarsuar",
       "department": "IT",
-      "position": "HR Officer",
-      "role": "admin",
-      "id": "jrU3Z7obKhw"
+      "position": "Manager",
+      "id": "SilaxAToEnE"
     }
   ],
   "employee": [

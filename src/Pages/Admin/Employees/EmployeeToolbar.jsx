@@ -11,6 +11,7 @@ const EmployeeToolbar = ({
   setDepartment,
   status,
   setStatus,
+  departments = [],
   onAddEmployee,
 }) => {
   const [isAddOpen, setIsAddOpen] = useState(false);
@@ -52,35 +53,39 @@ const EmployeeToolbar = ({
 
           <input
             type="text"
-            placeholder="Search employee..."
+            placeholder="Search by name, ID, or position..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full border rounded-lg pl-10 pr-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
 
-        {/* Department */}
+        {/* Department - built dynamically from actual employee data,
+            instead of a hardcoded list that can drift out of sync. */}
         <select
           value={department}
           onChange={(e) => setDepartment(e.target.value)}
           className="border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All Departments</option>
-          <option>IT</option>
-          <option>HR</option>
-          <option>Finance</option>
-          <option>Marketing</option>
+          {departments.map((dept) => (
+            <option key={dept} value={dept}>
+              {dept}
+            </option>
+          ))}
         </select>
 
-        {/* Status */}
+        {/* Status - your data has no "status" field, so this filters
+            against "role" (admin / employee / intern) instead. */}
         <select
           value={status}
           onChange={(e) => setStatus(e.target.value)}
           className="border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <option value="">All Status</option>
-          <option>Active</option>
-          <option>Inactive</option>
+          <option value="">All Roles</option>
+          <option value="admin">Admin</option>
+          <option value="employee">Employee</option>
+          <option value="intern">Intern</option>
         </select>
       </div>
 
