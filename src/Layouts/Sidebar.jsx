@@ -1,22 +1,21 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import {
-    LayoutDashboard,
+  LayoutDashboard,
   CalendarCheck,
   Users,
   FileText,
-  
+  Settings,
   LogOut,
   X,
-
 } from "lucide-react";
 
 const icons = {
-   LayoutDashboard,
+  LayoutDashboard,
   CalendarCheck,
   Users,
   FileText,
-  
+  Settings,
 };
 
 const Sidebar = ({ links, isOpen, setIsOpen }) => {
@@ -58,6 +57,7 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
         {/* Navigation */}
         <nav className="px-3 py-5 flex flex-col gap-2">
           {links.map((item) => {
+            console.log(item.icon);
             const Icon = icons[item.icon];
 
             return (
@@ -75,7 +75,7 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
                 }
               >
                 {Icon && <Icon size={20} />}
-                <span className="font-medium">{item.name}</span>
+                <span className="font-medium">{item.name  }</span>
               </NavLink>
             );
           })}

@@ -22,6 +22,7 @@ const POSITIONS = [
   "Intern",
 ];
 
+
 const PostEmployee = ({ isOpen, onClose }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -31,6 +32,7 @@ const PostEmployee = ({ isOpen, onClose }) => {
     password: "",
     department: "",
     position: "",
+    
   });
 
   if (!isOpen) return null;
@@ -48,7 +50,6 @@ const PostEmployee = ({ isOpen, onClose }) => {
     try {
       await axios.post("http://localhost:3000/users", {
         ...form,
-        role: "employee",
       });
 
       alert("Employee added successfully!");
@@ -59,6 +60,7 @@ const PostEmployee = ({ isOpen, onClose }) => {
         password: "",
         department: "",
         position: "",
+        
       });
 
       onClose();
@@ -75,6 +77,7 @@ const PostEmployee = ({ isOpen, onClose }) => {
       password: "",
       department: "",
       position: "",
+      
     });
 
     onClose();
@@ -232,6 +235,8 @@ const PostEmployee = ({ isOpen, onClose }) => {
                 </select>
               </div>
             </div>
+
+             
           </div>
 
           <div className="flex justify-end gap-3 pt-2">

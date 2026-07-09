@@ -6,6 +6,8 @@ import axios from "axios";
 import EmployeeModal from "./EmployeeModal";
 
 const EmployeeTable = ({ employees = [], onEmployeeUpdated, onEmployeeDeleted }) => {
+const EmployeeTable = () => {
+    const [employees, setEmployees] = useState([]);
     const [selectedEmployee, setSelectedEmployee] = useState(null);
     const [isEditOpen, setIsEditOpen] = useState(false);
 
@@ -14,10 +16,16 @@ const EmployeeTable = ({ employees = [], onEmployeeUpdated, onEmployeeDeleted })
         setIsEditOpen(true);
     };
 
+    const handleEdit = (employee) => {
+        setSelectedEmployee(employee);
+        setIsEditOpen(true);
+    };
+
     const handleEmployeeUpdated = (updatedEmployee) => {
-        // Notify the parent so the single source-of-truth list
-        // (and therefore the filters) stay in sync.
-        onEmployeeUpdated?.(updatedEmployee);
+        // Swap in the updated record immediately, no need to re-fetch everything.
+        setEmployees((prev) =>
+            prev.map((emp) => (emp.id === updatedEmployee.id ? updatedEmployee : emp))
+        );
     };
 
     const handleDelete = async (id) => {
@@ -62,6 +70,9 @@ const EmployeeTable = ({ employees = [], onEmployeeUpdated, onEmployeeDeleted })
                                 <td className="px-6 py-4">{employee.department}</td>
 
                                 <td className="px-6 py-4">{employee.position}</td>
+
+
+
 
                                 <td className="px-6 py-4">
                                     <div className="flex justify-center gap-3">
