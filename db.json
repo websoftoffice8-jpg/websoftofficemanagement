@@ -74,22 +74,13 @@
     },
     {
       "employeeId": "EMP010",
-      "name": "Taylor Swift",
-      "password": "guest_temp_pass",
+      "name": "ManrasSwift",
+      "password": "ManrasSwift",
       "department": "Sales",
-      "position": "Account Executive",
+      "position": "HR Specialist",
       "role": "intern",
-      "id": "iHpdD6czB7A"
-    },
-    {
-      "employeeId": "EMP10",
-      "name": "Gaurav Dhungana",
-      "password": "sunarsuar",
-      "department": "IT",
-      "position": "Software Engineer",
-      "role": "employee",
-      "id": "LHGMGCSkMcg",
-      "employeeID": "EMP10"
+      "id": "iHpdD6czB7A",
+      "employeeID": ""
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
