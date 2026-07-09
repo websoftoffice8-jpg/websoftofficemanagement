@@ -10,7 +10,7 @@
     {
       "employeeId": "EMP01",
       "name": "David Kim",
-      "password": "dev_code_p@ss",
+      "password": "employee",
       "department": "Engineering",
       "position": "Frontend Developer",
       "role": "employee",
@@ -42,6 +42,15 @@
       "inTime": "",
       "outTime": "",
       "dailyLog": []
+    },
+    {
+      "employeeId": "EMP04",
+      "name": "manras",
+      "password": "manras",
+      "department": "IT",
+      "position": "Software Engineer",
+      "id": "OwpKL7pXEMQ"
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

@@ -7,6 +7,8 @@ import Navbar from "./Navbar";
 const DashboardLayout = ({ links, userName }) => {
   const [isOpen, setIsOpen] = useState(false);
 
+  const user = JSON.parse(localStorage.getItem("user"));
+
   return (
     <div className="flex h-screen bg-gray-100">
       {/* Sidebar */}

@@ -83,7 +83,7 @@ const EmployeeToolbar = ({
           className="border rounded-lg px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All Roles</option>
-          <option value="admin">Admin</option>
+          
           <option value="employee">Employee</option>
           <option value="intern">Intern</option>
         </select>
