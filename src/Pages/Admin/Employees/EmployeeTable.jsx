@@ -3,12 +3,9 @@
 import { useEffect, useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import axios from "axios";
-import EmployeeModal from "./EmployeeModal";
 
-const EmployeeTable = () => {
+const EmployeeTable = ({ onEdit }) => {
     const [employees, setEmployees] = useState([]);
-    const [selectedEmployee, setSelectedEmployee] = useState(null);
-    const [isEditOpen, setIsEditOpen] = useState(false);
 
     useEffect(() => {
         fetchEmployees();
@@ -23,17 +20,6 @@ const EmployeeTable = () => {
         }
     };
 
-    const handleEdit = (employee) => {
-        setSelectedEmployee(employee);
-        setIsEditOpen(true);
-    };
-
-    const handleEmployeeUpdated = (updatedEmployee) => {
-        // Swap in the updated record immediately, no need to re-fetch everything.
-        setEmployees((prev) =>
-            prev.map((emp) => (emp.id === updatedEmployee.id ? updatedEmployee : emp))
-        );
-    };
 
     const handleDelete = async (id) => {
         const confirmDelete = window.confirm(
@@ -72,9 +58,9 @@ const EmployeeTable = () => {
                                 key={employee.id}
                                 className="border-t hover:bg-gray-50 transition"
                             >
-                                <td className="px-6 py-4 font-medium text-gray-800">
-                                    {employee.employeeID}
-                                </td>
+                                {/* <td className="px-6 py-4 font-medium text-gray-800">
+                  {employee.employeeId}
+                </td> */}
 
                                 <td className="px-6 py-4">{employee.employeeId}</td>
 
@@ -88,9 +74,21 @@ const EmployeeTable = () => {
 
 
                                 <td className="px-6 py-4">
+                                    {/* <span
+                    className={`px-3 py-1 rounded-full text-xs font-medium ${
+                      employee.status === "Active"
+                        ? "bg-green-100 text-green-700"
+                        : "bg-red-100 text-red-700"
+                    }`}
+                  >
+                    {employee.status}
+                  </span> */}
+                                </td>
+
+                                <td className="px-6 py-4">
                                     <div className="flex justify-center gap-3">
                                         <button
-                                            onClick={() => handleEdit(employee)}
+                                            onClick={() => onEdit(employee)}
                                             className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 transition"
                                         >
                                             <Pencil size={18} />
@@ -110,7 +108,7 @@ const EmployeeTable = () => {
                         {employees.length === 0 && (
                             <tr>
                                 <td
-                                    colSpan={5}
+                                    colSpan={6}
                                     className="text-center py-8 text-gray-500"
                                 >
                                     No employees found.
@@ -120,13 +118,6 @@ const EmployeeTable = () => {
                     </tbody>
                 </table>
             </div>
-
-            <EmployeeModal
-                isOpen={isEditOpen}
-                employee={selectedEmployee}
-                onClose={() => setIsEditOpen(false)}
-                onUpdated={handleEmployeeUpdated}
-            />
         </div>
     );
 };

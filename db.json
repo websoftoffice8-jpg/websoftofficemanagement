@@ -74,12 +74,13 @@
     },
     {
       "employeeId": "EMP010",
-      "name": "Taylor Swift",
-      "password": "guest_temp_pass",
+      "name": "ManrasSwift",
+      "password": "ManrasSwift",
       "department": "Sales",
-      "position": "Account Executive",
+      "position": "HR Specialist",
       "role": "intern",
-      "id": "iHpdD6czB7A"
+      "id": "iHpdD6czB7A",
+      "employeeID": ""
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
