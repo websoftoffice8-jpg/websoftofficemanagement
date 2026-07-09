@@ -1,16 +1,87 @@
 {
   "users": [
     {
-      "id": 1,
+      "employeeId": "admin",
+      "name": "Michael Chen",
       "password": "admin",
-      "name": "admin",
-      "role": "admin"
+      "department": "Engineering",
+      "position": "Software Engineer",
+      "role": "admin",
+      "id": "W_ByI7acPlw"
     },
     {
-      "id": 2,
-      "password": "employee",
-      "name": "employee",
-      "role": "employee"
+      "employeeId": "EMP03",
+      "name": "Elena Rostova",
+      "password": "mgr_lead_456",
+      "department": "Operations",
+      "position": "Operations Manager",
+      "role": "employee",
+      "id": "5YwkqpeOM5Y"
+    },
+    {
+      "employeeId": "EMP04",
+      "name": "David Kim",
+      "password": "dev_code_p@ss",
+      "department": "Engineering",
+      "position": "Frontend Developer",
+      "role": "employee",
+      "id": "nw8EUzMD7ZQ"
+    },
+    {
+      "employeeId": "EMP05",
+      "name": "Amanda Rogers",
+      "password": "hr_people_first",
+      "department": "Human Resources",
+      "position": "HR Specialist",
+      "role": "employee",
+      "id": "Xv3alESU9y8"
+    },
+    {
+      "employeeId": "EMP06",
+      "name": "Marcus Vance",
+      "password": "sup_help_desk",
+      "department": "Customer Success",
+      "position": "Support Tier 2",
+      "role": "employee",
+      "id": "hyd_0nAb6gA"
+    },
+    {
+      "employeeId": "EMP07",
+      "name": "Priya Patel",
+      "password": "dev_stack_77",
+      "department": "Engineering",
+      "position": "DevOps Engineer",
+      "role": "employee",
+      "id": "0fmXwvjBiy0"
+    },
+    {
+      "employeeId": "EMP08",
+      "name": "Carlos Mendez",
+      "password": "fin_audit_secure",
+      "department": "Finance",
+      "position": "Financial Analyst",
+      "role": "intern",
+      "id": "4MC3NTD1KZA"
+    },
+    {
+      "employeeId": "EMP09",
+      "name": "Jordan Smith",
+      "password": "mgr_ops_2026",
+      "department": "Marketing",
+      "position": "Creative Director",
+      "role": "employee",
+      "id": "BbmQ_ehHNjs"
+    },
+    {
+      "employeeId": "EMP010",
+      "name": "ManrasSwift",
+      "password": "ManrasSwift",
+      "department": "Sales",
+      "position": "HR Specialist",
+      "role": "intern",
+      "id": "iHpdD6czB7A",
+      "employeeID": ""
     }
-  ]
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
 }

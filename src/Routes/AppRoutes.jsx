@@ -7,7 +7,7 @@ import { createBrowserRouter, RouterProvider, Routes, Route } from 'react-router
 import AdminDashboard from "../pages/admin/Dashboard"; 
 import Employees from "../Pages/Admin/Employees/Employees"; 
 import Reports from "../Pages/Admin/Reports"; 
-import Settings from "../Pages/Admin/Settings";
+
 
 
 // Employee
@@ -34,7 +34,7 @@ const AppRoutes = () => {
                 <Route path="/admin/dashboard" element={<AdminDashboard />} />
                 <Route path="/admin/employees" element={<Employees />} />
                 <Route path="/admin/reports" element={<Reports />} />
-                <Route path="/admin/settings" element={<Settings />} />
+                
             </Route>
 
             {/* Employee */}

@@ -5,7 +5,7 @@ import {
   CalendarCheck,
   Users,
   FileText,
-  Settings,
+  
   LogOut,
   X,
 
@@ -16,7 +16,7 @@ const icons = {
   CalendarCheck,
   Users,
   FileText,
-  Settings,
+  
 };
 
 const Sidebar = ({ links, isOpen, setIsOpen }) => {
