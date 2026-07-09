@@ -82,5 +82,7 @@
       "id": "jrU3Z7obKhw"
     }
   ],
-  "$schema": "./node_modules/json-server/schema.json"
+  "employee": [
+    
+  ]
 }

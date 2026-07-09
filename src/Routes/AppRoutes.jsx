@@ -28,7 +28,7 @@ const AppRoutes = () => {
                 element={
                     <DashboardLayout
                         links={adminLinks}
-                        userName="admi"
+                        userName="admin"
                     />
                 }
             >
