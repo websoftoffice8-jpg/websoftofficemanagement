@@ -1,3 +1,4 @@
+
 export const adminLinks = [
   {
     name: "Dashboard",
@@ -13,6 +14,11 @@ export const adminLinks = [
     name: "Reports",
     path: "/admin/reports",
     icon: "FileText",
+  },
+  {
+    name: "Settings",
+    path: "/admin/settings",
+    icon: "Settings",
   },
 ];
 

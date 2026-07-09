@@ -73,14 +73,13 @@
       "id": "BbmQ_ehHNjs"
     },
     {
-      "employeeId": "EMP010",
-      "name": "ManrasSwift",
-      "password": "ManrasSwift",
-      "department": "Sales",
-      "position": "HR Specialist",
-      "role": "intern",
-      "id": "iHpdD6czB7A",
-      "employeeID": ""
+      "employeeId": "EMP012",
+      "name": "admin1",
+      "password": "admin1",
+      "department": "IT",
+      "position": "HR Officer",
+      "role": "admin",
+      "id": "jrU3Z7obKhw"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -50,10 +50,6 @@ const EmployeeModal = ({ isOpen, employee, onClose, onUpdated }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState(null);
 
-  // Pre-fill the form whenever a different employee is selected for editing.
-  // currentPassword is auto-filled from the employee's existing record (read-only,
-  // just so it's visible). newPassword starts blank — the field below only
-  // updates the stored password if the user actually types a new one.
   useEffect(() => {
     if (employee) {
       setForm({
@@ -68,10 +64,6 @@ const EmployeeModal = ({ isOpen, employee, onClose, onUpdated }) => {
     }
   }, [employee]);
 
-  // Always include the employee's current department/position in the options,
-  // even if it isn't one of the predefined values above — this way the
-  // dropdown shows their real current value as the default instead of
-  // silently falling back to blank.
   const departmentOptions =
     form.department && !DEPARTMENTS.includes(form.department)
       ? [form.department, ...DEPARTMENTS]
@@ -97,8 +89,6 @@ const EmployeeModal = ({ isOpen, employee, onClose, onUpdated }) => {
       return;
     }
 
-    // Only send a new password if the user actually typed one in the "New
-    // Password" field, so leaving it blank keeps the existing password unchanged.
     const payload = {
       employeeID: form.employeeID,
       name: form.name,
