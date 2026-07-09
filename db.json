@@ -64,13 +64,12 @@
       "id": "BbmQ_ehHNjs"
     },
     {
-      "employeeId": "EMP012",
-      "name": "admin1",
-      "password": "admin1",
+      "employeeId": "EMP12",
+      "name": "gaurav",
+      "password": "sunarsuar",
       "department": "IT",
-      "position": "HR Officer",
-      "role": "admin",
-      "id": "jrU3Z7obKhw"
+      "position": "Manager",
+      "id": "SilaxAToEnE"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
