@@ -4,75 +4,44 @@
       "employeeId": "admin",
       "name": "Michael Chen",
       "password": "admin",
-      "department": "Engineering",
-      "position": "Software Engineer",
       "role": "admin",
       "id": "W_ByI7acPlw"
     },
     {
-      "employeeId": "EMP04",
+      "employeeId": "EMP01",
       "name": "David Kim",
       "password": "dev_code_p@ss",
       "department": "Engineering",
       "position": "Frontend Developer",
       "role": "employee",
-      "id": "nw8EUzMD7ZQ"
+      "id": "1",
+      "inTime": "",
+      "outTime": "",
+      "dailyLog": []
     },
     {
-      "employeeId": "EMP05",
+      "employeeId": "EMP02",
       "name": "Amanda Rogers",
       "password": "hr_people_first",
       "department": "Human Resources",
       "position": "HR Specialist",
       "role": "employee",
-      "id": "Xv3alESU9y8"
+      "id": "2",
+      "inTime": "",
+      "outTime": "",
+      "dailyLog": []
     },
     {
-      "employeeId": "EMP06",
+      "employeeId": "EMP03",
       "name": "Marcus Vance",
       "password": "sup_help_desk",
       "department": "Customer Success",
       "position": "Support Tier 2",
       "role": "employee",
-      "id": "hyd_0nAb6gA"
-    },
-    {
-      "employeeId": "EMP07",
-      "name": "Priya Patel",
-      "password": "dev_stack_77",
-      "department": "Engineering",
-      "position": "DevOps Engineer",
-      "role": "employee",
-      "id": "0fmXwvjBiy0"
-    },
-    {
-      "employeeId": "EMP08",
-      "name": "Carlos Mendez",
-      "password": "fin_audit_secure",
-      "department": "Finance",
-      "position": "Financial Analyst",
-      "role": "intern",
-      "id": "4MC3NTD1KZA"
-    },
-    {
-      "employeeId": "EMP09",
-      "name": "Jordan Smith",
-      "password": "mgr_ops_2026",
-      "department": "Marketing",
-      "position": "Creative Director",
-      "role": "employee",
-      "id": "BbmQ_ehHNjs"
-    },
-    {
-      "employeeId": "EMP12",
-      "name": "gaurav",
-      "password": "sunarsuar",
-      "department": "IT",
-      "position": "Manager",
-      "id": "SilaxAToEnE"
+      "id": "3",
+      "inTime": "",
+      "outTime": "",
+      "dailyLog": []
     }
-  ],
-  "employee": [
-    
   ]
 }
