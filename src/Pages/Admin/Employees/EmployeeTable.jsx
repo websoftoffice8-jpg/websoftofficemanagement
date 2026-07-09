@@ -72,9 +72,7 @@ const EmployeeTable = () => {
                                 key={employee.id}
                                 className="border-t hover:bg-gray-50 transition"
                             >
-                                <td className="px-6 py-4 font-medium text-gray-800">
-                                    {employee.employeeID}
-                                </td>
+                            
 
                                 <td className="px-6 py-4">{employee.employeeId}</td>
 
