@@ -122,6 +122,33 @@ const Settings = () => {
     }
   }
 
+  // account delete 
+
+  const handleDeleteAdmin = async () => {
+    if (!currentAdmin) return;
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your admin account?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      await fetch(`${API_URL}/${currentAdmin.id}`, {
+        method: "DELETE",
+      });
+
+      // Clear login
+      localStorage.removeItem("user");
+
+      // Redirect to login page
+      window.location.href = "/";
+    } catch (err) {
+      alert("Failed to delete admin.");
+    }
+  };
+
+
   if (loading) {
     return (
       <div style={styles.page}>
@@ -236,6 +263,23 @@ const Settings = () => {
           ))}
         </ul>
       </section>
+      <div style={{ marginTop: "20px" }}>
+        <button
+          onClick={handleDeleteAdmin}
+          style={{
+            background: "#dc2626",
+            color: "#fff",
+            border: "none",
+            padding: "10px 18px",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: 600,
+          }}
+        >
+          Delete Admin
+        </button>
+      </div>
+
     </div>
   )
 }

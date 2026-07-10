@@ -51,13 +51,6 @@
       "department": "IT",
       "position": "Intern",
       "id": "a7p7d-aevlQ"
-    },
-    {
-      "employeeId": "admin1",
-      "name": "manras",
-      "password": "manras",
-      "role": "admin",
-      "id": "WP1LRXegHEs"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
