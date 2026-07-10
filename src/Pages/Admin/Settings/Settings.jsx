@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { ShieldCheck, UserPlus, Users, Hash, User, Lock } from 'lucide-react'
 
 // ---- Integration notes ----
 // 1. Users are read from / written to your json-server (or similar) REST API
@@ -127,46 +128,66 @@ const Settings = () => {
 
   if (loading) {
     return (
-      <div style={styles.page}>
-        <p style={styles.muted}>Loading…</p>
+      <div className="max-w-2xl mx-auto px-5 py-8">
+        <p className="text-slate-400 text-sm">Loading…</p>
       </div>
     )
   }
 
   if (loadError) {
     return (
-      <div style={styles.page}>
-        <p style={styles.error}>{loadError}</p>
+      <div className="max-w-2xl mx-auto px-5 py-8">
+        <p className="text-red-600 text-sm bg-red-50 border border-red-200 rounded-xl px-3.5 py-2.5">
+          {loadError}
+        </p>
       </div>
     )
   }
 
   return (
-    <div style={styles.page}>
-      <h1 style={styles.pageTitle}>Admin Settings</h1>
+    <div className="max-w-2xl mx-auto px-5 py-8">
+      {/* Page header */}
+      <div className="flex items-center gap-3 mb-7">
+        <div className="w-10 h-10 rounded-xl bg-green-600 flex items-center justify-center shadow-sm shadow-green-600/25">
+          <ShieldCheck size={20} className="text-white" strokeWidth={2} />
+        </div>
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+            Admin Settings
+          </h1>
+          <p className="text-sm text-slate-400">Manage administrator access to the system.</p>
+        </div>
+      </div>
 
       {/* Current admin details */}
-      <section style={styles.card}>
-        <h2 style={styles.cardTitle}>Your Admin Details</h2>
+      <section className="bg-white rounded-2xl shadow-[0_1px_2px_0_rgba(15,23,42,0.06),0_1px_8px_-2px_rgba(15,23,42,0.08)] p-6 mb-5">
+        <h2 className="flex items-center gap-2 text-base font-semibold text-slate-900 mb-4">
+          <User size={16} className="text-green-600" />
+          Your Admin Details
+        </h2>
 
         {currentAdmin ? (
-          <div style={styles.detailGrid}>
-            <div style={styles.detailRow}>
-              <span style={styles.label}>Name</span>
-              <span style={styles.value}>{currentAdmin.name}</span>
+          <div className="flex flex-col gap-3">
+            <div className="flex justify-between items-center border-b border-slate-100 pb-2.5">
+              <span className="text-slate-400 text-sm">Name</span>
+              <span className="font-medium text-slate-700">{currentAdmin.name}</span>
             </div>
-            <div style={styles.detailRow}>
-              <span style={styles.label}>Admin ID</span>
-              <span style={styles.value}>{currentAdmin.employeeId}</span>
+            <div className="flex justify-between items-center border-b border-slate-100 pb-2.5">
+              <span className="text-slate-400 text-sm">Admin ID</span>
+              <span className="font-mono text-[13px] font-medium text-slate-700 bg-slate-50 px-2 py-0.5 rounded-md">
+                {currentAdmin.employeeId}
+              </span>
             </div>
-            <div style={styles.detailRow}>
-              <span style={styles.label}>Password</span>
-              <span style={styles.value}>
-                {showPassword ? currentAdmin.password : '•'.repeat(currentAdmin.password.length)}
+            <div className="flex justify-between items-center">
+              <span className="text-slate-400 text-sm">Password</span>
+              <span className="font-medium text-slate-700 flex items-center gap-2.5">
+                <span className="font-mono tracking-wider">
+                  {showPassword ? currentAdmin.password : '•'.repeat(currentAdmin.password.length)}
+                </span>
                 <button
                   type="button"
                   onClick={() => setShowPassword((s) => !s)}
-                  style={styles.linkButton}
+                  className="text-green-600 font-semibold text-xs hover:text-green-700 transition-colors"
                 >
                   {showPassword ? 'Hide' : 'Show'}
                 </button>
@@ -174,200 +195,111 @@ const Settings = () => {
             </div>
           </div>
         ) : (
-          <p style={styles.muted}>No admin is currently logged in.</p>
+          <p className="text-slate-400 text-sm">No admin is currently logged in.</p>
         )}
       </section>
 
       {/* Add new admin */}
-      <section style={styles.card}>
-        <h2 style={styles.cardTitle}>Add New Admin</h2>
-        <form onSubmit={handleAddAdmin} style={styles.form}>
-          <div style={styles.formRow}>
-            <label style={styles.formLabel}>Employee ID</label>
-            <input
-              type="text"
-              name="employeeId"
-              value={form.employeeId}
-              onChange={handleChange}
-              placeholder="e.g. EMP04"
-              style={styles.input}
-            />
+      <section className="bg-white rounded-2xl shadow-[0_1px_2px_0_rgba(15,23,42,0.06),0_1px_8px_-2px_rgba(15,23,42,0.08)] p-6 mb-5">
+        <h2 className="flex items-center gap-2 text-base font-semibold text-slate-900 mb-4">
+          <UserPlus size={16} className="text-green-600" />
+          Add New Admin
+        </h2>
+        <form onSubmit={handleAddAdmin} className="flex flex-col gap-3.5">
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[13px] font-medium text-slate-600">Employee ID</label>
+            <div className="relative">
+              <Hash size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                name="employeeId"
+                value={form.employeeId}
+                onChange={handleChange}
+                placeholder="e.g. EMP04"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3.5 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500/40 focus:border-green-500 focus:bg-white transition-colors"
+              />
+            </div>
           </div>
 
-          <div style={styles.formRow}>
-            <label style={styles.formLabel}>Full Name</label>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              placeholder="e.g. Priya Nair"
-              style={styles.input}
-            />
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[13px] font-medium text-slate-600">Full Name</label>
+            <div className="relative">
+              <User size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                placeholder="e.g. Priya Nair"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3.5 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500/40 focus:border-green-500 focus:bg-white transition-colors"
+              />
+            </div>
           </div>
 
-          <div style={styles.formRow}>
-            <label style={styles.formLabel}>Password</label>
-            <input
-              type="text"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              placeholder="Set a password"
-              style={styles.input}
-            />
+          <div className="flex flex-col gap-1.5">
+            <label className="text-[13px] font-medium text-slate-600">Password</label>
+            <div className="relative">
+              <Lock size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+              <input
+                type="text"
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                placeholder="Set a password"
+                className="w-full bg-slate-50 border border-slate-200 rounded-xl pl-9 pr-3.5 py-2.5 text-sm text-slate-700 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-green-500/40 focus:border-green-500 focus:bg-white transition-colors"
+              />
+            </div>
           </div>
 
-          {formError && <p style={styles.error}>{formError}</p>}
-          {successMsg && <p style={styles.success}>{successMsg}</p>}
+          {formError && (
+            <p className="text-red-600 text-[13px] bg-red-50 border border-red-200 rounded-xl px-3.5 py-2">
+              {formError}
+            </p>
+          )}
+          {successMsg && (
+            <p className="text-green-700 text-[13px] bg-green-50 border border-green-200 rounded-xl px-3.5 py-2">
+              {successMsg}
+            </p>
+          )}
 
-          <button type="submit" style={styles.submitButton} disabled={submitting}>
+          <button
+            type="submit"
+            disabled={submitting}
+            className="mt-1 self-start px-5 py-2.5 rounded-xl bg-green-600 text-white text-sm font-semibold shadow-sm shadow-green-600/25 hover:bg-green-700 hover:shadow-md hover:shadow-green-600/30 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+          >
             {submitting ? 'Adding…' : 'Add Admin'}
           </button>
         </form>
       </section>
 
       {/* Existing admins list */}
-      <section style={styles.card}>
-        <h2 style={styles.cardTitle}>Current Admins ({admins.length})</h2>
-        <ul style={styles.adminList}>
+      <section className="bg-white rounded-2xl shadow-[0_1px_2px_0_rgba(15,23,42,0.06),0_1px_8px_-2px_rgba(15,23,42,0.08)] p-6">
+        <h2 className="flex items-center gap-2 text-base font-semibold text-slate-900 mb-4">
+          <Users size={16} className="text-green-600" />
+          Current Admins
+          <span className="ml-auto text-xs font-medium text-green-700 bg-green-50 px-2 py-0.5 rounded-full">
+            {admins.length}
+          </span>
+        </h2>
+        <ul className="flex flex-col gap-1">
           {admins.map((a) => (
-            <li key={a.id} style={styles.adminItem}>
-              <span style={styles.adminName}>{a.name}</span>
-              <span style={styles.adminId}>{a.employeeId}</span>
+            <li
+              key={a.id}
+              className="flex items-center gap-3 px-2 -mx-2 py-2.5 border-b border-slate-100 last:border-b-0 text-sm rounded-lg hover:bg-slate-50 transition-colors"
+            >
+              <span className="w-8 h-8 shrink-0 rounded-full bg-green-100 text-green-700 flex items-center justify-center text-xs font-bold">
+                {a.name.charAt(0).toUpperCase()}
+              </span>
+              <span className="font-medium text-slate-700 flex-1">{a.name}</span>
+              <span className="text-xs text-slate-400 font-mono bg-slate-50 px-2 py-0.5 rounded-md">
+                {a.employeeId}
+              </span>
             </li>
           ))}
         </ul>
       </section>
     </div>
   )
-}
-
-const styles = {
-  page: {
-    maxWidth: 640,
-    margin: '0 auto',
-    padding: '32px 20px',
-    fontFamily: 'system-ui, sans-serif',
-    color: '#1f2328',
-  },
-  pageTitle: {
-    fontSize: 24,
-    fontWeight: 700,
-    marginBottom: 24,
-  },
-  card: {
-    background: '#fff',
-    border: '1px solid #e2e5e9',
-    borderRadius: 12,
-    padding: 24,
-    marginBottom: 20,
-    boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
-  },
-  cardTitle: {
-    fontSize: 16,
-    fontWeight: 600,
-    marginBottom: 16,
-  },
-  detailGrid: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 12,
-  },
-  detailRow: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderBottom: '1px solid #f0f1f3',
-    paddingBottom: 10,
-  },
-  label: {
-    color: '#6b7280',
-    fontSize: 14,
-  },
-  value: {
-    fontWeight: 500,
-    display: 'flex',
-    alignItems: 'center',
-    gap: 10,
-  },
-  linkButton: {
-    background: 'none',
-    border: 'none',
-    color: '#2563eb',
-    cursor: 'pointer',
-    fontSize: 13,
-    padding: 0,
-  },
-  muted: {
-    color: '#6b7280',
-    fontSize: 14,
-  },
-  form: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 14,
-  },
-  formRow: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 6,
-  },
-  formLabel: {
-    fontSize: 13,
-    color: '#374151',
-    fontWeight: 500,
-  },
-  input: {
-    padding: '10px 12px',
-    borderRadius: 8,
-    border: '1px solid #d1d5db',
-    fontSize: 14,
-    outline: 'none',
-  },
-  error: {
-    color: '#dc2626',
-    fontSize: 13,
-    margin: 0,
-  },
-  success: {
-    color: '#16a34a',
-    fontSize: 13,
-    margin: 0,
-  },
-  submitButton: {
-    marginTop: 4,
-    padding: '10px 16px',
-    borderRadius: 8,
-    border: 'none',
-    background: '#2563eb',
-    color: '#fff',
-    fontWeight: 600,
-    fontSize: 14,
-    cursor: 'pointer',
-    alignSelf: 'flex-start',
-  },
-  adminList: {
-    listStyle: 'none',
-    padding: 0,
-    margin: 0,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 10,
-  },
-  adminItem: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    padding: '10px 0',
-    borderBottom: '1px solid #f0f1f3',
-    fontSize: 14,
-  },
-  adminName: {
-    fontWeight: 500,
-  },
-  adminId: {
-    color: '#6b7280',
-  },
 }
 
 export default Settings
