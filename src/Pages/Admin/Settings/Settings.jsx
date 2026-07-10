@@ -13,7 +13,7 @@ import React, { useState, useEffect } from 'react'
 //    update API_URL.
 
 const API_URL = 'http://localhost:3000/users'
-const CURRENT_USER_KEY = 'currentUser'
+// const CURRENT_USER_KEY = 'currentUser'
 
 const fetchUsers = async () => {
   const res = await fetch(API_URL)
@@ -50,32 +50,29 @@ const Settings = () => {
   const [loadError, setLoadError] = useState('')
 
   useEffect(() => {
-    let cancelled = false
-
     const load = async () => {
       try {
-        const allUsers = await fetchUsers()
-        if (cancelled) return
-        setUsers(allUsers)
+        const allUsers = await fetchUsers();
+        setUsers(allUsers);
 
-        const currentId = localStorage.getItem(CURRENT_USER_KEY)
-        const admin =
-          allUsers.find((u) => u.employeeId === currentId && u.role === 'admin') ||
-          allUsers.find((u) => u.role === 'admin')
+        const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
-        setCurrentAdmin(admin || null)
+        const admin = allUsers.find(
+          (u) =>
+            u.id === loggedInUser?.id &&
+            u.role === "admin"
+        );
+
+        setCurrentAdmin(admin || null);
       } catch (err) {
-        if (!cancelled) setLoadError('Could not reach the server. Is json-server running on port 3000?')
+        setLoadError("Could not reach the server.");
       } finally {
-        if (!cancelled) setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    load()
-    return () => {
-      cancelled = true
-    }
-  }, [])
+    load();
+  }, []);
 
   const admins = users.filter((u) => u.role === 'admin')
 

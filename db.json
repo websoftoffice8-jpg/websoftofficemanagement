@@ -45,60 +45,19 @@
       "dailyLog": []
     },
     {
-<<<<<<< HEAD
       "employeeId": "EMP05",
       "name": "Sujan",
       "password": "sujan",
       "department": "IT",
       "position": "Intern",
       "id": "a7p7d-aevlQ"
-=======
-      "employeeId": "admin2",
-      "name": "prashant sunar",
-      "password": "admin2",
+    },
+    {
+      "employeeId": "admin1",
+      "name": "manras",
+      "password": "manras",
       "role": "admin",
-      "id": "aYrKN94jtzk"
-    },
-    {
-      "employeeId": "admin3",
-      "name": "admin3",
-      "password": "admin3",
-      "role": "admin",
-      "id": "VqQ-xxnOZ1k"
-    },
-    {
-      "employeeId": "EMP08",
-      "name": "Rachit tiwari",
-      "password": "rachit",
-      "department": "IT",
-      "position": "Intern",
-      "id": "XBJf96Gfwbw"
-    },
-    {
-      "employeeId": "EMP10",
-      "name": "rachit tiwari",
-      "password": "rachit",
-      "department": "IT",
-      "position": "Intern",
-      "id": "qcM-_QDXcQw"
-    },
-    {
-      "employeeId": "EMP10a",
-      "name": "Racit",
-      "password": "rachit",
-      "department": "HR",
-      "position": "Software Engineer",
-      "id": "hJYIq_FWW8k"
-    },
-    {
-      "employeeId": "EMP04",
-      "name": "Rachit",
-      "password": "rachit",
-      "department": "Finance",
-      "position": "Software Engineer",
-      "role": "employee",
-      "id": "CTQXNXT9Lyo"
->>>>>>> 883f09d36cf06a907a5c88903f1ccce39c9da4a7
+      "id": "WP1LRXegHEs"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
