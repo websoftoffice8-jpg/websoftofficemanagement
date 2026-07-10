@@ -6,9 +6,9 @@ const AuthLayout = ({ children }) => {
         {/* Logo */}
         <div className="text-center mb-8">
           <img
-            src="/websoft.png"
+            src="/websoft.png"  
             alt="Logo"
-            className="w-40 h-15 mx-auto mb-5"
+            className="w-50 h-15   mx-auto  mb-5"
           />
 
           <h1 className="text-3xl font-bold text-slate-800">

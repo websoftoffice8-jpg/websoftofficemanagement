@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   CalendarCheck,
@@ -18,8 +19,20 @@ const icons = {
   Settings,
 };
 
+
+
+
 const Sidebar = ({ links, isOpen, setIsOpen }) => {
+
+  const navigate = useNavigate();
+
+const handleLogout = () => {
+  localStorage.removeItem("user");
+  navigate("/", { replace: true });
+};
   return (
+
+    
     <>
       {/* Mobile Overlay */}
       {isOpen && (
@@ -35,8 +48,7 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
           fixed lg:static top-0 left-0 z-50
           h-screen w-64 bg-white border-r shadow-md
           transform transition-transform duration-300
-          ${
-            isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+          ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
           }
         `}
       >
@@ -67,15 +79,14 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
                 onClick={() => setIsOpen(false)}
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
-                  ${
-                    isActive
-                      ? "bg-blue-600 text-white"
-                      : "text-gray-700 hover:bg-gray-100"
+                  ${isActive
+                    ? "bg-blue-600 text-white"
+                    : "text-gray-700 hover:bg-gray-100"
                   }`
                 }
               >
                 {Icon && <Icon size={20} />}
-                <span className="font-medium">{item.name  }</span>
+                <span className="font-medium">{item.name}</span>
               </NavLink>
             );
           })}
@@ -84,15 +95,10 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
         {/* Logout */}
         <div className="absolute bottom-0 w-full border-t p-4">
           <button
-            className="
-              w-full flex items-center gap-3
-              px-4 py-3 rounded-lg
-              text-red-600
-              hover:bg-red-50
-              transition
-            "
+            onClick={handleLogout}
+            className="flex items-center gap-2 w-full px-4 py-3 hover:bg-red-50 text-red-600"
           >
-            <LogOut size={20} />
+            <LogOut size={18} />
             Logout
           </button>
         </div>

@@ -43,6 +43,14 @@
       "inTime": "",
       "outTime": "",
       "dailyLog": []
+    },
+    {
+      "employeeId": "EMP05",
+      "name": "Sujan",
+      "password": "sujan",
+      "department": "IT",
+      "position": "Intern",
+      "id": "a7p7d-aevlQ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

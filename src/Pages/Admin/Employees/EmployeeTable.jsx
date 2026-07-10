@@ -36,12 +36,13 @@ const EmployeeTable = ({ employees = [], onEmployeeUpdated, onEmployeeDeleted })
     };
 
     return (
-        <div className="bg-white rounded-xl shadow-sm border overflow-hidden">
+    <>
+        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
                 <table className="min-w-full">
-                    <thead className="bg-gray-100">
-                        <tr className="text-left text-gray-600 text-sm">
-                            <th className="px-6 py-4">Employee Id</th>
+                    <thead className="bg-white">
+                        <tr className="border-b border-gray-200 text-left text-sm font-semibold text-gray-600">
+                            <th className="px-6 py-4">Employee ID</th>
                             <th className="px-6 py-4">Name</th>
                             <th className="px-6 py-4">Department</th>
                             <th className="px-6 py-4">Position</th>
@@ -53,28 +54,36 @@ const EmployeeTable = ({ employees = [], onEmployeeUpdated, onEmployeeDeleted })
                         {employees.map((employee) => (
                             <tr
                                 key={employee.id}
-                                className="border-t hover:bg-gray-50 transition"
+                                className="border-b border-gray-100 hover:bg-gray-50 transition-colors duration-200"
                             >
-                                <td className="px-6 py-4">{employee.employeeId}</td>
+                                <td className="px-6 py-5 text-gray-700">
+                                    {employee.employeeId}
+                                </td>
 
-                                <td className="px-6 py-4">{employee.name}</td>
+                                <td className="px-6 py-5 font-medium text-gray-900">
+                                    {employee.name}
+                                </td>
 
-                                <td className="px-6 py-4">{employee.department}</td>
+                                <td className="px-6 py-5 text-gray-700">
+                                    {employee.department}
+                                </td>
 
-                                <td className="px-6 py-4">{employee.position}</td>
+                                <td className="px-6 py-5 text-gray-700">
+                                    {employee.position}
+                                </td>
 
-                                <td className="px-6 py-4">
-                                    <div className="flex justify-center gap-3">
+                                <td className="px-6 py-5">
+                                    <div className="flex justify-center gap-2">
                                         <button
                                             onClick={() => handleEdit(employee)}
-                                            className="p-2 rounded-lg bg-blue-100 text-blue-600 hover:bg-blue-200 transition"
+                                            className="p-2 rounded-lg text-blue-600 hover:bg-blue-50 transition"
                                         >
                                             <Pencil size={18} />
                                         </button>
 
                                         <button
                                             onClick={() => handleDelete(employee.id)}
-                                            className="p-2 rounded-lg bg-red-100 text-red-600 hover:bg-red-200 transition"
+                                            className="p-2 rounded-lg text-red-600 hover:bg-red-50 transition"
                                         >
                                             <Trash2 size={18} />
                                         </button>
@@ -87,7 +96,7 @@ const EmployeeTable = ({ employees = [], onEmployeeUpdated, onEmployeeDeleted })
                             <tr>
                                 <td
                                     colSpan={5}
-                                    className="text-center py-8 text-gray-500"
+                                    className="py-10 text-center text-gray-500"
                                 >
                                     No employees found.
                                 </td>
@@ -104,7 +113,8 @@ const EmployeeTable = ({ employees = [], onEmployeeUpdated, onEmployeeDeleted })
                 onUpdated={handleEmployeeUpdated}
             />
         </div>
-    );
+    </>
+);
 };
 
 export default EmployeeTable;
