@@ -10,14 +10,15 @@
     {
       "employeeId": "EMP01",
       "name": "David Kim",
-      "password": "dev_code_p@ss",
+      "password": "employee",
       "department": "Engineering",
       "position": "Frontend Developer",
       "role": "employee",
       "id": "1",
       "inTime": "",
       "outTime": "",
-      "dailyLog": []
+      "dailyLog": [],
+      "employeeID": "EMP01"
     },
     {
       "employeeId": "EMP02",
