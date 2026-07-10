@@ -50,6 +50,7 @@ const PostEmployee = ({ isOpen, onClose }) => {
     try {
       await axios.post("http://localhost:3000/users", {
         ...form,
+        role: "employee",
       });
 
       alert("Employee added successfully!");

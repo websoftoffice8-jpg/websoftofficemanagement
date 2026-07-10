@@ -24,7 +24,7 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
       {/* Mobile Overlay */}
       {isOpen && (
         <div
-          className="fixed inset-0 bg-black/40 z-40 lg:hidden"
+          className="fixed inset-0 bg-slate-900/30 backdrop-blur-sm z-40 lg:hidden"
           onClick={() => setIsOpen(false)}
         />
       )}
@@ -33,31 +33,32 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
       <aside
         className={`
           fixed lg:static top-0 left-0 z-50
-          h-screen w-64 bg-white border-r shadow-md
-          transform transition-transform duration-300
-          ${
-            isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
-          }
+          h-screen w-64 bg-white
+          shadow-[1px_0_0_0_rgba(15,23,42,0.06),8px_0_24px_-8px_rgba(15,23,42,0.08)]
+          transform transition-transform duration-300 ease-out
+          flex flex-col
+          ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
         `}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 h-16 border-b">
-          <h1 className="text-xl font-bold text-blue-600">
-            AttendEase
-          </h1>
+       {/* Header */}
+<div className="flex items-center justify-between px-6 h-16 shrink-0">
+  <div className="flex items-center gap-2.5">
+    <img src="/websoft.png" alt="AttendEase" className="h-8 w-auto object-contain" />
+  </div>
 
-          <button
-            onClick={() => setIsOpen(false)}
-            className="lg:hidden"
-          >
-            <X size={22} />
-          </button>
-        </div>
+  <button
+    onClick={() => setIsOpen(false)}
+    className="lg:hidden text-slate-400 hover:text-slate-600 transition-colors"
+  >
+    <X size={20} />
+  </button>
+</div>
+        <div className="h-px bg-slate-100 mx-6" />
 
         {/* Navigation */}
-        <nav className="px-3 py-5 flex flex-col gap-2">
+        <nav className="px-3 py-5 flex flex-col gap-1 flex-1 overflow-y-auto">
           {links.map((item) => {
-            console.log(item.icon);
             const Icon = icons[item.icon];
 
             return (
@@ -66,34 +67,40 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
                 to={item.path}
                 onClick={() => setIsOpen(false)}
                 className={({ isActive }) =>
-                  `flex items-center gap-3 px-4 py-3 rounded-lg transition-all duration-200
+                  `group flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-200
                   ${
                     isActive
-                      ? "bg-blue-600 text-white"
-                      : "text-gray-700 hover:bg-gray-100"
+                      ? "bg-green-600 text-white shadow-sm shadow-blue-600/25"
+                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
                   }`
                 }
               >
-                {Icon && <Icon size={20} />}
-                <span className="font-medium">{item.name  }</span>
+                {Icon && (
+                  <Icon
+                    size={18}
+                    strokeWidth={2}
+                    className="shrink-0"
+                  />
+                )}
+                <span className="text-[13.5px] font-medium">{item.name}</span>
               </NavLink>
             );
           })}
         </nav>
 
         {/* Logout */}
-        <div className="absolute bottom-0 w-full border-t p-4">
+        <div className="shrink-0 p-3 border-t border-slate-100">
           <button
             className="
               w-full flex items-center gap-3
-              px-4 py-3 rounded-lg
-              text-red-600
-              hover:bg-red-50
-              transition
+              px-3.5 py-2.5 rounded-xl
+              text-slate-500
+              hover:bg-red-50 hover:text-red-600
+              transition-colors duration-200
             "
           >
-            <LogOut size={20} />
-            Logout
+            <LogOut size={18} strokeWidth={2} />
+            <span className="text-[13.5px] font-medium">Logout</span>
           </button>
         </div>
       </aside>
