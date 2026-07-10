@@ -17,7 +17,8 @@
       "id": "1",
       "inTime": "",
       "outTime": "",
-      "dailyLog": []
+      "dailyLog": [],
+      "employeeID": "EMP01"
     },
     {
       "employeeId": "EMP02",
@@ -42,14 +43,6 @@
       "inTime": "",
       "outTime": "",
       "dailyLog": []
-    },
-    {
-      "employeeId": "EMP04",
-      "name": "manras",
-      "password": "manras",
-      "department": "IT",
-      "position": "Software Engineer",
-      "id": "OwpKL7pXEMQ"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
