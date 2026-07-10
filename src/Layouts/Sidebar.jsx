@@ -1,5 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import {
   LayoutDashboard,
   CalendarCheck,
@@ -18,8 +19,20 @@ const icons = {
   Settings,
 };
 
+
+
+
 const Sidebar = ({ links, isOpen, setIsOpen }) => {
+
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/", { replace: true });
+  };
   return (
+
+
     <>
       {/* Mobile Overlay */}
       {isOpen && (
@@ -41,19 +54,19 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
         `}
       >
         {/* Header */}
-       {/* Header */}
-<div className="flex items-center justify-between px-6 h-16 shrink-0">
-  <div className="flex items-center gap-2.5">
-    <img src="/websoft.png" alt="AttendEase" className="h-8 w-auto object-contain" />
-  </div>
+        {/* Header */}
+        <div className="flex items-center justify-between px-6 h-16 shrink-0">
+          <div className="flex items-center gap-2.5">
+            <img src="/websoft.png" alt="AttendEase" className="h-8 w-auto object-contain" />
+          </div>
 
-  <button
-    onClick={() => setIsOpen(false)}
-    className="lg:hidden text-slate-400 hover:text-slate-600 transition-colors"
-  >
-    <X size={20} />
-  </button>
-</div>
+          <button
+            onClick={() => setIsOpen(false)}
+            className="lg:hidden text-slate-400 hover:text-slate-600 transition-colors"
+          >
+            <X size={20} />
+          </button>
+        </div>
         <div className="h-px bg-slate-100 mx-6" />
 
         {/* Navigation */}
@@ -68,10 +81,9 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
                 onClick={() => setIsOpen(false)}
                 className={({ isActive }) =>
                   `group flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-200
-                  ${
-                    isActive
-                      ? "bg-green-600 text-white shadow-sm shadow-blue-600/25"
-                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
+                  ${isActive
+                    ? "bg-green-600 text-white shadow-sm shadow-blue-600/25"
+                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
                   }`
                 }
               >
@@ -91,16 +103,11 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
         {/* Logout */}
         <div className="shrink-0 p-3 border-t border-slate-100">
           <button
-            className="
-              w-full flex items-center gap-3
-              px-3.5 py-2.5 rounded-xl
-              text-slate-500
-              hover:bg-red-50 hover:text-red-600
-              transition-colors duration-200
-            "
+            onClick={handleLogout}
+            className="flex items-center gap-2 w-full px-4 py-3 hover:bg-red-50 text-red-600"
           >
-            <LogOut size={18} strokeWidth={2} />
-            <span className="text-[13.5px] font-medium">Logout</span>
+            <LogOut size={18} />
+            Logout
           </button>
         </div>
       </aside>

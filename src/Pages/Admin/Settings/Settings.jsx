@@ -14,7 +14,7 @@ import { ShieldCheck, UserPlus, Users, Hash, User, Lock } from 'lucide-react'
 //    update API_URL.
 
 const API_URL = 'http://localhost:3000/users'
-const CURRENT_USER_KEY = 'currentUser'
+// const CURRENT_USER_KEY = 'currentUser'
 
 const fetchUsers = async () => {
   const res = await fetch(API_URL)
@@ -51,32 +51,29 @@ const Settings = () => {
   const [loadError, setLoadError] = useState('')
 
   useEffect(() => {
-    let cancelled = false
-
     const load = async () => {
       try {
-        const allUsers = await fetchUsers()
-        if (cancelled) return
-        setUsers(allUsers)
+        const allUsers = await fetchUsers();
+        setUsers(allUsers);
 
-        const currentId = localStorage.getItem(CURRENT_USER_KEY)
-        const admin =
-          allUsers.find((u) => u.employeeId === currentId && u.role === 'admin') ||
-          allUsers.find((u) => u.role === 'admin')
+        const loggedInUser = JSON.parse(localStorage.getItem("user"));
 
-        setCurrentAdmin(admin || null)
+        const admin = allUsers.find(
+          (u) =>
+            u.id === loggedInUser?.id &&
+            u.role === "admin"
+        );
+
+        setCurrentAdmin(admin || null);
       } catch (err) {
-        if (!cancelled) setLoadError('Could not reach the server. Is json-server running on port 3000?')
+        setLoadError("Could not reach the server.");
       } finally {
-        if (!cancelled) setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    load()
-    return () => {
-      cancelled = true
-    }
-  }, [])
+    load();
+  }, []);
 
   const admins = users.filter((u) => u.role === 'admin')
 
@@ -125,6 +122,33 @@ const Settings = () => {
       setSubmitting(false)
     }
   }
+
+  // account delete 
+
+  const handleDeleteAdmin = async () => {
+    if (!currentAdmin) return;
+
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete your admin account?"
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      await fetch(`${API_URL}/${currentAdmin.id}`, {
+        method: "DELETE",
+      });
+
+      // Clear login
+      localStorage.removeItem("user");
+
+      // Redirect to login page
+      window.location.href = "/";
+    } catch (err) {
+      alert("Failed to delete admin.");
+    }
+  };
+
 
   if (loading) {
     return (
@@ -298,6 +322,23 @@ const Settings = () => {
           ))}
         </ul>
       </section>
+      <div style={{ marginTop: "20px" }}>
+        <button
+          onClick={handleDeleteAdmin}
+          style={{
+            background: "#dc2626",
+            color: "#fff",
+            border: "none",
+            padding: "10px 18px",
+            borderRadius: "8px",
+            cursor: "pointer",
+            fontWeight: 600,
+          }}
+        >
+          Delete Admin
+        </button>
+      </div>
+
     </div>
   )
 }
