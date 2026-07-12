@@ -50,6 +50,15 @@
       "password": "admin1",
       "role": "admin",
       "id": "uF3TseFpPnA"
+    },
+    {
+      "employeeId": "EMP05",
+      "name": "Rachit",
+      "password": "rachit",
+      "department": "IT",
+      "position": "Manager",
+      "role": "employee",
+      "id": "SwIGsev4jXo"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
