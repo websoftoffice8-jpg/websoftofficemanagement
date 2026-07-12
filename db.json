@@ -17,8 +17,7 @@
       "id": "1",
       "inTime": "",
       "outTime": "",
-      "dailyLog": [],
-      "employeeID": "EMP01"
+      "dailyLog": []
     },
     {
       "employeeId": "EMP02",
@@ -50,6 +49,35 @@
       "password": "admin1",
       "role": "admin",
       "id": "uF3TseFpPnA"
+    }
+  ],
+  "attendance": [
+    {
+      "id": 1,
+      "employeeId": "EMP01",
+      "date": "2026-07-12",
+      "checkIn": "09:01",
+      "checkOut": "17:15",
+      "dailyLog": "Completed dashboard UI",
+      "status": "Present"
+    },
+    {
+      "id": 2,
+      "employeeId": "EMP02",
+      "date": "2026-07-13",
+      "checkIn": "09:08",
+      "checkOut": "17:20",
+      "dailyLog": "Implemented attendance page",
+      "status": "Present"
+    },
+    {
+      "id": 3,
+      "employeeId": "EMP03",
+      "date": "2026-07-12",
+      "checkIn": "08:55",
+      "checkOut": "17:05",
+      "dailyLog": "Interviewed candidates",
+      "status": "Present"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

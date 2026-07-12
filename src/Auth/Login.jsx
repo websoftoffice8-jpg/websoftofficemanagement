@@ -22,12 +22,15 @@ const Login = () => {
 
         // Save logged in user
         localStorage.setItem("user", JSON.stringify(user));
-
+        
         // Redirect based on role
         if (user.role === "admin") {
           navigate("/admin/dashboard");
-        } else {
+        } else if  ( user.role === 'employee'){
           navigate("/employee/dashboard");
+        }
+        else{
+          alert("not logged in")
         }
       } else {
         alert("Invalid Employee Name or Password");

@@ -44,10 +44,12 @@ const AppRoutes = () => {
             {/* Employee */}
             <Route
                 element={
+                    <ProtectedRoute role = "employee">
                     <DashboardLayout
                         links={employeeLinks}
                         userName="John Doe"
                     />
+                    </ProtectedRoute>
                 }
             >
                 <Route
