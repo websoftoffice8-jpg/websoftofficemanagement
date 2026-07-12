@@ -45,14 +45,6 @@
       "dailyLog": []
     },
     {
-      "employeeId": "EMP05",
-      "name": "Sujan",
-      "password": "sujan",
-      "department": "IT",
-      "position": "Intern",
-      "id": "a7p7d-aevlQ"
-    },
-    {
       "employeeId": "admin1",
       "name": "admin1",
       "password": "admin1",
