@@ -57,7 +57,7 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
         {/* Header */}
         <div className="flex items-center justify-between px-6 h-16 shrink-0">
           <div className="flex items-center gap-2.5">
-            <img src="/websoft.png" alt="AttendEase" className="h-8 w-auto object-contain" />
+            <img src="/websoft.png" alt="AttendEase" className="h-10 w-44 object-contain" />
           </div>
 
           <button
