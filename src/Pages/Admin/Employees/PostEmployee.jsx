@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import ENDPOINTS from "../../../API/endpoints";
+import api from "../../../API/Axios";
 import {
   X,
   User,
@@ -48,7 +50,7 @@ const PostEmployee = ({ isOpen, onClose }) => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:3000/users", {
+      await api.post(`${ENDPOINTS.EMPLOYEES}`, {
         ...form,
         role: "employee",
       });

@@ -4,16 +4,20 @@ import React, { useState, useEffect, useMemo } from "react";
 import axios from "axios";
 import EmployeeToolbar from "./EmployeeToolbar";
 import EmployeeTable from "./EmployeeTable";
+import api from "../../../API/Axios";
+import ENDPOINTS from "../../../API/endpoints";
 
 const Employees = () => {
   const [employees, setEmployees] = useState([]);
   const [search, setSearch] = useState("");
   const [department, setDepartment] = useState("");
-  const [status, setStatus] = useState(""); // filters against emp.role (see note below)
+  const [status, setStatus] = useState(""); 
 
   const fetchEmployees = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/users");
+      const res = await api.get(`${ENDPOINTS.LOGIN}`
+
+      );
       setEmployees(res.data);
     } catch (error) {
       console.error("Error fetching employees:", error);
@@ -26,7 +30,7 @@ const Employees = () => {
 
   const handleAddEmployee = async (formData) => {
     try {
-      const res = await axios.post("http://localhost:3000/users", formData);
+      const res = await api.post(`${ENDPOINTS.EMPLOYEES}`, formData);
       setEmployees((prev) => [...prev, res.data]);
     } catch (error) {
       console.error("Error adding employee:", error);

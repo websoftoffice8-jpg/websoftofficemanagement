@@ -9,7 +9,7 @@
     },
     {
       "employeeId": "EMP01",
-      "name": "David Kim",
+      "name": "Devil Manras",
       "password": "employee",
       "department": "Engineering",
       "position": "Frontend Developer",
@@ -17,7 +17,8 @@
       "id": "1",
       "inTime": "",
       "outTime": "",
-      "dailyLog": []
+      "dailyLog": [],
+      "employeeID": ""
     },
     {
       "employeeId": "EMP02",
@@ -32,51 +33,30 @@
       "dailyLog": []
     },
     {
-      "employeeId": "EMP03",
-      "name": "Marcus Vance",
-      "password": "sup_help_desk",
-      "department": "Customer Success",
-      "position": "Support Tier 2",
-      "role": "employee",
-      "id": "3",
-      "inTime": "",
-      "outTime": "",
-      "dailyLog": []
-    },
-    {
       "employeeId": "admin1",
       "name": "admin1",
       "password": "admin1",
       "role": "admin",
       "id": "uF3TseFpPnA"
+    },
+    {
+      "employeeId": "EMP03",
+      "name": "devil manras",
+      "password": "devil",
+      "department": "IT",
+      "position": "Software Engineer",
+      "role": "employee",
+      "id": "cCY3_lcEA4Y"
     }
   ],
   "attendance": [
     {
-      "id": 1,
+      "id": "1",
       "employeeId": "EMP01",
       "date": "2026-07-12",
       "checkIn": "09:01",
       "checkOut": "17:15",
       "dailyLog": "Completed dashboard UI",
-      "status": "Present"
-    },
-    {
-      "id": 2,
-      "employeeId": "EMP02",
-      "date": "2026-07-13",
-      "checkIn": "09:08",
-      "checkOut": "17:20",
-      "dailyLog": "Implemented attendance page",
-      "status": "Present"
-    },
-    {
-      "id": 3,
-      "employeeId": "EMP03",
-      "date": "2026-07-12",
-      "checkIn": "08:55",
-      "checkOut": "17:05",
-      "dailyLog": "Interviewed candidates",
       "status": "Present"
     }
   ],
