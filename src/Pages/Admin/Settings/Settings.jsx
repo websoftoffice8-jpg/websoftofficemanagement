@@ -1,18 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { ShieldCheck, UserPlus, Users, Hash, User, Lock } from 'lucide-react'
 
-// ---- Integration notes ----
-// 1. Users are read from / written to your json-server (or similar) REST API
-//    at http://localhost:3000/users. Your login component should already be
-//    hitting this same endpoint — as long as it is, any admin added here
-//    (POST) will be able to log in immediately, since it's the same data
-//    source, no separate sync needed.
-// 2. Assumes the logged-in user's employeeId is stored in localStorage under
-//    "currentUser" (set that at login time if it isn't already). If you're
-//    using Context/Auth instead, just swap the one getItem call below.
-// 3. If your API base URL differs (different port, deployed host, etc.),
-//    update API_URL.
-
 const API_URL = 'http://localhost:3000/users'
 // const CURRENT_USER_KEY = 'currentUser'
 
@@ -189,7 +177,7 @@ const Settings = () => {
           <User size={16} className="text-green-600" />
           Your Admin Details
         </h2>
-
+            
         {currentAdmin ? (
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center border-b border-slate-100 pb-2.5">
@@ -289,7 +277,7 @@ const Settings = () => {
           <button
             type="submit"
             disabled={submitting}
-            className="mt-1 self-start px-5 py-2.5 rounded-xl bg-green-600 text-white text-sm font-semibold shadow-sm shadow-green-600/25 hover:bg-green-700 hover:shadow-md hover:shadow-green-600/30 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
+            className="mt-1 self-start px-5 py-2.5 rounded-xl hover:cursor-pointer  bg-green-600 text-white text-sm font-semibold shadow-sm shadow-green-600/25 hover:bg-green-700 hover:shadow-md hover:shadow-green-600/30 transition-all disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {submitting ? 'Adding…' : 'Add Admin'}
           </button>
@@ -325,15 +313,7 @@ const Settings = () => {
       <div style={{ marginTop: "20px" }}>
         <button
           onClick={handleDeleteAdmin}
-          style={{
-            background: "#dc2626",
-            color: "#fff",
-            border: "none",
-            padding: "10px 18px",
-            borderRadius: "8px",
-            cursor: "pointer",
-            fontWeight: 600,
-          }}
+          className="rounded-lg bg-green-600  hover:cursor-pointer px-5 py-2.5 font-semibold   text-white transition "
         >
           Delete Admin
         </button>
