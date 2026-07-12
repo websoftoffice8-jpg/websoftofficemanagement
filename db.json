@@ -9,7 +9,7 @@
     },
     {
       "employeeId": "EMP01",
-      "name": "David Kim",
+      "name": "Devil Manras",
       "password": "employee",
       "department": "Engineering",
       "position": "Frontend Developer",
@@ -18,7 +18,7 @@
       "inTime": "",
       "outTime": "",
       "dailyLog": [],
-      "employeeID": "EMP01"
+      "employeeID": ""
     },
     {
       "employeeId": "EMP02",
@@ -33,18 +33,6 @@
       "dailyLog": []
     },
     {
-      "employeeId": "EMP03",
-      "name": "Marcus Vance",
-      "password": "sup_help_desk",
-      "department": "Customer Success",
-      "position": "Support Tier 2",
-      "role": "employee",
-      "id": "3",
-      "inTime": "",
-      "outTime": "",
-      "dailyLog": []
-    },
-    {
       "employeeId": "admin1",
       "name": "admin1",
       "password": "admin1",
@@ -52,13 +40,24 @@
       "id": "uF3TseFpPnA"
     },
     {
-      "employeeId": "EMP05",
-      "name": "Rachit",
-      "password": "rachit",
+      "employeeId": "EMP03",
+      "name": "devil manras",
+      "password": "devil",
       "department": "IT",
-      "position": "Manager",
+      "position": "Software Engineer",
       "role": "employee",
-      "id": "SwIGsev4jXo"
+      "id": "cCY3_lcEA4Y"
+    }
+  ],
+  "attendance": [
+    {
+      "id": "1",
+      "employeeId": "EMP01",
+      "date": "2026-07-12",
+      "checkIn": "09:01",
+      "checkOut": "17:15",
+      "dailyLog": "Completed dashboard UI",
+      "status": "Present"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

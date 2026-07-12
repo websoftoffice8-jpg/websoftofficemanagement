@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Pencil, Trash2 } from "lucide-react";
 import axios from "axios";
 import EmployeeModal from "./EmployeeModal";
+import ENDPOINTS from "../../../API/endpoints";
+import api from "../../../API/Axios";
 
 const EmployeeTable = ({
   employees = [],
@@ -32,7 +34,7 @@ const EmployeeTable = ({
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:3000/users/${id}`);
+      await api.delete(`${ENDPOINTS.EMPLOYEES}/${id}`);
       onEmployeeDeleted?.(id);
     } catch (error) {
       console.error("Error deleting employee:", error);

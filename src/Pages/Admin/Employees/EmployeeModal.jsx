@@ -1,6 +1,8 @@
 // src/components/employees/EmployeeModal.jsx
 
 import { useEffect, useState } from "react";
+import api from "../../../API/Axios";
+import ENDPOINTS from "../../../API/endpoints";
 import axios from "axios";
 import {
   X,
@@ -14,7 +16,6 @@ import {
 } from "lucide-react";
 
 // Matches the port used in EmployeeTable.jsx
-const API_BASE_URL = "http://localhost:3000";
 
 const DEPARTMENTS = [
   "Engineering",
@@ -99,7 +100,7 @@ const EmployeeModal = ({ isOpen, employee, onClose, onUpdated }) => {
 
     setIsSubmitting(true);
     try {
-      const res = await axios.patch(`${API_BASE_URL}/users/${employee.id}`, payload);
+      const res = await api.patch(`${ENDPOINTS.EMPLOYEES}/${employee.id}`, payload);
       onUpdated?.(res.data);
       onClose?.();
     } catch (error) {

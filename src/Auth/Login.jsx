@@ -2,6 +2,8 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import AuthLayout from "../Layouts/AuthLayouts";
+import api from "../API/Axios";
+import ENDPOINTS from "../API/endpoints";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -13,8 +15,8 @@ const Login = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.get(
-        `http://localhost:3000/users?employeeId=${employeeId}&password=${password}`
+      const res = await api.get(
+        `${ENDPOINTS.LOGIN}?employeeId=${employeeId}&password=${password}`
       );
 
       if (res.data.length > 0) {
@@ -26,8 +28,11 @@ const Login = () => {
         // Redirect based on role
         if (user.role === "admin") {
           navigate("/admin/dashboard");
-        } else {
+        } else if (user.role === 'employee') {
           navigate("/employee/dashboard");
+        }
+        else {
+          alert("not logged in")
         }
       } else {
         alert("Invalid Employee Name or Password");
