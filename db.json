@@ -23,7 +23,7 @@
     {
       "employeeId": "EMP02",
       "name": "Amanda Rogers",
-      "password": "hr_people_first",
+      "password": "employee",
       "department": "Human Resources",
       "position": "HR Specialist",
       "role": "employee",
@@ -51,13 +51,14 @@
   ],
   "attendance": [
     {
-      "id": "1",
       "employeeId": "EMP01",
+      "userId": "1",
       "date": "2026-07-12",
-      "checkIn": "09:01",
-      "checkOut": "17:15",
-      "dailyLog": "Completed dashboard UI",
-      "status": "Present"
+      "inTime": "09:00",
+      "outTime": "16:00",
+      "note": "watching reels",
+      "status": "Completed",
+      "id": "NtIG4aRR8Xo"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
