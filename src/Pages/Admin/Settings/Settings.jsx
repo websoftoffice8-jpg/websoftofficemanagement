@@ -55,6 +55,7 @@ const Settings = () => {
         setCurrentAdmin(admin || null);
       } catch (err) {
         setLoadError("Could not reach the server.");
+        
       } finally {
         setLoading(false);
       }
