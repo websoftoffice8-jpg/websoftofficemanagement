@@ -47,6 +47,22 @@
       "position": "Software Engineer",
       "role": "employee",
       "id": "cCY3_lcEA4Y"
+    },
+    {
+      "employeeId": "EMP10",
+      "name": "prashant",
+      "password": "prashant",
+      "role": "admin",
+      "id": "DYnSJgl_f6Q"
+    },
+    {
+      "employeeId": "EMP09",
+      "name": "Prashant Sunar",
+      "password": "prashant",
+      "department": "IT",
+      "position": "Marketing Specialist",
+      "role": "employee",
+      "id": "wZ-xXyv0EHY"
     }
   ],
   "attendance": [

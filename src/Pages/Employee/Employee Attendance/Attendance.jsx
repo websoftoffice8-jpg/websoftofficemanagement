@@ -53,7 +53,7 @@ export default function AttendancePage() {
           inTime,
           outTime: outTime || null,
           note,
-          status: outTime ? "Completed" : "In Progress",
+          status: outTime ? "Present" : "In Progress",
         });
       } else {
         await api.post(ENDPOINTS.ATTENDANCE, {
@@ -63,7 +63,7 @@ export default function AttendancePage() {
           inTime,
           outTime: outTime || null,
           note,
-          status: outTime ? "Completed" : "In Progress",
+          status: outTime ? "Present" : "In Progress",
         });
       }
 
