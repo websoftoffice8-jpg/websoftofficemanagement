@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import api from "../../API/Axios";
-import ENDPOINTS from "../../API/endpoints";
+import api from "../../../API/Axios";
+import ENDPOINTS from "../../../API/endpoints";
 
 export default function AttendancePage() {
   const [logs, setLogs] = useState([]);
@@ -38,7 +38,7 @@ export default function AttendancePage() {
   };
 
   const getStatus = (log) => {
-    if (!log.outTime) return "In Progress";
+    if (!log.outTime) return "Absent";
     return "Present";
   };
 

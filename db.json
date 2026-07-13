@@ -72,7 +72,7 @@
       "date": "2026-07-12",
       "inTime": "09:00",
       "outTime": "16:00",
-      "note": "watching reels",
+      "note": "API testing",
       "status": "Completed",
       "id": "NtIG4aRR8Xo"
     },
@@ -80,11 +80,11 @@
       "employeeId": "EMP01",
       "userId": "1",
       "date": "2026-07-13",
-      "inTime": "11:02",
-      "outTime": "12:21",
-      "note": "hello",
-      "status": "Present",
-      "id": "uQ1N7uF1ql0"
+      "inTime": "11:35",
+      "outTime": "23:35",
+      "note": "",
+      "status": "Completed",
+      "id": "sLpAI5hZdhE"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
