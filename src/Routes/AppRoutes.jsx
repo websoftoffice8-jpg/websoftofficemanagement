@@ -13,11 +13,12 @@ import Settings from "../Pages/Admin/Settings/Settings";
 
 
 // Employee
-import Attendance from "../Pages/Employee/Attendance";
+
 import EmployeeDashboard from '../Pages/Employee/EmployeeDashboard'
 
 
 import React from 'react'
+import Attendance from "../Pages/Employee/Employee Attendance/Attendance";
 
 const AppRoutes = () => {
     return (
