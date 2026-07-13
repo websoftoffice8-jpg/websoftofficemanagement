@@ -39,7 +39,7 @@ export default function AttendancePage() {
 
   const getStatus = (log) => {
     if (!log.outTime) return "In Progress";
-    return "Completed";
+    return "Present";
   };
 
   const handleAddEntry = async () => {
@@ -54,7 +54,7 @@ export default function AttendancePage() {
           inTime,
           outTime: outTime || null,
           note,
-          status: outTime ? "Completed" : "In Progress",
+          status: outTime ? "Present" : "In Progress",
         });
       } else {
         await api.post(ENDPOINTS.ATTENDANCE, {
@@ -64,7 +64,7 @@ export default function AttendancePage() {
           inTime,
           outTime: outTime || null,
           note,
-          status: outTime ? "Completed" : "In Progress",
+          status: outTime ? "Present" : "In Progress",
         });
       }
 
@@ -197,7 +197,7 @@ export default function AttendancePage() {
                   <td className="px-5 py-4">
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        getStatus(log) === "Completed"
+                        getStatus(log) === "Present"
                           ? "bg-green-100 text-green-700"
                           : "bg-amber-100 text-amber-700"
                       }`}

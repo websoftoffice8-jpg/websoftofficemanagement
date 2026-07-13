@@ -47,6 +47,22 @@
       "position": "Software Engineer",
       "role": "employee",
       "id": "cCY3_lcEA4Y"
+    },
+    {
+      "employeeId": "EMP10",
+      "name": "prashant",
+      "password": "prashant",
+      "role": "admin",
+      "id": "DYnSJgl_f6Q"
+    },
+    {
+      "employeeId": "EMP09",
+      "name": "Prashant Sunar",
+      "password": "prashant",
+      "department": "IT",
+      "position": "Marketing Specialist",
+      "role": "employee",
+      "id": "wZ-xXyv0EHY"
     }
   ],
   "attendance": [
@@ -59,6 +75,16 @@
       "note": "watching reels",
       "status": "Completed",
       "id": "NtIG4aRR8Xo"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "1",
+      "date": "2026-07-13",
+      "inTime": "11:02",
+      "outTime": "12:21",
+      "note": "hello",
+      "status": "Present",
+      "id": "uQ1N7uF1ql0"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
