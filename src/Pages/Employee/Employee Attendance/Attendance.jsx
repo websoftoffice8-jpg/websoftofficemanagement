@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import api from "../../../API/Axios";
 import ENDPOINTS from "../../../API/endpoints";
 import EmployeePostModal from "./EmployeePostModal";
 import EmployeeTable from "./EmployeeTable";
 import EmployeeSort, { getMonthKey, getFilteredSortedLogs } from "./EmployeeSort";
 
-export default function AttendancePage() {
+export default function Attendance() {
   const [logs, setLogs] = useState([]);
   const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [inTime, setInTime] = useState("");
@@ -18,19 +18,28 @@ export default function AttendancePage() {
   const [sortOrder, setSortOrder] = useState("desc");
   const [statusFilter, setStatusFilter] = useState("all");
 
-  // fetch data from attendance table, filtered by employeeId
   useEffect(() => {
     fetchAttendance();
   }, []);
 
-  const fetchAttendance = async () => {
+  const getUser = () => {
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const raw = localStorage.getItem("user");
+      return raw ? JSON.parse(raw) : null;
+    } catch {
+      return null;
+    }
+  };
 
-      const res = await api.get(
-        `${ENDPOINTS.ATTENDANCE}?employeeId=${user.employeeId}`
-      );
+  const fetchAttendance = async () => {
+    const user = getUser();
+    if (!user?.employeeId) {
+      setError("No logged-in user found. Please log in again.");
+      return;
+    }
 
+    try {
+      const res = await api.get(`${ENDPOINTS.ATTENDANCE}?employeeId=${user.employeeId}`);
       setLogs(res.data.sort((a, b) => b.date.localeCompare(a.date)));
     } catch (error) {
       console.error(error);
