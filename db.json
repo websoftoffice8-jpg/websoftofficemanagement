@@ -53,22 +53,13 @@
     {
       "employeeId": "EMP01",
       "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
       "date": "2026-07-13",
-      "inTime": "10:00",
-      "outTime": "04:00",
-      "note": "Hello",
+      "inTime": "10:30",
+      "outTime": "16:00",
+      "note": "design",
       "status": "Present",
-      "id": "oWyBdJduyw4"
-    },
-    {
-      "employeeId": "EMP02",
-      "userId": "jcrlCp9tavY",
-      "date": "2026-07-13",
-      "inTime": "13:16",
-      "outTime": "20:00",
-      "note": "haha",
-      "status": "Present",
-      "id": "noC9jyi58ds"
+      "id": "OMk2hsNyAWE"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -7,7 +7,7 @@ import ProtectedRoute from "./ProtectedRoute";
 // Admin
 import AdminDashboard from "../pages/admin/Dashboard";
 import Employee from "../Pages/Admin/Employees/Employee"
-import Reports from "../Pages/Admin/Reports";
+import Reports from "../Pages/Admin/Report/Reports";
 import Settings from "../Pages/Admin/Settings/Settings";
 
 
@@ -16,7 +16,7 @@ import Settings from "../Pages/Admin/Settings/Settings";
 import AttendancePage from "../Pages/Employee/Employee Attendance/Attendance";
 import EmployeeDashboard from '../Pages/Employee/EmployeeDashboard'
 
-
+    
 import React from 'react'
 import Attendance from "../Pages/Employee/Employee Attendance/Attendance";
 

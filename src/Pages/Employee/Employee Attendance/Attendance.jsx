@@ -68,6 +68,7 @@ export default function Attendance() {
         await api.post(ENDPOINTS.ATTENDANCE, {
           employeeId: user.employeeId,
           userId: user.id,
+          name: user.name,              // <-- Add this
           date,
           inTime,
           outTime: outTime || null,
@@ -85,7 +86,6 @@ export default function Attendance() {
       console.error(error);
     }
   };
-
   const startEditing = (log) => {
     setEditingDate(log.date);
     setEditText(log.note || "");
