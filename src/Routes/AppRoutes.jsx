@@ -13,7 +13,7 @@ import Settings from "../Pages/Admin/Settings/Settings";
 
 
 // Employee
-import Attendance from "../Pages/Employee/Attendance";
+import AttendancePage from "../Pages/Employee/Employee Attendance/Attendance";
 import EmployeeDashboard from '../Pages/Employee/EmployeeDashboard'
 
 
@@ -58,7 +58,7 @@ const AppRoutes = () => {
                 />
                 <Route
                     path="/employee/attendance"
-                    element={<Attendance />}
+                    element={<AttendancePage />}
                 />
             </Route>
         </Routes>
