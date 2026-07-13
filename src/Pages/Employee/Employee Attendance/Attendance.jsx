@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
-import api from "../../API/Axios";
-import ENDPOINTS from "../../API/endpoints";
+import api from "../../../API/Axios";
+import ENDPOINTS from "../../../API/endpoints";
 
 export default function AttendancePage() {
   const [logs, setLogs] = useState([]);
@@ -38,8 +38,8 @@ export default function AttendancePage() {
   };
 
   const getStatus = (log) => {
-    if (!log.outTime) return "In Progress";
-    return "Completed";
+    if (!log.outTime) return "Absent";
+    return "Present";
   };
 
   const handleAddEntry = async () => {
@@ -197,7 +197,7 @@ export default function AttendancePage() {
                   <td className="px-5 py-4">
                     <span
                       className={`px-2 py-1 rounded-full text-xs font-medium ${
-                        getStatus(log) === "Completed"
+                        getStatus(log) === "Present"
                           ? "bg-green-100 text-green-700"
                           : "bg-amber-100 text-amber-700"
                       }`}
