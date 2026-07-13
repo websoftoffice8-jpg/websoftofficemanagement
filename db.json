@@ -8,45 +8,11 @@
       "id": "W_ByI7acPlw"
     },
     {
-      "employeeId": "EMP01",
-      "name": "Devil Manras",
-      "password": "employee",
-      "department": "Engineering",
-      "position": "Frontend Developer",
-      "role": "employee",
-      "id": "1",
-      "inTime": "",
-      "outTime": "",
-      "dailyLog": [],
-      "employeeID": ""
-    },
-    {
-      "employeeId": "EMP02",
-      "name": "Amanda Rogers",
-      "password": "employee",
-      "department": "Human Resources",
-      "position": "HR Specialist",
-      "role": "employee",
-      "id": "2",
-      "inTime": "",
-      "outTime": "",
-      "dailyLog": []
-    },
-    {
       "employeeId": "admin1",
       "name": "admin1",
       "password": "admin1",
       "role": "admin",
       "id": "uF3TseFpPnA"
-    },
-    {
-      "employeeId": "EMP03",
-      "name": "devil manras",
-      "password": "devil",
-      "department": "IT",
-      "position": "Software Engineer",
-      "role": "employee",
-      "id": "cCY3_lcEA4Y"
     },
     {
       "employeeId": "EMP10",
@@ -63,28 +29,46 @@
       "position": "Marketing Specialist",
       "role": "employee",
       "id": "wZ-xXyv0EHY"
+    },
+    {
+      "employeeId": "EMP01",
+      "name": "Rachit tiwari",
+      "password": "employee",
+      "department": "IT",
+      "position": "Manager",
+      "role": "employee",
+      "id": "wpZVldvOPJ4"
+    },
+    {
+      "employeeId": "EMP02",
+      "name": "Satkar dhakal",
+      "password": "employee",
+      "department": "IT",
+      "position": "Manager",
+      "role": "employee",
+      "id": "jcrlCp9tavY"
     }
   ],
   "attendance": [
     {
       "employeeId": "EMP01",
-      "userId": "1",
-      "date": "2026-07-12",
-      "inTime": "09:00",
-      "outTime": "16:00",
-      "note": "API testing",
-      "status": "Completed",
-      "id": "NtIG4aRR8Xo"
+      "userId": "wpZVldvOPJ4",
+      "date": "2026-07-13",
+      "inTime": "10:00",
+      "outTime": "04:00",
+      "note": "Hello",
+      "status": "Present",
+      "id": "oWyBdJduyw4"
     },
     {
-      "employeeId": "EMP01",
-      "userId": "1",
+      "employeeId": "EMP02",
+      "userId": "jcrlCp9tavY",
       "date": "2026-07-13",
-      "inTime": "00:11",
-      "outTime": "16:11",
-      "note": "",
-      "status": "Completed",
-      "id": "sLpAI5hZdhE"
+      "inTime": "13:16",
+      "outTime": "20:00",
+      "note": "haha",
+      "status": "Present",
+      "id": "noC9jyi58ds"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
