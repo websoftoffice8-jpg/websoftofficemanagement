@@ -15,6 +15,15 @@
       "position": "Manager",
       "role": "employee",
       "id": "wpZVldvOPJ4"
+    },
+    {
+      "employeeId": "EMP02",
+      "name": "Prashant BK",
+      "password": "employee",
+      "department": "IT",
+      "position": "HR Officer",
+      "role": "employee",
+      "id": "NWc1GUMVuCs"
     }
   ],
   "attendance": [
@@ -27,29 +36,7 @@
       "outTime": null,
       "note": "",
       "status": "Absent",
-      "id": "EZSw3kKVjz0"
-    },
-    {
-      "employeeId": "EMP01",
-      "userId": "wpZVldvOPJ4",
-      "name": "Rachit tiwari",
-      "date": "2026-07-13",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Holiday",
-      "id": "YEDARrIH1V8"
-    },
-    {
-      "employeeId": "EMP01",
-      "userId": "wpZVldvOPJ4",
-      "name": "Rachit tiwari",
-      "date": "2026-07-12",
-      "inTime": "10:00",
-      "outTime": "16:00",
-      "note": "test",
-      "status": "Present",
-      "id": "WuaJL5rH3wk"
+      "id": "JQagn6Eu-_8"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
