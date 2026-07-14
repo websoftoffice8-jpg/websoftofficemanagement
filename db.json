@@ -60,6 +60,17 @@
       "note": "design",
       "status": "Present",
       "id": "OMk2hsNyAWE"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "date": "2026-07-14",
+      "inTime": "10:00",
+      "outTime": "04:00",
+      "note": "BUG FIX",
+      "status": "Present",
+      "id": "zTNMv9EuKGw"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
