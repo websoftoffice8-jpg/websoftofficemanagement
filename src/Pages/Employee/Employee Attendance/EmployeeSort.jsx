@@ -4,17 +4,59 @@ const MONTH_LABEL_FORMAT = { month: "long", year: "numeric" };
 export const getMonthKey = (dateStr) => dateStr.slice(0, 7);
 
 export const getStatus = (log) => {
+  if (log.status === "Holiday") return "Holiday";
   if (!log.outTime) return "Absent";
   return "Present";
 };
 
-// filters logs to the selected "YYYY-MM" month + status, and sorts by date
-export const getFilteredSortedLogs = (logs, selectedMonth, sortOrder, statusFilter = "all") => {
-  const filtered = logs.filter((log) => {
-    const inMonth = getMonthKey(log.date) === selectedMonth;
-    const matchesStatus = statusFilter === "all" || getStatus(log) === statusFilter;
-    return inMonth && matchesStatus;
+// builds every date in the given "YYYY-MM" month, but only between the
+// employee's first-ever log date and today — no days before they started,
+// no future days — filling any gap with an "absent" placeholder entry
+const buildMonthLogs = (logs, monthKey) => {
+  if (logs.length === 0) return [];
+
+  const [year, month] = monthKey.split("-").map(Number);
+  const daysInMonth = new Date(year, month, 0).getDate();
+  const today = new Date().toISOString().split("T")[0];
+  const firstLogDate = logs.reduce(
+    (earliest, log) => (log.date < earliest ? log.date : earliest),
+    logs[0].date
+  );
+
+  const logsByDate = {};
+  logs.forEach((log) => {
+    if (getMonthKey(log.date) === monthKey) {
+      logsByDate[log.date] = log;
+    }
   });
+
+  const result = [];
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateStr = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
+    if (dateStr < firstLogDate) continue; // before employee's first entry
+    if (dateStr > today) break; // future day
+
+    result.push(
+      logsByDate[dateStr] || {
+        id: `missing-${dateStr}`,
+        date: dateStr,
+        inTime: null,
+        outTime: null,
+        note: "",
+        status: undefined,
+      }
+    );
+  }
+  return result;
+};
+
+// filters logs to the selected "YYYY-MM" month + status, and sorts by date
+// — missing dates (within the employee's active range) are treated as "Absent"
+export const getFilteredSortedLogs = (logs, selectedMonth, sortOrder, statusFilter = "all") => {
+  const monthLogs = buildMonthLogs(logs, selectedMonth);
+  const filtered = monthLogs.filter(
+    (log) => statusFilter === "all" || getStatus(log) === statusFilter
+  );
   return filtered.sort((a, b) =>
     sortOrder === "asc" ? a.date.localeCompare(b.date) : b.date.localeCompare(a.date)
   );
@@ -73,6 +115,7 @@ export default function EmployeeSort({
             <option value="all">All</option>
             <option value="Present">Present</option>
             <option value="Absent">Absent</option>
+            <option value="Holiday">Holiday</option>
           </select>
         </div>
 

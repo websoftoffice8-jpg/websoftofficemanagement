@@ -8,29 +8,6 @@
       "id": "W_ByI7acPlw"
     },
     {
-      "employeeId": "admin1",
-      "name": "admin1",
-      "password": "admin1",
-      "role": "admin",
-      "id": "uF3TseFpPnA"
-    },
-    {
-      "employeeId": "EMP10",
-      "name": "prashant",
-      "password": "prashant",
-      "role": "admin",
-      "id": "DYnSJgl_f6Q"
-    },
-    {
-      "employeeId": "EMP09",
-      "name": "Prashant Sunar",
-      "password": "prashant",
-      "department": "IT",
-      "position": "Marketing Specialist",
-      "role": "employee",
-      "id": "wZ-xXyv0EHY"
-    },
-    {
       "employeeId": "EMP01",
       "name": "Rachit tiwari",
       "password": "employee",
@@ -38,15 +15,6 @@
       "position": "Manager",
       "role": "employee",
       "id": "wpZVldvOPJ4"
-    },
-    {
-      "employeeId": "EMP02",
-      "name": "Satkar dhakal",
-      "password": "employee",
-      "department": "IT",
-      "position": "Manager",
-      "role": "employee",
-      "id": "jcrlCp9tavY"
     }
   ],
   "attendance": [
@@ -54,12 +22,34 @@
       "employeeId": "EMP01",
       "userId": "wpZVldvOPJ4",
       "name": "Rachit tiwari",
+      "date": "2026-07-14",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Absent",
+      "id": "EZSw3kKVjz0"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
       "date": "2026-07-13",
-      "inTime": "10:30",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Holiday",
+      "id": "YEDARrIH1V8"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "date": "2026-07-12",
+      "inTime": "10:00",
       "outTime": "16:00",
-      "note": "design",
+      "note": "test",
       "status": "Present",
-      "id": "OMk2hsNyAWE"
+      "id": "WuaJL5rH3wk"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

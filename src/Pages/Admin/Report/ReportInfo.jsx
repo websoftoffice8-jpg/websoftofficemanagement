@@ -1,8 +1,13 @@
 import { useState } from "react";
+import api from "../../../API/Axios";
+import ENDPOINTS from "../../../API/endpoints";
 
 const MONTH_LABEL_FORMAT = { month: "long", year: "numeric" };
 
-const getStatus = (log) => (log.outTime ? "Present" : "Absent");
+const getStatus = (log) => {
+  if (log.status === "Holiday") return "Holiday";
+  return log.outTime ? "Present" : "Absent";
+};
 
 // "2026-07-13" -> "2026-07"
 const getMonthKey = (dateStr) => dateStr.slice(0, 7);
@@ -32,15 +37,14 @@ const getFilteredSortedLogs = (logs, sortOrder, statusFilter, monthFilter) => {
 
 export default function ReportInfo({ employee }) {
   const [isOpen, setIsOpen] = useState(false);
+  const [logs, setLogs] = useState(employee.logs || []);
+  const [loadingLogs, setLoadingLogs] = useState(false);
   const [sortOrder, setSortOrder] = useState("desc");
   const [statusFilter, setStatusFilter] = useState("all");
   const [monthFilter, setMonthFilter] = useState("all");
 
-  const logs = employee.logs || [];
   const monthLogs = getFilteredSortedLogs(logs, sortOrder, statusFilter, monthFilter);
 
-  // current month within the filtered view, for the nav label — falls back to
-  // the employee's most recent logged month, or today if they have no logs
   const activeMonth =
     monthFilter !== "all"
       ? monthFilter
@@ -50,7 +54,21 @@ export default function ReportInfo({ employee }) {
 
   const goToMonth = (delta) => setMonthFilter(shiftMonth(activeMonth, delta));
 
-  const openModal = () => setIsOpen(true);
+  const openModal = async () => {
+    setIsOpen(true);
+    try {
+      setLoadingLogs(true);
+      const res = await api.get(
+        `${ENDPOINTS.ATTENDANCE}?employeeId=${employee.employeeId}`
+      );
+      setLogs(res.data || []);
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoadingLogs(false);
+    }
+  };
+
   const closeModal = () => setIsOpen(false);
 
   return (
@@ -64,6 +82,7 @@ export default function ReportInfo({ employee }) {
         </td>
         <td className="px-5 py-4 text-slate-700">{employee.present}</td>
         <td className="px-5 py-4 text-slate-700">{employee.absent}</td>
+        <td className="px-5 py-4 text-slate-700">{employee.holiday}</td>
         <td className="px-5 py-4">
           <div className="flex items-center gap-2">
             <div className="w-24 h-1.5 rounded-full bg-slate-100 overflow-hidden">
@@ -94,13 +113,12 @@ export default function ReportInfo({ employee }) {
             onClick={(e) => e.stopPropagation()}
             className="bg-white rounded-xl shadow-xl w-full max-w-3xl max-h-[85vh] flex flex-col"
           >
-            {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200">
               <div>
                 <h2 className="text-lg font-bold text-slate-800">{employee.name}</h2>
                 <p className="text-xs text-slate-500 mt-0.5">
                   {employee.present} present · {employee.absent} absent ·{" "}
-                  {employee.rate.toFixed(0)}% attendance rate
+                  {employee.holiday} holiday · {employee.rate.toFixed(0)}% attendance rate
                 </p>
               </div>
               <button
@@ -112,7 +130,6 @@ export default function ReportInfo({ employee }) {
               </button>
             </div>
 
-            {/* Sort controls */}
             <div className="flex items-center justify-between gap-4 px-6 py-3 border-b border-slate-200 flex-wrap">
               <div className="flex items-center gap-2">
                 <button
@@ -153,6 +170,7 @@ export default function ReportInfo({ employee }) {
                     <option value="all">All</option>
                     <option value="Present">Present</option>
                     <option value="Absent">Absent</option>
+                    <option value="Holiday">Holiday</option>
                   </select>
                 </div>
                 <div className="flex items-center gap-2">
@@ -169,7 +187,6 @@ export default function ReportInfo({ employee }) {
               </div>
             </div>
 
-            {/* Table */}
             <div className="overflow-y-auto">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200 sticky top-0">
@@ -182,41 +199,51 @@ export default function ReportInfo({ employee }) {
                   </tr>
                 </thead>
                 <tbody>
-                  {monthLogs.length === 0 && (
+                  {loadingLogs && (
+                    <tr>
+                      <td colSpan={5} className="text-center text-slate-400 py-10">
+                        Loading records...
+                      </td>
+                    </tr>
+                  )}
+                  {!loadingLogs && monthLogs.length === 0 && (
                     <tr>
                       <td colSpan={5} className="text-center text-slate-400 py-10">
                         No matching attendance records
                       </td>
                     </tr>
                   )}
-                  {monthLogs.map((log) => (
-                    <tr
-                      key={log.id ?? log.date}
-                      className="border-b border-slate-100 last:border-0 align-top"
-                    >
-                      <td className="px-5 py-4 text-slate-700 whitespace-nowrap">{log.date}</td>
-                      <td className="px-5 py-4 text-slate-700 whitespace-nowrap">
-                        {log.inTime || "—"}
-                      </td>
-                      <td className="px-5 py-4 text-slate-700 whitespace-nowrap">
-                        {log.outTime || "—"}
-                      </td>
-                      <td className="px-5 py-4">
-                        <span
-                          className={`px-2 py-1 rounded-full text-xs font-medium ${
-                            getStatus(log) === "Present"
-                              ? "bg-green-100 text-green-700"
-                              : "bg-amber-100 text-amber-700"
-                          }`}
-                        >
-                          {getStatus(log)}
-                        </span>
-                      </td>
-                      <td className="px-5 py-4 text-slate-600 max-w-sm">
-                        {log.note || "—"}
-                      </td>
-                    </tr>
-                  ))}
+                  {!loadingLogs &&
+                    monthLogs.map((log) => (
+                      <tr
+                        key={log.id ?? log.date}
+                        className="border-b border-slate-100 last:border-0 align-top"
+                      >
+                        <td className="px-5 py-4 text-slate-700 whitespace-nowrap">{log.date}</td>
+                        <td className="px-5 py-4 text-slate-700 whitespace-nowrap">
+                          {log.inTime || "—"}
+                        </td>
+                        <td className="px-5 py-4 text-slate-700 whitespace-nowrap">
+                          {log.outTime || "—"}
+                        </td>
+                        <td className="px-5 py-4">
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              getStatus(log) === "Present"
+                                ? "bg-green-100 text-green-700"
+                                : getStatus(log) === "Holiday"
+                                ? "bg-blue-100 text-blue-700"
+                                : "bg-amber-100 text-amber-700"
+                            }`}
+                          >
+                            {getStatus(log)}
+                          </span>
+                        </td>
+                        <td className="px-5 py-4 text-slate-600 max-w-sm">
+                          {log.note || "—"}
+                        </td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </div>

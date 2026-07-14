@@ -111,6 +111,78 @@ export default function Attendance() {
     }
   };
 
+  const handleMarkHoliday = async () => {
+    if (!date) return;
+
+    try {
+      const user = getUser();
+      const existing = logs.find((log) => log.date === date);
+
+      if (existing) {
+        await api.patch(`${ENDPOINTS.ATTENDANCE}/${existing.id}`, {
+          status: "Holiday",
+          inTime: null,
+          outTime: null,
+          note,
+        });
+      } else {
+        await api.post(ENDPOINTS.ATTENDANCE, {
+          employeeId: user.employeeId,
+          userId: user.id,
+          name: user.name,
+          date,
+          inTime: null,
+          outTime: null,
+          note,
+          status: "Holiday",
+        });
+      }
+
+      await fetchAttendance();
+      setInTime("");
+      setOutTime("");
+      setNote("");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleMarkAbsent = async () => {
+    if (!date) return;
+
+    try {
+      const user = getUser();
+      const existing = logs.find((log) => log.date === date);
+
+      if (existing) {
+        await api.patch(`${ENDPOINTS.ATTENDANCE}/${existing.id}`, {
+          status: "Absent",
+          inTime: null,
+          outTime: null,
+          note,
+        });
+      } else {
+        await api.post(ENDPOINTS.ATTENDANCE, {
+          employeeId: user.employeeId,
+          userId: user.id,
+          name: user.name,
+          date,
+          inTime: null,
+          outTime: null,
+          note,
+          status: "Absent",
+        });
+      }
+
+      await fetchAttendance();
+      setInTime("");
+      setOutTime("");
+      setNote("");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const visibleLogs = getFilteredSortedLogs(logs, selectedMonth, sortOrder, statusFilter);
 
   return (
@@ -128,6 +200,8 @@ export default function Attendance() {
         note={note}
         setNote={setNote}
         handleAddEntry={handleAddEntry}
+        handleMarkHoliday={handleMarkHoliday}
+        handleMarkAbsent={handleMarkAbsent}
       />
 
       <EmployeeSort

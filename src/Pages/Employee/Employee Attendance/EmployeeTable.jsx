@@ -46,11 +46,12 @@ export default function EmployeeTable({
                 <td className="px-5 py-4 text-slate-700 whitespace-nowrap">{log.outTime || "—"}</td>
                 <td className="px-5 py-4">
                   <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      getStatus(log) === "Present"
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${getStatus(log) === "Present"
                         ? "bg-green-100 text-green-700"
-                        : "bg-amber-100 text-amber-700"
-                    }`}
+                        : getStatus(log) === "Holiday"
+                          ? "bg-blue-100 text-blue-700"
+                          : "bg-amber-100 text-amber-700"
+                      }`}
                   >
                     {getStatus(log)}
                   </span>
