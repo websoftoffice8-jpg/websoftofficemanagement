@@ -2,7 +2,7 @@
   "users": [
     {
       "employeeId": "admin",
-      "name": "Michael Chen",
+      "name": "Gaurav",
       "password": "admin",
       "role": "admin",
       "id": "W_ByI7acPlw"
@@ -33,6 +33,13 @@
       "position": "HR Officer",
       "role": "employee",
       "id": "o4TsZLXPASM"
+    },
+    {
+      "employeeId": "admin1",
+      "name": "Manras",
+      "password": "admin",
+      "role": "admin",
+      "id": "YF-MJaKz-Do"
     }
   ],
   "attendance": [
