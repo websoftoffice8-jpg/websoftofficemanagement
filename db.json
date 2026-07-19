@@ -17,26 +17,57 @@
       "id": "wpZVldvOPJ4"
     },
     {
-      "employeeId": "EMP02",
-      "name": "Prashant BK",
+      "employeeId": "EMP03",
+      "name": "Sujan",
       "password": "employee",
       "department": "IT",
+      "position": "Manager",
+      "role": "employee",
+      "id": "XSGJYJeYPCo"
+    },
+    {
+      "employeeId": "EMP02",
+      "name": "Prashant Sunar",
+      "password": "employee",
+      "department": "HR",
       "position": "HR Officer",
       "role": "employee",
-      "id": "NWc1GUMVuCs"
+      "id": "o4TsZLXPASM"
     }
   ],
   "attendance": [
     {
-      "employeeId": "EMP01",
-      "userId": "wpZVldvOPJ4",
-      "name": "Rachit tiwari",
-      "date": "2026-07-14",
+      "employeeId": "EMP03",
+      "userId": "XSGJYJeYPCo",
+      "name": "Sujan",
+      "date": "2026-07-19",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Holiday",
+      "id": "fF8pqmsoDw8"
+    },
+    {
+      "employeeId": "EMP02",
+      "userId": "o4TsZLXPASM",
+      "name": "Prashant Sunar",
+      "date": "2026-07-19",
       "inTime": null,
       "outTime": null,
       "note": "",
       "status": "Absent",
-      "id": "JQagn6Eu-_8"
+      "id": "UN_0es0yTOM"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "date": "2026-07-19",
+      "inTime": "10:30",
+      "outTime": "16:00",
+      "note": "Test",
+      "status": "Present",
+      "id": "HFijbkb2BoY"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

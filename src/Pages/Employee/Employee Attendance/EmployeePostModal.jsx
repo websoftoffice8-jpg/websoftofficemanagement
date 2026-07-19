@@ -2,6 +2,7 @@ export default function EmployeePostModal({
   date, setDate, inTime, setInTime, outTime, setOutTime,
   note, setNote, handleAddEntry, handleMarkHoliday, handleMarkAbsent,
 }) {
+  const today = new Date().toISOString().split("T")[0];
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-6 mb-8">
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
@@ -10,6 +11,8 @@ export default function EmployeePostModal({
           <input
             type="date"
             value={date}
+            min={today}
+            max={today}
             onChange={(e) => setDate(e.target.value)}
             className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-green-600"
           />
