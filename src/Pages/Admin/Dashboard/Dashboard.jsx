@@ -24,7 +24,7 @@ const Dashboard = () => {
   const [employees, setEmployees] = useState([]);
   const [attendance, setAttendance] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  
   const [error, setError] = useState(null);
 
   const fetchData = useCallback(async ({ silent = false } = {}) => {
@@ -93,7 +93,7 @@ const Dashboard = () => {
     const present = todaysRecords.filter((a) => a.status === "Present").length;
     const absent = todaysRecords.filter((a) => a.status === "Absent").length;
     const holiday = todaysRecords.filter((a) => a.status === "Holiday").length;
-    const leave = todaysRecords.filter((a) => a.status === "Leave").length;
+   
     const late = todaysRecords.filter(
       (a) => a.status === "Present" && (parseTimeToMinutes(a.inTime) ?? -1) > LATE_THRESHOLD_MIN
     ).length;
@@ -104,9 +104,8 @@ const Dashboard = () => {
       totalStaff: staff.length,
       present,
       absent,
-      onLeave: leave + holiday,
       holiday,
-      leave,
+      
       late,
       marked,
       rate,
@@ -137,7 +136,7 @@ const Dashboard = () => {
       [
         { name: "Present", value: stats.present, color: STATUS_STYLES.Present.hex },
         { name: "Absent", value: stats.absent, color: STATUS_STYLES.Absent.hex },
-        { name: "Leave", value: stats.leave, color: STATUS_STYLES.Leave.hex },
+       
         { name: "Holiday", value: stats.holiday, color: STATUS_STYLES.Holiday.hex },
       ].filter((d) => d.value > 0),
     [stats]
@@ -148,7 +147,7 @@ const Dashboard = () => {
   const attendanceByDate = useMemo(() => {
     return attendance.reduce((acc, a) => {
       if (!a.date) return acc;
-      acc[a.date] = acc[a.date] || { Present: 0, Absent: 0, Leave: 0, Holiday: 0, total: 0 };
+      acc[a.date] = acc[a.date] || { Present: 0, Absent: 0,  Holiday: 0, total: 0 };
       if (acc[a.date][a.status] !== undefined) acc[a.date][a.status] += 1;
       acc[a.date].total += 1;
       return acc;
@@ -196,7 +195,7 @@ const Dashboard = () => {
         activeDate={activeDate}
         stats={stats}
         rateVsWeeklyAvg={rateVsWeeklyAvg}
-        isRefreshing={isRefreshing}
+        
         onRefresh={() => fetchData({ silent: true })}
         error={error}
         showAbsenteeAlert={!isLoading && showAbsenteeAlert}

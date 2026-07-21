@@ -70,10 +70,10 @@
       "userId": "o4TsZLXPASM",
       "name": "Prashant Sunar",
       "date": "2026-07-21",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Absent",
+      "inTime": "10:30",
+      "outTime": "16:00",
+      "note": "test",
+      "status": "Present",
       "id": "s3KIbqmXLqI"
     }
   ],
