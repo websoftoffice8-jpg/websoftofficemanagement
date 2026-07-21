@@ -2,7 +2,7 @@
   "users": [
     {
       "employeeId": "admin",
-      "name": "Michael Chen",
+      "name": "Gaurav",
       "password": "admin",
       "role": "admin",
       "id": "W_ByI7acPlw"
@@ -15,41 +15,99 @@
       "position": "Manager",
       "role": "employee",
       "id": "wpZVldvOPJ4"
+    },
+    {
+      "employeeId": "EMP03",
+      "name": "Sujan",
+      "password": "employee",
+      "department": "IT",
+      "position": "Manager",
+      "role": "employee",
+      "id": "XSGJYJeYPCo"
+    },
+    {
+      "employeeId": "EMP02",
+      "name": "Prashant Sunar",
+      "password": "employee",
+      "department": "HR",
+      "position": "HR Officer",
+      "role": "employee",
+      "id": "o4TsZLXPASM"
+    },
+    {
+      "employeeId": "admin1",
+      "name": "Manras",
+      "password": "admin",
+      "role": "admin",
+      "id": "YF-MJaKz-Do"
     }
   ],
   "attendance": [
     {
-      "employeeId": "EMP01",
-      "userId": "wpZVldvOPJ4",
-      "name": "Rachit tiwari",
-      "date": "2026-07-14",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Absent",
-      "id": "EZSw3kKVjz0"
-    },
-    {
-      "employeeId": "EMP01",
-      "userId": "wpZVldvOPJ4",
-      "name": "Rachit tiwari",
-      "date": "2026-07-13",
+      "employeeId": "EMP03",
+      "userId": "XSGJYJeYPCo",
+      "name": "Sujan",
+      "date": "2026-07-19",
       "inTime": null,
       "outTime": null,
       "note": "",
       "status": "Holiday",
-      "id": "YEDARrIH1V8"
+      "id": "fF8pqmsoDw8"
+    },
+    {
+      "employeeId": "EMP02",
+      "userId": "o4TsZLXPASM",
+      "name": "Prashant Sunar",
+      "date": "2026-07-19",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Absent",
+      "id": "UN_0es0yTOM"
     },
     {
       "employeeId": "EMP01",
       "userId": "wpZVldvOPJ4",
       "name": "Rachit tiwari",
-      "date": "2026-07-12",
-      "inTime": "10:00",
+      "date": "2026-07-19",
+      "inTime": "10:30",
+      "outTime": "16:00",
+      "note": "Test",
+      "status": "Present",
+      "id": "HFijbkb2BoY"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "date": "2026-07-20",
+      "inTime": "10:30",
       "outTime": "16:00",
       "note": "test",
       "status": "Present",
-      "id": "WuaJL5rH3wk"
+      "id": "mHuWrqVXsPA"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "date": "2026-07-21",
+      "inTime": "11:00",
+      "outTime": "16:00",
+      "note": "etst",
+      "status": "Present",
+      "id": "rBNgSJvc1gI"
+    },
+    {
+      "employeeId": "EMP02",
+      "userId": "o4TsZLXPASM",
+      "name": "Prashant Sunar",
+      "date": "2026-07-21",
+      "inTime": "10:30",
+      "outTime": "04:00",
+      "note": "hello",
+      "status": "Present",
+      "id": "kn_Jqepw7gY"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

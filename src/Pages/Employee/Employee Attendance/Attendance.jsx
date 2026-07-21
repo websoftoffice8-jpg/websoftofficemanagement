@@ -7,7 +7,9 @@ import EmployeeSort, { getMonthKey, getFilteredSortedLogs } from "./EmployeeSort
 
 export default function Attendance() {
   const [logs, setLogs] = useState([]);
-  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
+  const [date, setDate] = useState(
+    new Date().toISOString().split("T")[0]
+  );
   const [inTime, setInTime] = useState("");
   const [outTime, setOutTime] = useState("");
   const [note, setNote] = useState("");
@@ -17,6 +19,9 @@ export default function Attendance() {
   const [selectedMonth, setSelectedMonth] = useState(getMonthKey(new Date().toISOString()));
   const [sortOrder, setSortOrder] = useState("desc");
   const [statusFilter, setStatusFilter] = useState("all");
+
+
+
 
   useEffect(() => {
     fetchAttendance();
@@ -223,6 +228,7 @@ export default function Attendance() {
         startEditing={startEditing}
         cancelEditing={cancelEditing}
         saveEditing={saveEditing}
+        
       />
     </div>
   );

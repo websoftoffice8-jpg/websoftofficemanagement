@@ -55,6 +55,7 @@ export default function Reports() {
           name: log.name || `Employee ${key}`,
           present: 0,
           absent: 0,
+          holiday: 0,
           totalMinutes: 0,
           workedDays: 0,
           lastDate: null,
@@ -66,12 +67,17 @@ export default function Reports() {
       entry.logs.push(log);
       const isPresent = !!log.outTime;
 
-      if (isPresent) {
+      if (log.status === "Holiday") {
+        entry.holiday += 1;
+      } else if (log.outTime) {
         entry.present += 1;
+
         const [inH, inM] = (log.inTime || "0:0").split(":").map(Number);
         const [outH, outM] = log.outTime.split(":").map(Number);
+
         let minutes = outH * 60 + outM - (inH * 60 + inM);
         if (minutes < 0) minutes += 24 * 60;
+
         entry.totalMinutes += minutes;
         entry.workedDays += 1;
       } else {
@@ -84,7 +90,7 @@ export default function Reports() {
     });
 
     return Object.values(byEmployee).map((e) => {
-      const total = e.present + e.absent;
+      const total = e.present + e.absent + e.holiday;
       const rate = total > 0 ? (e.present / total) * 100 : 0;
       const avgMinutes = e.workedDays > 0 ? e.totalMinutes / e.workedDays : 0;
       return {
@@ -112,6 +118,9 @@ export default function Reports() {
           break;
         case SORT_FIELDS.ABSENT:
           diff = a.absent - b.absent;
+          break;
+        case SORT_FIELDS.HOLIDAY:
+          diff = a.holiday - b.holiday;
           break;
         case SORT_FIELDS.HOURS:
           diff = a.avgHours - b.avgHours;
