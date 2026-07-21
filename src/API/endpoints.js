@@ -11,7 +11,7 @@ const ENDPOINTS = {
   // Reports
   REPORTS: "/reports",
 
-  // Settings (if needed later)
+  // Settings
   SETTINGS: "/settings",
 };
 
