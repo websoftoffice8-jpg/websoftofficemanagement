@@ -29,19 +29,14 @@ const StatCards = ({ stats, departmentCount }) => {
       sub: stats.marked ? `${Math.round((stats.absent / stats.marked) * 100)}% of marked` : "No records yet",
     },
     {
-      label: "Late Arrivals",
-      value: stats.late,
-      icon: Clock,
-      gradient: "from-orange-400 to-orange-600",
-      sub: `After ${formatMinutes(LATE_THRESHOLD_MIN)}`,
+      label: "Holiday",
+      value: stats.holiday,
+      icon: CalendarX2,
+      gradient: "from-red-400 to-red-600",
+      sub: stats.marked ? `${Math.round((stats.holiday / stats.marked) * 100)}% of marked` : "No records yet",
     },
-    {
-      label: "On Leave / Holiday",
-      value: stats.onLeave,
-      icon: CalendarClock,
-      gradient: "from-amber-400 to-amber-600",
-      sub: `${stats.leave} leave · ${stats.holiday} holiday`,
-    },
+ 
+    
   ];
 
   return (

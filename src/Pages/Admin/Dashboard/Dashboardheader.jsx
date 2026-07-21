@@ -3,15 +3,13 @@
 // alert that live in the header area. Isolated here so header-only
 // changes (copy, gradient, badges) never touch chart or table code.
 
-import { LayoutGrid, TrendingUp, TrendingDown, RefreshCw, AlertCircle, AlertTriangle } from "lucide-react";
+import { LayoutGrid, TrendingUp, TrendingDown,  AlertCircle, AlertTriangle } from "lucide-react";
 import { formatDateLabel, greeting } from "./utils";
 
 const DashboardHeader = ({
   activeDate,
   stats,
   rateVsWeeklyAvg,
-  isRefreshing,
-  onRefresh,
   error,
   showAbsenteeAlert,
 }) => {
@@ -65,14 +63,7 @@ const DashboardHeader = ({
               <TrendingUp size={16} />
               {stats.rate}% attendance
             </div>
-            <button
-              onClick={onRefresh}
-              disabled={isRefreshing}
-              className="flex items-center justify-center h-10 w-10 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white transition-colors disabled:opacity-60"
-              aria-label="Refresh dashboard"
-            >
-              <RefreshCw size={16} className={isRefreshing ? "animate-spin" : ""} />
-            </button>
+            
           </div>
         </div>
       </div>

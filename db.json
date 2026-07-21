@@ -44,59 +44,26 @@
   ],
   "attendance": [
     {
-      "employeeId": "EMP03",
-      "userId": "XSGJYJeYPCo",
-      "name": "Sujan",
-      "date": "2026-07-19",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Holiday",
-      "id": "fF8pqmsoDw8"
-    },
-    {
-      "employeeId": "EMP02",
-      "userId": "o4TsZLXPASM",
-      "name": "Prashant Sunar",
-      "date": "2026-07-19",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Absent",
-      "id": "UN_0es0yTOM"
-    },
-    {
       "employeeId": "EMP01",
       "userId": "wpZVldvOPJ4",
       "name": "Rachit tiwari",
-      "date": "2026-07-19",
-      "inTime": "10:30",
-      "outTime": "16:00",
-      "note": "Test",
-      "status": "Present",
-      "id": "HFijbkb2BoY"
-    },
-    {
-      "employeeId": "EMP01",
-      "userId": "wpZVldvOPJ4",
-      "name": "Rachit tiwari",
-      "date": "2026-07-20",
+      "date": "2026-07-21",
       "inTime": "10:30",
       "outTime": "16:00",
       "note": "test",
       "status": "Present",
-      "id": "mHuWrqVXsPA"
+      "id": "sKa3le3sibU"
     },
     {
-      "employeeId": "EMP01",
-      "userId": "wpZVldvOPJ4",
-      "name": "Rachit tiwari",
+      "employeeId": "EMP03",
+      "userId": "XSGJYJeYPCo",
+      "name": "Sujan",
       "date": "2026-07-21",
-      "inTime": "11:00",
-      "outTime": "16:00",
-      "note": "etst",
-      "status": "Present",
-      "id": "rBNgSJvc1gI"
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Holiday",
+      "id": "TonqiYDpRyY"
     },
     {
       "employeeId": "EMP02",
@@ -104,10 +71,10 @@
       "name": "Prashant Sunar",
       "date": "2026-07-21",
       "inTime": "10:30",
-      "outTime": "04:00",
-      "note": "hello",
+      "outTime": "16:00",
+      "note": "test",
       "status": "Present",
-      "id": "kn_Jqepw7gY"
+      "id": "s3KIbqmXLqI"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

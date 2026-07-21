@@ -7,7 +7,7 @@ export const STATUS_STYLES = {
   Present: { hex: "#16a34a", dot: "bg-green-600", badge: "bg-green-50 text-green-700 border-green-200" },
   Absent: { hex: "#ef4444", dot: "bg-red-500", badge: "bg-red-50 text-red-700 border-red-200" },
   Holiday: { hex: "#3b82f6", dot: "bg-blue-500", badge: "bg-blue-50 text-blue-700 border-blue-200" },
-  Leave: { hex: "#f59e0b", dot: "bg-amber-500", badge: "bg-amber-50 text-amber-700 border-amber-200" },
+ 
 };
 
 export const statusStyle = (status) =>

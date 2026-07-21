@@ -176,7 +176,7 @@ const Dashboard = () => {
   const [employees, setEmployees] = useState([]);
   const [attendance, setAttendance] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [isRefreshing, setIsRefreshing] = useState(false);
+  
   const [error, setError] = useState(null);
   const [activeSlice, setActiveSlice] = useState(null);
 
@@ -251,7 +251,7 @@ const Dashboard = () => {
     const present = todaysRecords.filter((a) => a.status === "Present").length;
     const absent = todaysRecords.filter((a) => a.status === "Absent").length;
     const holiday = todaysRecords.filter((a) => a.status === "Holiday").length;
-    const leave = todaysRecords.filter((a) => a.status === "Leave").length;
+   
     const late = todaysRecords.filter(
       (a) => a.status === "Present" && (parseTimeToMinutes(a.inTime) ?? -1) > LATE_THRESHOLD_MIN
     ).length;
@@ -262,9 +262,8 @@ const Dashboard = () => {
       totalStaff: staff.length,
       present,
       absent,
-      onLeave: leave + holiday,
       holiday,
-      leave,
+      
       late,
       marked,
       rate,
@@ -297,7 +296,7 @@ const Dashboard = () => {
       [
         { name: "Present", value: stats.present, color: STATUS_STYLES.Present.hex },
         { name: "Absent", value: stats.absent, color: STATUS_STYLES.Absent.hex },
-        { name: "Leave", value: stats.leave, color: STATUS_STYLES.Leave.hex },
+       
         { name: "Holiday", value: stats.holiday, color: STATUS_STYLES.Holiday.hex },
       ].filter((d) => d.value > 0),
     [stats]
@@ -327,7 +326,7 @@ const Dashboard = () => {
   const attendanceByDate = useMemo(() => {
     const byDate = attendance.reduce((acc, a) => {
       if (!a.date) return acc;
-      acc[a.date] = acc[a.date] || { Present: 0, Absent: 0, Leave: 0, Holiday: 0, total: 0 };
+      acc[a.date] = acc[a.date] || { Present: 0, Absent: 0,  Holiday: 0, total: 0 };
       if (acc[a.date][a.status] !== undefined) acc[a.date][a.status] += 1;
       acc[a.date].total += 1;
       return acc;
@@ -474,91 +473,15 @@ const Dashboard = () => {
         }
       `}</style>
 
-      {/* Hero header */}
-      <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-green-600 via-green-600 to-emerald-800 px-6 py-7 sm:px-8 sm:py-8 shadow-lg shadow-green-900/10 dash-animate">
-        <div
-          className="pointer-events-none absolute inset-0 opacity-[0.12]"
-          style={{
-            backgroundImage: "radial-gradient(circle, #ffffff 1px, transparent 1px)",
-            backgroundSize: "16px 16px",
-          }}
-        />
-        <div className="pointer-events-none absolute -right-16 -top-16 h-56 w-56 rounded-full bg-white/10 blur-2xl" />
-        <div className="pointer-events-none absolute -right-6 bottom-0 h-40 w-40 rounded-full bg-emerald-300/20 blur-2xl" />
-
-        <div className="relative flex flex-col sm:flex-row sm:items-center sm:justify-between gap-5">
-          <div className="flex items-center gap-4">
-            <div className="h-12 w-12 rounded-2xl bg-white/15 backdrop-blur-sm ring-1 ring-white/25 flex items-center justify-center shrink-0">
-              <LayoutGrid size={22} className="text-white" />
-            </div>
-            <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">
-                  {greeting()}, Admin
-                </h1>
-                <span className="flex items-center gap-1 text-[11px] font-medium text-white/90 bg-white/15 rounded-full px-2 py-0.5">
-                  <span className="h-1.5 w-1.5 rounded-full bg-emerald-300 animate-pulse" />
-                  Live
-                </span>
-              </div>
-              <p className="text-green-100/90 text-sm mt-1">
-                Attendance overview for {formatDateLabel(activeDate)}
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2.5">
-            {rateVsWeeklyAvg !== null && (
-              <div
-                className={`hidden sm:flex items-center gap-1 text-xs font-medium px-2.5 py-1.5 rounded-lg backdrop-blur-sm ${
-                  rateVsWeeklyAvg >= 0 ? "bg-white/15 text-white" : "bg-red-500/20 text-red-50"
-                }`}
-              >
-                {rateVsWeeklyAvg >= 0 ? <TrendingUp size={13} /> : <TrendingDown size={13} />}
-                {Math.abs(rateVsWeeklyAvg)}pt vs weekly avg
-              </div>
-            )}
-            <div className="flex items-center gap-2 bg-white text-green-700 text-sm font-semibold px-4 py-2.5 rounded-xl shadow-sm">
-              <TrendingUp size={16} />
-              {stats.rate}% attendance
-            </div>
-            <button
-              onClick={exportCSV}
-              className="flex items-center justify-center h-10 w-10 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white transition-colors"
-              aria-label="Export attendance as CSV"
-              title="Export CSV"
-            >
-              <Download size={16} />
-            </button>
-            <button
-              onClick={() => fetchData({ silent: true })}
-              disabled={isRefreshing}
-              className="flex items-center justify-center h-10 w-10 rounded-xl bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white transition-colors disabled:opacity-60"
-              aria-label="Refresh dashboard"
-            >
-              <RefreshCw size={16} className={isRefreshing ? "animate-spin" : ""} />
-            </button>
-          </div>
-        </div>
-      </div>
-
-      {error && (
-        <div className="flex items-center gap-2.5 text-red-600 text-sm bg-red-50 border border-red-200 rounded-2xl px-4 py-3">
-          <AlertCircle size={17} />
-          {error}
-        </div>
-      )}
-
-      {/* Absentee alert banner — surfaces automatically when absences run high */}
-      {!isLoading && stats.marked > 0 && stats.absent / stats.marked >= 0.2 && (
-        <div className="flex items-center gap-2.5 text-amber-700 text-sm bg-amber-50 border border-amber-200 rounded-2xl px-4 py-3 dash-animate">
-          <AlertTriangle size={17} className="shrink-0" />
-          <span>
-            <span className="font-semibold">{stats.absent}</span> of {stats.marked} staff are absent today
-            ({Math.round((stats.absent / stats.marked) * 100)}%) — above the usual range.
-          </span>
-        </div>
-      )}
+      <DashboardHeader
+        activeDate={activeDate}
+        stats={stats}
+        rateVsWeeklyAvg={rateVsWeeklyAvg}
+        
+        onRefresh={() => fetchData({ silent: true })}
+        error={error}
+        showAbsenteeAlert={!isLoading && showAbsenteeAlert}
+      />
 
       {isLoading ? (
         <div className="flex items-center justify-center gap-2 text-slate-400 text-sm py-24">

@@ -1,7 +1,3 @@
-// src/components/dashboard/sections/WeeklyTrendChart.jsx
-// "Attendance This Week" stacked bar chart.
-
-
 import {
   BarChart,
   Bar,
@@ -12,7 +8,6 @@ import {
   Tooltip,
   Legend,
 } from "recharts";
-
 import ChartTooltip from "./ChartTooltip";
 import { STATUS_STYLES } from "./utils";
 
@@ -29,27 +24,37 @@ const WeeklyTrendChart = ({ weeklyTrend }) => {
           No attendance records yet.
         </p>
       ) : (
-        <ResponsiveContainer width="100%" height={260}>
-          <BarChart data={weeklyTrend} barCategoryGap="28%">
-            <CartesianGrid vertical={false} stroke="#f1f5f9" />
+        <ResponsiveContainer width="100%" height={320}>
+          <BarChart
+            data={weeklyTrend}
+            layout="vertical"
+            barCategoryGap="28%"
+          >
+            <CartesianGrid horizontal={false} stroke="#f1f5f9" />
+
             <XAxis
-              dataKey="day"
-              tickLine={false}
-              axisLine={false}
-              tick={{ fill: "#94a3b8", fontSize: 11 }}
-            />
-            <YAxis
+              type="number"
               allowDecimals={false}
               tickLine={false}
               axisLine={false}
               tick={{ fill: "#94a3b8", fontSize: 11 }}
-              width={24}
             />
+
+            <YAxis
+              type="category"
+              dataKey="day"
+              tickLine={false}
+              axisLine={false}
+              tick={{ fill: "#94a3b8", fontSize: 11 }}
+              width={40}
+            />
+
             <Tooltip
               content={<ChartTooltip />}
               cursor={{ fill: "#f8fafc" }}
               labelFormatter={(_, payload) => payload?.[0]?.payload?.fullDate}
             />
+
             <Legend
               iconType="circle"
               iconSize={8}
@@ -57,11 +62,24 @@ const WeeklyTrendChart = ({ weeklyTrend }) => {
                 <span className="text-xs text-slate-500">{value}</span>
               )}
             />
-            <Bar dataKey="Present" stackId="a" fill={STATUS_STYLES.Present.hex} radius={[0, 0, 0, 0]} />
-            <Bar dataKey="Absent" stackId="a" fill={STATUS_STYLES.Absent.hex} />
-             <Bar dataKey="Holiday" stackId="a" fill={STATUS_STYLES.Holiday.hex} />
+
+            <Bar
+              dataKey="Present"
+              stackId="a"
+              fill={STATUS_STYLES.Present.hex}
+            />
+            <Bar
+              dataKey="Absent"
+              stackId="a"
+              fill={STATUS_STYLES.Absent.hex}
+            />
            
-           
+            <Bar
+              dataKey="Holiday"
+              stackId="a"
+              fill={STATUS_STYLES.Holiday.hex} 
+              radius={[0, 6, 6, 0]}
+            />
           </BarChart>
         </ResponsiveContainer>
       )}
