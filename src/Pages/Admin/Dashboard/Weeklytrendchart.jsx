@@ -1,11 +1,23 @@
 // src/components/dashboard/sections/WeeklyTrendChart.jsx
 // "Attendance This Week" stacked bar chart.
 
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer, Tooltip, Legend } from "recharts";
+
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+  Tooltip,
+  Legend,
+} from "recharts";
+
 import ChartTooltip from "./ChartTooltip";
 import { STATUS_STYLES } from "./utils";
 
 const WeeklyTrendChart = ({ weeklyTrend }) => {
+  
   return (
     <div className="dash-animate bg-white rounded-2xl shadow-[0_1px_2px_0_rgba(15,23,42,0.06),0_1px_8px_-2px_rgba(15,23,42,0.08)] p-6">
       <h2 className="text-sm font-semibold text-slate-800 mb-4">
@@ -47,13 +59,9 @@ const WeeklyTrendChart = ({ weeklyTrend }) => {
             />
             <Bar dataKey="Present" stackId="a" fill={STATUS_STYLES.Present.hex} radius={[0, 0, 0, 0]} />
             <Bar dataKey="Absent" stackId="a" fill={STATUS_STYLES.Absent.hex} />
-            <Bar dataKey="Leave" stackId="a" fill={STATUS_STYLES.Leave.hex} />
-            <Bar
-              dataKey="Holiday"
-              stackId="a"
-              fill={STATUS_STYLES.Holiday.hex}
-              radius={[6, 6, 0, 0]}
-            />
+             <Bar dataKey="Holiday" stackId="a" fill={STATUS_STYLES.Holiday.hex} />
+           
+           
           </BarChart>
         </ResponsiveContainer>
       )}

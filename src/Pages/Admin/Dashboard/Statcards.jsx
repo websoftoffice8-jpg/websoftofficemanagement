@@ -1,8 +1,9 @@
 // src/components/dashboard/sections/StatCards.jsx
 // The 5-card summary strip. Pure presentational — all numbers are
 // computed upstream in Dashboard.jsx and passed in via `stats`.
-import { Users, CalendarCheck2, CalendarX2, CalendarClock } from "lucide-react";
 
+import { Users, CalendarCheck2, CalendarX2, CalendarClock, Clock } from "lucide-react";
+import { formatMinutes, LATE_THRESHOLD_MIN } from "./utils";
 
 const StatCards = ({ stats, departmentCount }) => {
   const statCards = [
@@ -27,7 +28,13 @@ const StatCards = ({ stats, departmentCount }) => {
       gradient: "from-red-400 to-red-600",
       sub: stats.marked ? `${Math.round((stats.absent / stats.marked) * 100)}% of marked` : "No records yet",
     },
- 
+    {
+      label: "Late Arrivals",
+      value: stats.late,
+      icon: Clock,
+      gradient: "from-orange-400 to-orange-600",
+      sub: `After ${formatMinutes(LATE_THRESHOLD_MIN)}`,
+    },
     {
       label: "On Leave / Holiday",
       value: stats.onLeave,
@@ -38,7 +45,7 @@ const StatCards = ({ stats, departmentCount }) => {
   ];
 
   return (
-  <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
       {statCards.map(({ label, value, icon: Icon, gradient, sub }, i) => (
         <div
           key={label}
