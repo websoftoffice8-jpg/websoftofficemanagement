@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Charttooltip = () => {
+const StatCard = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const Charttooltip = () => {
   )
 }
 
-export default Charttooltip
+export default StatCard

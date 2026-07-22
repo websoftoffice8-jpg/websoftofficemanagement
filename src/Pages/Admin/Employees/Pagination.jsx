@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Charttooltip = () => {
+const Pagination = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const Charttooltip = () => {
   )
 }
 
-export default Charttooltip
+export default Pagination
