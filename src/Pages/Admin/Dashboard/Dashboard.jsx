@@ -51,7 +51,7 @@ export default function Dashboard() {
         <WeeklyTrendChart />
       </div>
 
-      <RecentAttendance />
+      <RecentAttendance attendance={attendance} />
 
 
     </>

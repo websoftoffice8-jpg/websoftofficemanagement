@@ -168,6 +168,17 @@
       "note": "",
       "status": "Holiday",
       "id": "gi3ik_Y7Yro"
+    },
+    {
+      "employeeId": "EMP04",
+      "userId": "6iQ0WjvZ7Yo",
+      "name": "Dona",
+      "date": "2026-07-22",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Absent",
+      "id": "7Ddfk12dSuM"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
