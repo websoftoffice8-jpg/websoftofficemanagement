@@ -34,12 +34,25 @@ export default function Dashboard() {
 
   return (
     <>
-      <DashboardHeader />
+      <DashboardHeader/>
+
+      <StatsCards />
+
+      {/* Two equal columns: pie chart occupies the left half,
+          trend chart the right half. */}
+      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+        <DepartmentPieChart />
+        <WeeklyTrendChart />
+      </div>
+
+      <RecentAttendance />
 
       <StatsCards
         employees={employees}
         attendance={attendance}
       />
     </>
-  );
+  )
 }
+
+export default Dashboard
