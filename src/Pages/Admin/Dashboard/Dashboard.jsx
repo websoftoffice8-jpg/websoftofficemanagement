@@ -1,6 +1,9 @@
 import { useEffect, useState } from "react";
 import api from '../../../API/Axios'
 import ENDPOINTS from '../../../API/endpoints'
+import DepartmentPieChart from "./DepartmentPieChart";
+import WeeklyTrendChart from './WeeklyTrendChart'
+import RecentAttendance from "./RecentAttendance";
 
 import DashboardHeader from "./DashboardHeader";
 import StatsCards from "./StatsCards";
@@ -34,9 +37,12 @@ export default function Dashboard() {
 
   return (
     <>
-      <DashboardHeader/>
+      <DashboardHeader />
+      <StatsCards
+        employees={employees}
+        attendance={attendance}
+      />
 
-      <StatsCards />
 
       {/* Two equal columns: pie chart occupies the left half,
           trend chart the right half. */}
@@ -47,12 +53,8 @@ export default function Dashboard() {
 
       <RecentAttendance />
 
-      <StatsCards
-        employees={employees}
-        attendance={attendance}
-      />
+
     </>
   )
 }
 
-export default Dashboard
