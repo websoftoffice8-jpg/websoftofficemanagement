@@ -8,7 +8,7 @@ import RecentAttendance from './RecentAttendance'
 const Dashboard = () => {
   return (
     <>
-      <DashboardHeader />
+      <DashboardHeader/>
 
       <StatsCards />
 
