@@ -135,6 +135,39 @@
       "note": "",
       "status": "Holiday",
       "id": "xuyn87frXlY"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "date": "2026-07-22",
+      "inTime": "10:30",
+      "outTime": "16:00",
+      "note": "test",
+      "status": "Present",
+      "id": "pMMHuRpWHgE"
+    },
+    {
+      "employeeId": "EMP02",
+      "userId": "o4TsZLXPASM",
+      "name": "Prashant Sunar",
+      "date": "2026-07-22",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Absent",
+      "id": "xcZx9LKv_Kg"
+    },
+    {
+      "employeeId": "EMP03",
+      "userId": "XSGJYJeYPCo",
+      "name": "Sujan",
+      "date": "2026-07-22",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Holiday",
+      "id": "gi3ik_Y7Yro"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

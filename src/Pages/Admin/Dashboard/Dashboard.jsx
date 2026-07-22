@@ -1,26 +1,45 @@
-import React from 'react'
-import DashboardHeader from './Dashboardheader'
-import StatsCards from './StatsCards'
-import WeeklyTrendChart from './Weeklytrendchart'
-import DepartmentPieChart from './DepartmentPieChart'
-import RecentAttendance from './RecentAttendance'
+import { useEffect, useState } from "react";
+import api from '../../../API/Axios'
+import ENDPOINTS from '../../../API/endpoints'
 
-const Dashboard = () => {
+import DashboardHeader from "./DashboardHeader";
+import StatsCards from "./StatsCards";
+
+export default function Dashboard() {
+  const [employees, setEmployees] = useState([]);
+  const [attendance, setAttendance] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetchDashboardData();
+  }, []);
+
+  async function fetchDashboardData() {
+    try {
+      const [employeeRes, attendanceRes] = await Promise.all([
+        api.get(ENDPOINTS.EMPLOYEES),
+        api.get(ENDPOINTS.ATTENDANCE),
+      ]);
+
+      setEmployees(employeeRes.data);
+      setAttendance(attendanceRes.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (loading) return <p>Loading...</p>;
+
   return (
     <>
-      <DashboardHeader/>
+      <DashboardHeader />
 
-      <StatsCards />
-
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <WeeklyTrendChart />
-        <DepartmentPieChart />
-      </div>
-
-      <RecentAttendance />
-
+      <StatsCards
+        employees={employees}
+        attendance={attendance}
+      />
     </>
-  )
+  );
 }
-
-export default Dashboard
