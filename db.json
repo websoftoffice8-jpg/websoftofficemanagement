@@ -40,6 +40,33 @@
       "password": "admin",
       "role": "admin",
       "id": "YF-MJaKz-Do"
+    },
+    {
+      "employeeId": "EMP04",
+      "name": "Dona",
+      "password": "employee",
+      "department": "HR",
+      "position": "HR Officer",
+      "role": "employee",
+      "id": "6iQ0WjvZ7Yo"
+    },
+    {
+      "employeeId": "EMP05",
+      "name": "Ram",
+      "password": "employee",
+      "department": "IT",
+      "position": "Accountant",
+      "role": "employee",
+      "id": "5vgospkuMZ4"
+    },
+    {
+      "employeeId": "EMP06",
+      "name": "Aakash",
+      "password": "employee",
+      "department": "HR",
+      "position": "Accountant",
+      "role": "employee",
+      "id": "BXEatSXgPqo"
     }
   ],
   "attendance": [
@@ -70,11 +97,44 @@
       "userId": "o4TsZLXPASM",
       "name": "Prashant Sunar",
       "date": "2026-07-21",
-      "inTime": "10:30",
-      "outTime": "16:00",
-      "note": "test",
-      "status": "Present",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Absent",
       "id": "s3KIbqmXLqI"
+    },
+    {
+      "employeeId": "EMP04",
+      "userId": "6iQ0WjvZ7Yo",
+      "name": "Dona",
+      "date": "2026-07-21",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Absent",
+      "id": "FflazAd1DxY"
+    },
+    {
+      "employeeId": "EMP05",
+      "userId": "5vgospkuMZ4",
+      "name": "Ram",
+      "date": "2026-07-21",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Absent",
+      "id": "zV6nUWxfJJ8"
+    },
+    {
+      "employeeId": "EMP06",
+      "userId": "BXEatSXgPqo",
+      "name": "Aakash",
+      "date": "2026-07-21",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Holiday",
+      "id": "xuyn87frXlY"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
