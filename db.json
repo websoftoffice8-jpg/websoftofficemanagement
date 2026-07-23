@@ -196,10 +196,10 @@
       "userId": "wpZVldvOPJ4",
       "name": "Rachit tiwari",
       "date": "2026-07-23",
-      "inTime": "10:30",
-      "outTime": "16:00",
-      "note": "test",
-      "status": "Present",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Absent",
       "id": "HttoXPKUg-M"
     },
     {
@@ -245,6 +245,17 @@
       "note": "test",
       "status": "Present",
       "id": "RCIecviIZBU"
+    },
+    {
+      "employeeId": "EMP06",
+      "userId": "BXEatSXgPqo",
+      "name": "Aakash",
+      "date": "2026-07-23",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Absent",
+      "id": "fg19eVbNiuI"
     }
   ],
   "permissions": [

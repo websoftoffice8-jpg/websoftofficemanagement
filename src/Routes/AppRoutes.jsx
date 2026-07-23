@@ -9,6 +9,7 @@ import Dashboard from "../Pages/Admin/Dashboard/Dashboard";
 import Employee from "../Pages/Admin/Employees/Employee"
 import Reports from "../Pages/Admin/Report/Reports";
 import Settings from "../Pages/Admin/Settings/Settings";
+import Permission from "../Pages/Admin/Permissions/Permission";
 
 
 
@@ -40,6 +41,7 @@ const AppRoutes = () => {
                 <Route path="/admin/employees" element={<Employee />} />
                 <Route path="/admin/reports" element={<Reports />} />
                 <Route path="/admin/settings" element={<Settings />} />
+                <Route path="/admin/permissions" element={<Permission />} />
             </Route>
 
             {/* Employee */}

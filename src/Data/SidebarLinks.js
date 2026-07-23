@@ -23,7 +23,7 @@ export const adminLinks = [
   {
     name: "Permissions/Holiday",
     path: "/admin/permissions",
-    icon: "",
+    icon: "ShieldCheck",
   },
 ];
 

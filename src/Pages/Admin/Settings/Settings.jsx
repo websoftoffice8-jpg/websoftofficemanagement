@@ -1,24 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { ShieldCheck, UserPlus, Users, Hash, User, Lock } from 'lucide-react'
+import api from '../../../API/Axios'
+import ENDPOINTS from '../../../API/endpoints'
 
-const API_URL = 'http://localhost:3000/users'
 // const CURRENT_USER_KEY = 'currentUser'
 
 const fetchUsers = async () => {
-  const res = await fetch(API_URL)
-  if (!res.ok) throw new Error('Failed to load users')
-  return res.json()
-}
+  const res = await api.get(ENDPOINTS.EMPLOYEES);
+  return res.data;
+};
 
 const createUser = async (user) => {
-  const res = await fetch(API_URL, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(user),
-  })
-  if (!res.ok) throw new Error('Failed to create user')
-  return res.json()
-}
+  const res = await api.post(ENDPOINTS.EMPLOYEES, user);
+  return res.data;
+};
 
 const generateId = () => Math.random().toString(36).slice(2, 12)
 
@@ -55,7 +50,7 @@ const Settings = () => {
         setCurrentAdmin(admin || null);
       } catch (err) {
         setLoadError("Could not reach the server.");
-        
+
       } finally {
         setLoading(false);
       }
@@ -124,14 +119,9 @@ const Settings = () => {
     if (!confirmDelete) return;
 
     try {
-      await fetch(`${API_URL}/${currentAdmin.id}`, {
-        method: "DELETE",
-      });
+      await api.delete(`${ENDPOINTS.EMPLOYEES}/${currentAdmin.id}`);
 
-      // Clear login
       localStorage.removeItem("user");
-
-      // Redirect to login page
       window.location.href = "/";
     } catch (err) {
       alert("Failed to delete admin.");
@@ -178,7 +168,7 @@ const Settings = () => {
           <User size={16} className="text-green-600" />
           Your Admin Details
         </h2>
-            
+
         {currentAdmin ? (
           <div className="flex flex-col gap-3">
             <div className="flex justify-between items-center border-b border-slate-100 pb-2.5">

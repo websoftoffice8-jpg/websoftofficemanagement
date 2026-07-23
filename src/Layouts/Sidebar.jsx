@@ -7,6 +7,7 @@ import {
   Users,
   FileText,
   Settings,
+  ShieldCheck,
   LogOut,
   X,
 } from "lucide-react";
@@ -17,6 +18,7 @@ const icons = {
   Users,
   FileText,
   Settings,
+  ShieldCheck,
 };
 
 
