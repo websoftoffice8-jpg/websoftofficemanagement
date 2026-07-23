@@ -56,6 +56,7 @@ export default function Reports() {
           present: 0,
           absent: 0,
           holiday: 0,
+          leave: 0,
           totalMinutes: 0,
           workedDays: 0,
           lastDate: null,
@@ -67,21 +68,30 @@ export default function Reports() {
       entry.logs.push(log);
       const isPresent = !!log.outTime;
 
-      if (log.status === "Holiday") {
-        entry.holiday += 1;
-      } else if (log.outTime) {
-        entry.present += 1;
+      switch (log.status) {
+        case "Holiday":
+          entry.holiday++;
+          break;
 
-        const [inH, inM] = (log.inTime || "0:0").split(":").map(Number);
-        const [outH, outM] = log.outTime.split(":").map(Number);
+        case "Leave":
+          entry.leave++;
+          break;
 
-        let minutes = outH * 60 + outM - (inH * 60 + inM);
-        if (minutes < 0) minutes += 24 * 60;
+        case "Present":
+          entry.present++;
 
-        entry.totalMinutes += minutes;
-        entry.workedDays += 1;
-      } else {
-        entry.absent += 1;
+          const [inH, inM] = (log.inTime || "0:0").split(":").map(Number);
+          const [outH, outM] = (log.outTime || "0:0").split(":").map(Number);
+
+          let minutes = outH * 60 + outM - (inH * 60 + inM);
+          if (minutes < 0) minutes += 24 * 60;
+
+          entry.totalMinutes += minutes;
+          entry.workedDays++;
+          break;
+
+        default:
+          entry.absent++;
       }
 
       if (!entry.lastDate || log.date > entry.lastDate) {
@@ -90,7 +100,7 @@ export default function Reports() {
     });
 
     return Object.values(byEmployee).map((e) => {
-      const total = e.present + e.absent + e.holiday;
+      const total = e.present + e.absent + e.holiday + e.leave
       const rate = total > 0 ? (e.present / total) * 100 : 0;
       const avgMinutes = e.workedDays > 0 ? e.totalMinutes / e.workedDays : 0;
       return {
@@ -118,6 +128,9 @@ export default function Reports() {
           break;
         case SORT_FIELDS.ABSENT:
           diff = a.absent - b.absent;
+          break;
+        case SORT_FIELDS.LEAVE:
+          diff = a.leave - b.leave;
           break;
         case SORT_FIELDS.HOLIDAY:
           diff = a.holiday - b.holiday;
@@ -147,16 +160,38 @@ export default function Reports() {
   // org-wide summary
   const summary = useMemo(() => {
     const totalEmployees = employeeStats.length;
+
     const totalPresent = employeeStats.reduce((sum, e) => sum + e.present, 0);
     const totalAbsent = employeeStats.reduce((sum, e) => sum + e.absent, 0);
-    const totalRecords = totalPresent + totalAbsent;
-    const avgRate = totalRecords > 0 ? (totalPresent / totalRecords) * 100 : 0;
-    const avgHours =
-      employeeStats.length > 0
-        ? employeeStats.reduce((sum, e) => sum + e.avgHours, 0) / employeeStats.length
+    const totalHoliday = employeeStats.reduce((sum, e) => sum + e.holiday, 0);
+    const totalLeave = employeeStats.reduce((sum, e) => sum + e.leave, 0);
+
+    const totalRecords =
+      totalPresent +
+      totalAbsent +
+      totalHoliday +
+      totalLeave;
+
+    const avgRate =
+      totalRecords > 0
+        ? (totalPresent / totalRecords) * 100
         : 0;
 
-    return { totalEmployees, totalPresent, totalAbsent, avgRate, avgHours };
+    const avgHours =
+      employeeStats.length > 0
+        ? employeeStats.reduce((sum, e) => sum + e.avgHours, 0) /
+        employeeStats.length
+        : 0;
+
+    return {
+      totalEmployees,
+      totalPresent,
+      totalAbsent,
+      totalHoliday,
+      totalLeave,
+      avgRate,
+      avgHours,
+    };
   }, [employeeStats]);
 
   const clearFilters = () => {

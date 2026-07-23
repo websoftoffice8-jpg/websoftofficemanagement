@@ -6,6 +6,9 @@ const MONTH_LABEL_FORMAT = { month: "long", year: "numeric" };
 
 const getStatus = (log) => {
   if (log.status === "Holiday") return "Holiday";
+  if (log.status === "Leave") return "Leave";
+  if (log.status === "Present") return "Present";
+
   return log.outTime ? "Present" : "Absent";
 };
 
@@ -49,8 +52,8 @@ export default function ReportInfo({ employee }) {
     monthFilter !== "all"
       ? monthFilter
       : logs.length > 0
-      ? getMonthKey([...logs].sort((a, b) => b.date.localeCompare(a.date))[0].date)
-      : getMonthKey(new Date().toISOString());
+        ? getMonthKey([...logs].sort((a, b) => b.date.localeCompare(a.date))[0].date)
+        : getMonthKey(new Date().toISOString());
 
   const goToMonth = (delta) => setMonthFilter(shiftMonth(activeMonth, delta));
 
@@ -83,6 +86,7 @@ export default function ReportInfo({ employee }) {
         <td className="px-5 py-4 text-slate-700">{employee.present}</td>
         <td className="px-5 py-4 text-slate-700">{employee.absent}</td>
         <td className="px-5 py-4 text-slate-700">{employee.holiday}</td>
+        <td className="px-5 py-4 text-slate-700">{employee.leave}</td>
         <td className="px-5 py-4">
           <div className="flex items-center gap-2">
             <div className="w-24 h-1.5 rounded-full bg-slate-100 overflow-hidden">
@@ -171,6 +175,7 @@ export default function ReportInfo({ employee }) {
                     <option value="Present">Present</option>
                     <option value="Absent">Absent</option>
                     <option value="Holiday">Holiday</option>
+                    <option value="Leave">Leave</option>
                   </select>
                 </div>
                 <div className="flex items-center gap-2">
@@ -228,13 +233,14 @@ export default function ReportInfo({ employee }) {
                         </td>
                         <td className="px-5 py-4">
                           <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${
-                              getStatus(log) === "Present"
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${getStatus(log) === "Present"
                                 ? "bg-green-100 text-green-700"
                                 : getStatus(log) === "Holiday"
-                                ? "bg-blue-100 text-blue-700"
-                                : "bg-amber-100 text-amber-700"
-                            }`}
+                                  ? "bg-blue-100 text-blue-700"
+                                  : getStatus(log) === "Leave"
+                                    ? "bg-purple-100 text-purple-700"
+                                    : "bg-amber-100 text-amber-700"
+                              }`}
                           >
                             {getStatus(log)}
                           </span>

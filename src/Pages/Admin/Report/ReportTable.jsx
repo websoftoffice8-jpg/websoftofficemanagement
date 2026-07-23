@@ -5,6 +5,7 @@ export const SORT_FIELDS = {
   PRESENT: "present",
   ABSENT: "absent",
   HOLIDAY: "holiday",
+  LEAVE: "leave",
   RATE: "rate",
   HOURS: "hours",
 };
@@ -33,10 +34,10 @@ function SortHeader({
     >
       <span
         className={`flex items-center gap-1 ${align === "right"
-            ? "justify-end"
-            : align === "center"
-              ? "justify-center"
-              : "justify-start"
+          ? "justify-end"
+          : align === "center"
+            ? "justify-center"
+            : "justify-start"
           }`}
       >
         {children}
@@ -100,6 +101,16 @@ export default function ReportTable({
             </SortHeader>
 
             <SortHeader
+              field={SORT_FIELDS.LEAVE}
+              sortField={sortField}
+              sortDir={sortDir}
+              handleSort={handleSort}
+              align="center"
+            >
+              Leave
+            </SortHeader>
+
+            <SortHeader
               field={SORT_FIELDS.RATE}
               sortField={sortField}
               sortDir={sortDir}
@@ -115,7 +126,7 @@ export default function ReportTable({
               handleSort={handleSort}
               align="center"
             >
-            AVG Hours / Day
+              AVG Hours / Day
             </SortHeader>
 
             <th className="px-5 py-3.5 text-left font-medium text-slate-500 whitespace-nowrap">
@@ -127,7 +138,7 @@ export default function ReportTable({
         <tbody>
           {loading && (
             <tr>
-              <td colSpan={6} className="py-10 text-center text-slate-400">
+              <td colSpan={8} className="py-10 text-center text-slate-400">
                 Loading report...
               </td>
             </tr>
@@ -142,18 +153,18 @@ export default function ReportTable({
           )}
 
           {!loading &&
-          
+
             employees.map((employee) => (
               <ReportInfo
                 key={employee.employeeId}
                 employee={employee}
-                
+
               />
-              
-            )) }
-            
+
+            ))}
+
         </tbody>
-        
+
       </table>
     </div>
   );

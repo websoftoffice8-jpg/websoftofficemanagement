@@ -2,8 +2,8 @@ import { Users, UserCheck, UserX, CalendarDays } from "lucide-react";
 import StatCard from "./StatCard";
 import { getDashboardStats } from "./utils";
 
-export default function StatsCards({ employees, attendance }) {
-  const stats = getDashboardStats(employees, attendance);
+export default function StatsCards({ employees, attendance, permissions }) {
+  const stats = getDashboardStats(employees, attendance, permissions);
 
   
 
@@ -30,8 +30,8 @@ export default function StatsCards({ employees, attendance }) {
       iconColor: "text-red-600",
     },
     {
-      title: "Holiday Today",
-      value: stats.holiday,
+      title: "On Leave",
+      value: stats.leave,
       icon: CalendarDays,
       iconBg: "bg-yellow-100",
       iconColor: "text-yellow-600",

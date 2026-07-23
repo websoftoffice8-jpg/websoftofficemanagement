@@ -12,6 +12,7 @@ export default function Dashboard() {
   const [employees, setEmployees] = useState([]);
   const [attendance, setAttendance] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [permissions, setPermissions] = useState([]);
 
   useEffect(() => {
     fetchDashboardData();
@@ -22,10 +23,12 @@ export default function Dashboard() {
       const [employeeRes, attendanceRes] = await Promise.all([
         api.get(ENDPOINTS.EMPLOYEES),
         api.get(ENDPOINTS.ATTENDANCE),
+        api.get(ENDPOINTS.PERMISSIONS),
       ]);
 
       setEmployees(employeeRes.data);
       setAttendance(attendanceRes.data);
+      setPermissions(permissionRes.data);
     } catch (error) {
       console.error(error);
     } finally {
@@ -41,6 +44,7 @@ export default function Dashboard() {
       <StatsCards
         employees={employees}
         attendance={attendance}
+         permissions={permissions}
       />
 
       

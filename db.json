@@ -74,133 +74,12 @@
       "employeeId": "EMP01",
       "userId": "wpZVldvOPJ4",
       "name": "Rachit tiwari",
-      "date": "2026-07-21",
-      "inTime": "10:30",
-      "outTime": "16:00",
-      "note": "test",
-      "status": "Present",
-      "id": "sKa3le3sibU"
-    },
-    {
-      "employeeId": "EMP03",
-      "userId": "XSGJYJeYPCo",
-      "name": "Sujan",
-      "date": "2026-07-21",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Holiday",
-      "id": "TonqiYDpRyY"
-    },
-    {
-      "employeeId": "EMP02",
-      "userId": "o4TsZLXPASM",
-      "name": "Prashant Sunar",
-      "date": "2026-07-21",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Absent",
-      "id": "s3KIbqmXLqI"
-    },
-    {
-      "employeeId": "EMP04",
-      "userId": "6iQ0WjvZ7Yo",
-      "name": "Dona",
-      "date": "2026-07-21",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Absent",
-      "id": "FflazAd1DxY"
-    },
-    {
-      "employeeId": "EMP05",
-      "userId": "5vgospkuMZ4",
-      "name": "Ram",
-      "date": "2026-07-21",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Absent",
-      "id": "zV6nUWxfJJ8"
-    },
-    {
-      "employeeId": "EMP06",
-      "userId": "BXEatSXgPqo",
-      "name": "Aakash",
-      "date": "2026-07-21",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Holiday",
-      "id": "xuyn87frXlY"
-    },
-    {
-      "employeeId": "EMP01",
-      "userId": "wpZVldvOPJ4",
-      "name": "Rachit tiwari",
-      "date": "2026-07-22",
+      "date": "2026-07-23",
       "inTime": null,
       "outTime": null,
       "note": "",
       "status": "Leave",
-      "id": "pMMHuRpWHgE"
-    },
-    {
-      "employeeId": "EMP02",
-      "userId": "o4TsZLXPASM",
-      "name": "Prashant Sunar",
-      "date": "2026-07-22",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Absent",
-      "id": "xcZx9LKv_Kg"
-    },
-    {
-      "employeeId": "EMP03",
-      "userId": "XSGJYJeYPCo",
-      "name": "Sujan",
-      "date": "2026-07-22",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Holiday",
-      "id": "gi3ik_Y7Yro"
-    },
-    {
-      "employeeId": "EMP04",
-      "userId": "6iQ0WjvZ7Yo",
-      "name": "Dona",
-      "date": "2026-07-22",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Absent",
-      "id": "7Ddfk12dSuM"
-    },
-    {
-      "employeeId": "EMP05",
-      "userId": "5vgospkuMZ4",
-      "name": "Ram",
-      "date": "2026-07-22",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Holiday",
-      "id": "TVQ4hXOvcCs"
-    },
-    {
-      "employeeId": "EMP01",
-      "userId": "wpZVldvOPJ4",
-      "name": "Rachit tiwari",
-      "date": "2026-07-23",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Absent",
-      "id": "HttoXPKUg-M"
+      "id": "jklT_SgvQQg"
     },
     {
       "employeeId": "EMP02",
@@ -210,8 +89,8 @@
       "inTime": null,
       "outTime": null,
       "note": "",
-      "status": "Holiday",
-      "id": "LzUXQs0SWbM"
+      "status": "Leave",
+      "id": "Nu8YG41CbQI"
     },
     {
       "employeeId": "EMP03",
@@ -222,51 +101,67 @@
       "outTime": null,
       "note": "",
       "status": "Absent",
-      "id": "OMLpIaEXkBQ"
-    },
-    {
-      "employeeId": "EMP04",
-      "userId": "6iQ0WjvZ7Yo",
-      "name": "Dona",
-      "date": "2026-07-23",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Holiday",
-      "id": "6ZA6--mAdPM"
+      "id": "0Z7LvdsEhx0"
     },
     {
       "employeeId": "EMP05",
       "userId": "5vgospkuMZ4",
       "name": "Ram",
       "date": "2026-07-23",
-      "inTime": "10:00",
-      "outTime": "16:00",
-      "note": "test",
-      "status": "Present",
-      "id": "RCIecviIZBU"
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Absent",
+      "id": "4iAY54LjtbI"
     },
     {
       "employeeId": "EMP06",
       "userId": "BXEatSXgPqo",
       "name": "Aakash",
       "date": "2026-07-23",
-      "inTime": null,
-      "outTime": null,
-      "note": "",
-      "status": "Absent",
-      "id": "fg19eVbNiuI"
+      "inTime": "10:00",
+      "outTime": "16:00",
+      "note": "test ",
+      "status": "Present",
+      "id": "ZIoD-7RNte8"
     }
   ],
   "permissions": [
     {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "date": "2026-07-23",
+      "reason": "",
+      "status": "Approved",
+      "id": "BBSDIrUUGPY"
+    },
+    {
+      "employeeId": "EMP02",
+      "userId": "o4TsZLXPASM",
+      "name": "Prashant Sunar",
+      "date": "2026-07-23",
+      "reason": "",
+      "status": "Approved",
+      "id": "k_XrfJXMPww"
+    },
+    {
+      "employeeId": "EMP03",
+      "userId": "XSGJYJeYPCo",
+      "name": "Sujan",
+      "date": "2026-07-23",
+      "reason": "",
+      "status": "Rejected",
+      "id": "aCWr-ad59KY"
+    },
+    {
       "employeeId": "EMP05",
       "userId": "5vgospkuMZ4",
       "name": "Ram",
-      "date": "2026-07-22",
-      "reason": "test",
-      "status": "Pending",
-      "id": "CRy26Vrj8YA"
+      "date": "2026-07-23",
+      "reason": "this is permission test",
+      "status": "Rejected",
+      "id": "JR5DbzEF8Ms"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

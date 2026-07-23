@@ -36,39 +36,15 @@ export default function Attendance() {
     }
   };
 
-
   const fetchAttendance = async () => {
     const user = getUser();
-    if (!user?.employeeId) return;
+    if (!user?.employeeId) {
+      setError("No logged-in user found. Please log in again.");
+      return;
+    }
 
     try {
-      // Get all attendance of this employee
-      const res = await api.get(
-        `${ENDPOINTS.ATTENDANCE}?employeeId=${user.employeeId}`
-      );
-
-      const today = new Date().toISOString().split('T')[0];
-
-      // Check if today's record exists
-      const todayRecord = res.data.find((log) => log.date === today);
-
-      // If not, create default Absent record
-      if (!todayRecord) {
-        const absentRes = await api.post(ENDPOINTS.ATTENDANCE, {
-          employeeId: user.employeeId,
-          userId: user.id,
-          name: user.name,
-          date: today,
-          inTime: null,
-          outTime: null,
-          note: '',
-          status: 'Absent',
-        });
-
-        // Add the new record to the list
-        res.data.push(absentRes.data);
-      }
-
+      const res = await api.get(`${ENDPOINTS.ATTENDANCE}?employeeId=${user.employeeId}`);
       setLogs(res.data.sort((a, b) => b.date.localeCompare(a.date)));
     } catch (error) {
       console.error(error);
@@ -91,7 +67,7 @@ export default function Attendance() {
           inTime,
           outTime: outTime || null,
           note,
-          status: 'Present',
+          status: outTime ? "Present" : "In Progress",
         });
       } else {
         await api.post(ENDPOINTS.ATTENDANCE, {
@@ -149,10 +125,10 @@ export default function Attendance() {
 
       if (existing) {
         await api.patch(`${ENDPOINTS.ATTENDANCE}/${existing.id}`, {
-          inTime,
-          outTime: outTime || null,
+          status: "Holiday",
+          inTime: null,
+          outTime: null,
           note,
-          status: 'Present',
         });
       } else {
         await api.post(ENDPOINTS.ATTENDANCE, {
