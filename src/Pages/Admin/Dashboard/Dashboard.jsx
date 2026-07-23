@@ -43,18 +43,19 @@ export default function Dashboard() {
         attendance={attendance}
       />
 
-
-      {/* Two equal columns: pie chart occupies the left half,
-          trend chart the right half. */}
-      <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
+      
+      {/* 40 / 60 split: pie chart takes 2fr, trend chart takes 3fr,
+          so trend chart reads as the larger, primary panel. */}
+      <div className="grid grid-cols-1 xl:grid-cols-[2fr_4fr] gap-6">
         <DepartmentPieChart />
         <WeeklyTrendChart />
       </div>
-
-      <RecentAttendance attendance={attendance} />
+        <div className="mt-10">
+           <RecentAttendance attendance={attendance} />
+        </div>
+     
 
 
     </>
   )
 }
-
