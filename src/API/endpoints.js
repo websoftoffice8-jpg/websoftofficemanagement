@@ -13,6 +13,9 @@ const ENDPOINTS = {
 
   // Settings
   SETTINGS: "/settings",
+
+  //permissions
+  PERMISSIONS: "/permissions"
 };
 
 export default ENDPOINTS;

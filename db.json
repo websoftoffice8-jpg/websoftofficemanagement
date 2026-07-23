@@ -141,10 +141,10 @@
       "userId": "wpZVldvOPJ4",
       "name": "Rachit tiwari",
       "date": "2026-07-22",
-      "inTime": "10:30",
-      "outTime": "16:00",
-      "note": "test",
-      "status": "Present",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Leave",
       "id": "pMMHuRpWHgE"
     },
     {
@@ -179,6 +179,83 @@
       "note": "",
       "status": "Absent",
       "id": "7Ddfk12dSuM"
+    },
+    {
+      "employeeId": "EMP05",
+      "userId": "5vgospkuMZ4",
+      "name": "Ram",
+      "date": "2026-07-22",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Holiday",
+      "id": "TVQ4hXOvcCs"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "date": "2026-07-23",
+      "inTime": "10:30",
+      "outTime": "16:00",
+      "note": "test",
+      "status": "Present",
+      "id": "HttoXPKUg-M"
+    },
+    {
+      "employeeId": "EMP02",
+      "userId": "o4TsZLXPASM",
+      "name": "Prashant Sunar",
+      "date": "2026-07-23",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Holiday",
+      "id": "LzUXQs0SWbM"
+    },
+    {
+      "employeeId": "EMP03",
+      "userId": "XSGJYJeYPCo",
+      "name": "Sujan",
+      "date": "2026-07-23",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Absent",
+      "id": "OMLpIaEXkBQ"
+    },
+    {
+      "employeeId": "EMP04",
+      "userId": "6iQ0WjvZ7Yo",
+      "name": "Dona",
+      "date": "2026-07-23",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Holiday",
+      "id": "6ZA6--mAdPM"
+    },
+    {
+      "employeeId": "EMP05",
+      "userId": "5vgospkuMZ4",
+      "name": "Ram",
+      "date": "2026-07-23",
+      "inTime": "10:00",
+      "outTime": "16:00",
+      "note": "test",
+      "status": "Present",
+      "id": "RCIecviIZBU"
+    }
+  ],
+  "permissions": [
+    {
+      "employeeId": "EMP05",
+      "userId": "5vgospkuMZ4",
+      "name": "Ram",
+      "date": "2026-07-22",
+      "reason": "test",
+      "status": "Pending",
+      "id": "CRy26Vrj8YA"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

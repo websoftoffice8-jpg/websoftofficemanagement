@@ -5,6 +5,7 @@ export const getMonthKey = (dateStr) => dateStr.slice(0, 7);
 
 export const getStatus = (log) => {
   if (log.status === "Holiday") return "Holiday";
+  if (log.status === "Leave") return "Leave";
   if (!log.outTime) return "Absent";
   return "Present";
 };
@@ -116,6 +117,8 @@ export default function EmployeeSort({
             <option value="Present">Present</option>
             <option value="Absent">Absent</option>
             <option value="Holiday">Holiday</option>
+            <option value="Leave">Leave</option>
+            
           </select>
         </div>
 

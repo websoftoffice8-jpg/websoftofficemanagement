@@ -188,6 +188,40 @@ export default function Attendance() {
     }
   };
 
+  const handleMarkLeave = async () => {
+    if (!date) return;
+
+    try {
+      const user = getUser();
+
+      const existingRequest = await api.get(
+        `${ENDPOINTS.PERMISSIONS}?employeeId=${user.employeeId}&date=${date}`
+      );
+
+      if (existingRequest.data.length > 0) {
+        alert("You have already requested leave for this date.");
+        return;
+      }
+
+      await api.post(ENDPOINTS.PERMISSIONS, {
+        employeeId: user.employeeId,
+        userId: user.id,
+        name: user.name,
+        date,
+        reason: note,
+        status: "Pending",
+      });
+
+      setInTime("");
+      setOutTime("");
+      setNote("");
+
+      alert("Leave request submitted successfully.");
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const visibleLogs = getFilteredSortedLogs(logs, selectedMonth, sortOrder, statusFilter);
 
   return (
@@ -207,6 +241,7 @@ export default function Attendance() {
         handleAddEntry={handleAddEntry}
         handleMarkHoliday={handleMarkHoliday}
         handleMarkAbsent={handleMarkAbsent}
+        handleMarkLeave={handleMarkLeave}
       />
 
       <EmployeeSort
@@ -228,7 +263,7 @@ export default function Attendance() {
         startEditing={startEditing}
         cancelEditing={cancelEditing}
         saveEditing={saveEditing}
-        
+
       />
     </div>
   );

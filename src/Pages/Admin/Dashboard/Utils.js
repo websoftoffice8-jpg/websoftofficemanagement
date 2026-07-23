@@ -28,7 +28,12 @@ export function getDashboardStats(users = [], attendance = []) {
     holiday: todayAttendance.filter(
       (record) => record.status === "Holiday"
     ).length,
+    
+     leave: todayAttendance.filter(
+    (record) => record.status === "Leave"
+  ).length,
   };
+
 }
 
 // Recent Attendance

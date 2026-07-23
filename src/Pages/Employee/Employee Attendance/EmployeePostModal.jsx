@@ -1,6 +1,6 @@
 export default function EmployeePostModal({
   date, setDate, inTime, setInTime, outTime, setOutTime,
-  note, setNote, handleAddEntry, handleMarkHoliday, handleMarkAbsent,
+  note, setNote, handleAddEntry, handleMarkHoliday, handleMarkAbsent, handleMarkLeave
 }) {
   const today = new Date().toISOString().split("T")[0];
   return (
@@ -62,11 +62,18 @@ export default function EmployeePostModal({
         >
           Mark Holiday
         </button>
+        <button
+          onClick={handleMarkLeave}
+          disabled={!date}
+          className="flex-1 px-4 py-2.5 rounded-lg bg-purple-600 text-white text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:bg-purple-700"
+        >
+          Request Leave
+        </button>
       </div>
 
       <div className="mt-5">
         <label className="block text-xs font-medium text-slate-500 mb-1">
-          What did you work on today?
+          Describe your work or reason for leave...
         </label>
         <textarea
           value={note}

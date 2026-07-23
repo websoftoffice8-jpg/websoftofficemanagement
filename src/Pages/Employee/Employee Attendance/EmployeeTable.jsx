@@ -48,9 +48,13 @@ export default function EmployeeTable({
                   <span
                     className={`px-2 py-1 rounded-full text-xs font-medium ${getStatus(log) === "Present"
                         ? "bg-green-100 text-green-700"
-                        : getStatus(log) === "Holiday"
-                          ? "bg-blue-100 text-blue-700"
-                          : "bg-amber-100 text-amber-700"
+                        : getStatus(log) === "Absent"
+                          ? "bg-red-100 text-red-700"
+                          : getStatus(log) === "Holiday"
+                            ? "bg-blue-100 text-blue-700"
+                            : getStatus(log) === "Leave"
+                              ? "bg-purple-100 text-purple-700"
+                              : "bg-slate-100 text-slate-700"
                       }`}
                   >
                     {getStatus(log)}
