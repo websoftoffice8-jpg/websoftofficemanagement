@@ -19,22 +19,22 @@ export default function Dashboard() {
   }, []);
 
   async function fetchDashboardData() {
-    try {
-      const [employeeRes, attendanceRes] = await Promise.all([
-        api.get(ENDPOINTS.EMPLOYEES),
-        api.get(ENDPOINTS.ATTENDANCE),
-        api.get(ENDPOINTS.PERMISSIONS),
-      ]);
+  try {
+    const [employeeRes, attendanceRes, permissionRes] = await Promise.all([
+      api.get(ENDPOINTS.EMPLOYEES),
+      api.get(ENDPOINTS.ATTENDANCE),
+      api.get(ENDPOINTS.PERMISSIONS),
+    ]);
 
-      setEmployees(employeeRes.data);
-      setAttendance(attendanceRes.data);
-      setPermissions(permissionRes.data);
-    } catch (error) {
-      console.error(error);
-    } finally {
-      setLoading(false);
-    }
+    setEmployees(employeeRes.data);
+    setAttendance(attendanceRes.data);
+    setPermissions(permissionRes.data);
+  } catch (error) {
+    console.error(error);
+  } finally {
+    setLoading(false);
   }
+}
 
   if (loading) return <p>Loading...</p>;
 

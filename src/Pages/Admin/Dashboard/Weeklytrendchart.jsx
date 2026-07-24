@@ -14,7 +14,7 @@ import ENDPOINTS from '../../../API/endpoints'
 const STATUS_CONFIG = [
     { key: 'Present', label: 'Present', color: '#16a34a' },
     { key: 'Absent', label: 'Absent', color: '#ef4444' },
-    { key: 'Holiday', label: 'Holiday', color: '#8b5cf6' },
+    { key: 'Leave', label: 'Leave', color: '#8b5cf6' },
 ]
 
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
@@ -48,7 +48,7 @@ const WeeklyTrendChart = () => {
             day,
             Present: 0,
             Absent: 0,
-            Holiday: 0,
+            Leave: 0,
         }))
 
         records.forEach((record) => {
