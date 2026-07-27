@@ -20,7 +20,7 @@ const STATUS_CONFIG = [
     },
     {
         key: 'Leave',
-        label: 'Leave',
+        label: 'on Leave',
         color: '#6366f1', // indigo-500
         soft: 'rgba(99, 102, 241, 0.12)',
         Icon: Palmtree,
