@@ -8,6 +8,7 @@ import {
   FileText,
   Settings,
   ShieldCheck,
+  Palmtree,
   LogOut,
   X,
 } from "lucide-react";
@@ -19,6 +20,7 @@ const icons = {
   FileText,
   Settings,
   ShieldCheck,
+  Palmtree,
 };
 
 

@@ -67,6 +67,15 @@
       "position": "Accountant",
       "role": "employee",
       "id": "BXEatSXgPqo"
+    },
+    {
+      "employeeId": "EMP09",
+      "name": "Satkar",
+      "password": "employee",
+      "department": "IT",
+      "position": "Manager",
+      "role": "employee",
+      "id": "QJAFvPWtBig"
     }
   ],
   "attendance": [
@@ -179,6 +188,28 @@
       "note": "leave request test",
       "status": "Leave",
       "id": "3yaQIqAlOxI"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "date": "2026-07-27",
+      "inTime": "10:00",
+      "outTime": "16:00",
+      "note": "",
+      "status": "Leave",
+      "id": "HcTYnC1CE6g"
+    },
+    {
+      "employeeId": "EMP02",
+      "userId": "o4TsZLXPASM",
+      "name": "Prashant Sunar",
+      "date": "2026-07-27",
+      "inTime": null,
+      "outTime": null,
+      "note": "",
+      "status": "Absent",
+      "id": "eFQhvnjZc6A"
     }
   ],
   "permissions": [
@@ -244,7 +275,17 @@
       "reason": "leave request test",
       "status": "Approved",
       "id": "5vY9jyikb1Y"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "date": "2026-07-27",
+      "reason": "",
+      "status": "Approved",
+      "id": "uPv00y6zepo"
     }
   ],
+  "holiday": [],
   "$schema": "./node_modules/json-server/schema.json"
 }

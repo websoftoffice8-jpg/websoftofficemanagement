@@ -8,10 +8,10 @@ const AuthLayout = ({ children }) => {
           <img
             src="/websoft.png"  
             alt="Logo"
-            className="w-50 h-15   mx-auto  mb-5"
+            className="w-50 h-15   mx-auto  mb-5" 
           />
 
-          <h1 className="text-3xl font-bold text-slate-800">
+          <h1 className="tex t-3xl font-bold text-slate-800">
             Attendance System
           </h1>
 

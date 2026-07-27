@@ -1,13 +1,24 @@
 export default function EmployeePostModal({
-  date, setDate, inTime, setInTime, outTime, setOutTime,
-  note, setNote, handleAddEntry, handleMarkHoliday, handleMarkAbsent, handleMarkLeave
+  date,
+  setDate,
+  inTime,
+  setInTime,
+  outTime,
+  setOutTime,
+  note,
+  setNote,
+  handleAddEntry,
+  handleMarkLeave,
 }) {
   const today = new Date().toISOString().split("T")[0];
+
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-6 mb-8">
       <div className="grid grid-cols-1 sm:grid-cols-4 gap-5">
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1">Date</label>
+          <label className="block text-xs font-medium text-slate-500 mb-1">
+            Date
+          </label>
           <input
             type="date"
             value={date}
@@ -17,8 +28,11 @@ export default function EmployeePostModal({
             className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-green-600"
           />
         </div>
+
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1">In Time</label>
+          <label className="block text-xs font-medium text-slate-500 mb-1">
+            In Time
+          </label>
           <input
             type="time"
             value={inTime}
@@ -26,8 +40,11 @@ export default function EmployeePostModal({
             className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-green-600"
           />
         </div>
+
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1">Out Time</label>
+          <label className="block text-xs font-medium text-slate-500 mb-1">
+            Out Time
+          </label>
           <input
             type="time"
             value={outTime}
@@ -35,8 +52,11 @@ export default function EmployeePostModal({
             className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-green-600"
           />
         </div>
+
         <div>
-          <label className="block text-xs font-medium text-slate-500 mb-1 invisible">Save</label>
+          <label className="block text-xs font-medium text-slate-500 mb-1 invisible">
+            Save
+          </label>
           <button
             onClick={handleAddEntry}
             disabled={!date || !inTime}
@@ -47,25 +67,11 @@ export default function EmployeePostModal({
         </div>
       </div>
 
-      <div className="flex gap-3 mt-4">
-        <button
-          onClick={handleMarkAbsent}
-          disabled={!date}
-          className="flex-1 px-4 py-2.5 rounded-lg bg-amber-600 text-white text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:bg-amber-700"
-        >
-          Mark Absent
-        </button>
-        <button
-          onClick={handleMarkHoliday}
-          disabled={!date}
-          className="flex-1 px-4 py-2.5 rounded-lg bg-blue-600 text-white text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:bg-blue-700"
-        >
-          Mark Holiday
-        </button>
+      <div className="mt-4">
         <button
           onClick={handleMarkLeave}
           disabled={!date}
-          className="flex-1 px-4 py-2.5 rounded-lg bg-purple-600 text-white text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:bg-purple-700"
+          className="w-full sm:w-auto px-6 py-2.5 rounded-lg bg-purple-600 text-white text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:bg-purple-700"
         >
           Request Leave
         </button>
@@ -79,7 +85,7 @@ export default function EmployeePostModal({
           value={note}
           onChange={(e) => setNote(e.target.value)}
           rows={3}
-          placeholder="e.g. Finished the landing page redesign, fixed login bug"
+          placeholder="e.g. Finished the landing page redesign, fixed login bug, or reason for leave"
           className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-green-600 resize-none"
         />
       </div>

@@ -59,27 +59,29 @@ export default function Attendance() {
     if (!date || !inTime) return;
 
     try {
-      const user = JSON.parse(localStorage.getItem("user"));
+      const user = getUser();
       const existing = logs.find((log) => log.date === date);
 
+      const attendance = {
+        employeeId: user.employeeId,
+        userId: user.id,
+        name: user.name,
+        date,
+        inTime,
+        outTime: outTime || null,
+        note,
+      };
+
       if (existing) {
-        await api.patch(`${ENDPOINTS.ATTENDANCE}/${existing.id}`, {
-          inTime,
-          outTime: outTime || null,
-          note,
-          status: outTime ? "Present" : "In Progress",
-        });
+        await api.patch(
+          `${ENDPOINTS.ATTENDANCE}/${existing.id}`,
+          attendance
+        );
       } else {
-        await api.post(ENDPOINTS.ATTENDANCE, {
-          employeeId: user.employeeId,
-          userId: user.id,
-          name: user.name,              // <-- Add this
-          date,
-          inTime,
-          outTime: outTime || null,
-          note,
-          status: outTime ? "Present" : "In Progress",
-        });
+        await api.post(
+          ENDPOINTS.ATTENDANCE,
+          attendance
+        );
       }
 
       await fetchAttendance();
@@ -91,6 +93,7 @@ export default function Attendance() {
       console.error(error);
     }
   };
+
   const startEditing = (log) => {
     setEditingDate(log.date);
     setEditText(log.note || "");
@@ -239,8 +242,6 @@ export default function Attendance() {
         note={note}
         setNote={setNote}
         handleAddEntry={handleAddEntry}
-        handleMarkHoliday={handleMarkHoliday}
-        handleMarkAbsent={handleMarkAbsent}
         handleMarkLeave={handleMarkLeave}
       />
 

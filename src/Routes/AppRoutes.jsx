@@ -10,6 +10,7 @@ import Employee from "../Pages/Admin/Employees/Employee"
 import Reports from "../Pages/Admin/Report/Reports";
 import Settings from "../Pages/Admin/Settings/Settings";
 import Permission from "../Pages/Admin/Permissions/Permission";
+import Holiday from "../Pages/Admin/Holiday/Holiday";
 
 
 
@@ -42,6 +43,7 @@ const AppRoutes = () => {
                 <Route path="/admin/reports" element={<Reports />} />
                 <Route path="/admin/settings" element={<Settings />} />
                 <Route path="/admin/permissions" element={<Permission />} />
+                <Route path="/admin/holiday" element={<Holiday />} />
             </Route>
 
             {/* Employee */}
