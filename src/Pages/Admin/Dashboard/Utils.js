@@ -1,55 +1,112 @@
 // src/components/dashboard/utils.js
 
 // Dashboard Statistics
-export function getDashboardStats(users = [], attendance = [], permissions = []) {
+export function getDashboardStats(
+  users = [],
+  attendance = [],
+  permissions = [],
+  holidays = [],
+) {
   const today = new Date().toISOString().split("T")[0];
 
-  // Count only employee accounts
-  const employeeUsers = users.filter(
-    (user) => user.role === "employee"
-  );
+  const employeeUsers = users.filter((user) => user.role === "employee");
 
-  // Filter today's attendance
-  const todayAttendance = attendance.filter(
-    (record) => record.date === today
-  );
+  let present = 0;
+  let absent = 0;
+  let holiday = 0;
+  let leave = 0;
 
+  const isHoliday = holidays.some((h) => h.date === today);
 
-  const todayLeave = permissions.filter(
-    (permission) =>
-      permission.date === today &&
-      permission.status === "Approved"
-  );
+  employeeUsers.forEach((employee) => {
+    // Company holiday
+    if (isHoliday) {
+      holiday++;
+      return;
+    }
+
+    // Approved leave
+    const approvedLeave = permissions.find(
+      (p) =>
+        p.employeeId === employee.employeeId &&
+        p.date === today &&
+        p.status === "Approved",
+    );
+
+    if (approvedLeave) {
+      leave++;
+      return;
+    }
+
+    // Attendance exists
+    const attendanceLog = attendance.find(
+      (a) => a.employeeId === employee.employeeId && a.date === today,
+    );
+
+    if (attendanceLog) {
+      present++;
+    } else {
+      absent++;
+    }
+  });
+
   return {
     totalEmployees: employeeUsers.length,
-
-    present: todayAttendance.filter(
-      (record) => record.status === "Present"
-    ).length,
-
-    absent: todayAttendance.filter(
-      (record) => record.status === "Absent"
-    ).length,
-
-    holiday: todayAttendance.filter(
-      (record) => record.status === "Holiday"
-    ).length,
-    
-    leave: todayLeave.length,
+    present,
+    absent,
+    holiday,
+    leave,
   };
-
 }
 
 // Recent Attendance
-export function getRecentAttendance(attendance = []) {
-  return [...attendance]
+export function getRecentAttendance(
+  attendance = [],
+  permissions = [],
+  holidays = [],
+) {
+  const logs = [];
+
+  attendance.forEach((record) => {
+    logs.push({
+      ...record,
+      status: "Present",
+    });
+  });
+
+  permissions
+    .filter((p) => p.status === "Approved")
+    .forEach((permission) => {
+      logs.push({
+        id: `leave-${permission.id}`,
+        employeeId: permission.employeeId,
+        name: permission.name,
+        date: permission.date,
+        inTime: "",
+        outTime: "",
+        note: permission.reason || "",
+        status: "Leave",
+      });
+    });
+
+  holidays.forEach((holiday) => {
+    logs.push({
+      id: `holiday-${holiday.id}`,
+      name: "All Employees",
+      date: holiday.date,
+      inTime: "",
+      outTime: "",
+      note: holiday.note || "",
+      status: "Holiday",
+    });
+  });
+
+  return logs
     .sort((a, b) => {
-      // Sort by newest date first
       if (a.date !== b.date) {
         return b.date.localeCompare(a.date);
       }
 
-      // If same date, latest inTime first
       return (b.inTime || "").localeCompare(a.inTime || "");
     })
     .slice(0, 5);

@@ -6,7 +6,10 @@ import ReportSort from "./SortReport";
 import ReportTable, { SORT_FIELDS } from "./ReportTable";
 
 export default function Reports() {
-  const [rawLogs, setRawLogs] = useState([]);
+  const [employees, setEmployees] = useState([]);
+  const [attendance, setAttendance] = useState([]);
+  const [permissions, setPermissions] = useState([]);
+  const [holidays, setHolidays] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -16,16 +19,37 @@ export default function Reports() {
   const [sortField, setSortField] = useState(SORT_FIELDS.RATE);
   const [sortDir, setSortDir] = useState("desc");
 
+
   useEffect(() => {
-    fetchLogs();
+    fetchData();
   }, []);
 
-  const fetchLogs = async () => {
+  const fetchData = async () => {
     try {
       setLoading(true);
       setError(null);
-      const res = await api.get(ENDPOINTS.ATTENDANCE);
-      setRawLogs(res.data || []);
+
+      const [
+        employeesRes,
+        attendanceRes,
+        permissionsRes,
+        holidaysRes,
+      ] = await Promise.all([
+        api.get(ENDPOINTS.EMPLOYEES),
+        api.get(ENDPOINTS.ATTENDANCE),
+        api.get(ENDPOINTS.PERMISSIONS),
+        api.get(ENDPOINTS.HOLIDAYS),
+      ]);
+
+      setEmployees(
+        (employeesRes.data || []).filter(
+          (user) => user.role === "employee"
+        )
+      );
+
+      setAttendance(attendanceRes.data || []);
+      setPermissions(permissionsRes.data || []);
+      setHolidays(holidaysRes.data || []);
     } catch (err) {
       console.error(err);
       setError("Couldn't load attendance records.");
@@ -34,83 +58,121 @@ export default function Reports() {
     }
   };
 
-  // filter by date range
-  const dateFilteredLogs = useMemo(() => {
-    return rawLogs.filter((log) => {
-      if (fromDate && log.date < fromDate) return false;
-      if (toDate && log.date > toDate) return false;
-      return true;
-    });
-  }, [rawLogs, fromDate, toDate]);
 
-  // aggregate per employee
+
+
+  const getDatesInRange = (start, end) => {
+    const dates = [];
+
+    const current = new Date(start);
+    const last = new Date(end);
+
+    while (current <= last) {
+      dates.push(current.toISOString().split("T")[0]);
+      current.setDate(current.getDate() + 1);
+    }
+
+    return dates;
+  };
   const employeeStats = useMemo(() => {
-    const byEmployee = {};
+    if (employees.length === 0) return [];
 
-    dateFilteredLogs.forEach((log) => {
-      const key = log.employeeId ?? "unknown";
-      if (!byEmployee[key]) {
-        byEmployee[key] = {
-          employeeId: key,
-          name: log.name || `Employee ${key}`,
-          present: 0,
-          absent: 0,
-          holiday: 0,
-          leave: 0,
-          totalMinutes: 0,
-          workedDays: 0,
-          lastDate: null,
-          logs: [],
-        };
-      }
+    const today = new Date().toISOString().split("T")[0];
 
-      const entry = byEmployee[key];
-      entry.logs.push(log);
-      const isPresent = !!log.outTime;
+    const start =
+      fromDate ||
+      attendance.reduce(
+        (earliest, log) =>
+          !earliest || log.date < earliest ? log.date : earliest,
+        today
+      );
 
-      switch (log.status) {
-        case "Holiday":
-          entry.holiday++;
-          break;
+    const end = toDate || today;
 
-        case "Leave":
-          entry.leave++;
-          break;
+    const dates = getDatesInRange(start, end);
 
-        case "Present":
-          entry.present++;
+    return employees.map((employee) => {
+      let present = 0;
+      let absent = 0;
+      let holiday = 0;
+      let leave = 0;
 
-          const [inH, inM] = (log.inTime || "0:0").split(":").map(Number);
-          const [outH, outM] = (log.outTime || "0:0").split(":").map(Number);
+      let totalMinutes = 0;
+      let workedDays = 0;
 
-          let minutes = outH * 60 + outM - (inH * 60 + inM);
-          if (minutes < 0) minutes += 24 * 60;
+      dates.forEach((date) => {
+        const holidayExists = holidays.some((h) => h.date === date);
 
-          entry.totalMinutes += minutes;
-          entry.workedDays++;
-          break;
+        if (holidayExists) {
+          holiday++;
+          return;
+        }
 
-        default:
-          entry.absent++;
-      }
+        const approvedLeave = permissions.find(
+          (p) =>
+            p.employeeId === employee.employeeId &&
+            p.date === date &&
+            p.status === "Approved"
+        );
 
-      if (!entry.lastDate || log.date > entry.lastDate) {
-        entry.lastDate = log.date;
-      }
-    });
+        if (approvedLeave) {
+          leave++;
+          return;
+        }
 
-    return Object.values(byEmployee).map((e) => {
-      const total = e.present + e.absent + e.holiday + e.leave
-      const rate = total > 0 ? (e.present / total) * 100 : 0;
-      const avgMinutes = e.workedDays > 0 ? e.totalMinutes / e.workedDays : 0;
+        const attendanceLog = attendance.find(
+          (a) =>
+            a.employeeId === employee.employeeId &&
+            a.date === date
+        );
+
+        if (attendanceLog) {
+          present++;
+
+          if (attendanceLog.inTime && attendanceLog.outTime) {
+            const [inH, inM] = attendanceLog.inTime.split(":").map(Number);
+            const [outH, outM] = attendanceLog.outTime.split(":").map(Number);
+
+            let minutes =
+              outH * 60 +
+              outM -
+              (inH * 60 + inM);
+
+            if (minutes < 0) minutes += 24 * 60;
+
+            totalMinutes += minutes;
+            workedDays++;
+          }
+
+          return;
+        }
+
+        absent++;
+      });
+
+      const total = present + absent + holiday + leave;
+
       return {
-        ...e,
+        employeeId: employee.employeeId,
+        name: employee.name,
+        present,
+        absent,
+        holiday,
+        leave,
         total,
-        rate,
-        avgHours: avgMinutes / 60,
+        totalMinutes,
+        avgHours: workedDays > 0 ? totalMinutes / workedDays / 60 : 0,
+        rate: total > 0 ? (present / total) * 100 : 0,
       };
     });
-  }, [dateFilteredLogs]);
+  }, [
+    employees,
+    attendance,
+    permissions,
+    holidays,
+    fromDate,
+    toDate,
+  ]);
 
   const filteredAndSorted = useMemo(() => {
     let result = employeeStats.filter((e) =>
@@ -119,6 +181,7 @@ export default function Reports() {
 
     result.sort((a, b) => {
       let diff = 0;
+
       switch (sortField) {
         case SORT_FIELDS.NAME:
           diff = a.name.localeCompare(b.name);
@@ -142,6 +205,7 @@ export default function Reports() {
         default:
           diff = a.rate - b.rate;
       }
+
       return sortDir === "asc" ? diff : -diff;
     });
 
@@ -157,7 +221,6 @@ export default function Reports() {
     }
   };
 
-  // org-wide summary
   const summary = useMemo(() => {
     const totalEmployees = employeeStats.length;
 
@@ -178,9 +241,9 @@ export default function Reports() {
         : 0;
 
     const avgHours =
-      employeeStats.length > 0
+      totalEmployees > 0
         ? employeeStats.reduce((sum, e) => sum + e.avgHours, 0) /
-        employeeStats.length
+        totalEmployees
         : 0;
 
     return {
@@ -201,37 +264,41 @@ export default function Reports() {
   };
 
   return (
-    <div className="max-w-6xl mx-auto p-8">
-      <h1 className="text-3xl font-bold text-slate-800 mb-1">Attendance Reports</h1>
-      <p className="text-slate-500 text-sm mb-8">
-        Overview of employee attendance, sortable and filterable by date range.
-      </p>
+  <div className="max-w-6xl mx-auto p-8">
+    <h1 className="text-3xl font-bold text-slate-800 mb-1">
+      Attendance Reports
+    </h1>
 
-      {error && (
-        <div className="mb-6 px-4 py-3 rounded-lg bg-red-50 text-red-700 text-sm border border-red-200">
-          {error}
-        </div>
-      )}
+    <p className="text-slate-500 text-sm mb-8">
+      Overview of employee attendance, sortable and filterable by date range.
+    </p>
 
-      <ReportHeader summary={summary} />
+    {error && (
+      <div className="mb-6 px-4 py-3 rounded-lg bg-red-50 text-red-700 text-sm border border-red-200">
+        {error}
+      </div>
+    )}
 
-      <ReportSort
-        search={search}
-        setSearch={setSearch}
-        fromDate={fromDate}
-        setFromDate={setFromDate}
-        toDate={toDate}
-        setToDate={setToDate}
-        clearFilters={clearFilters}
-      />
+    <ReportHeader summary={summary} />
 
-      <ReportTable
-        employees={filteredAndSorted}
-        loading={loading}
-        sortField={sortField}
-        sortDir={sortDir}
-        handleSort={handleSort}
-      />
-    </div>
-  );
+    <ReportSort
+      search={search}
+      setSearch={setSearch}
+      fromDate={fromDate}
+      setFromDate={setFromDate}
+      toDate={toDate}
+      setToDate={setToDate}
+      clearFilters={clearFilters}
+    />
+
+    <ReportTable
+      employees={filteredAndSorted}
+      loading={loading}
+      sortField={sortField}
+      sortDir={sortDir}
+      handleSort={handleSort}
+    />
+  </div>
+  
+);
 }

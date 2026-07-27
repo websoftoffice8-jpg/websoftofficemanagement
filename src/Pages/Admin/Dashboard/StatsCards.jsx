@@ -2,10 +2,18 @@ import { Users, UserCheck, UserX, CalendarDays } from "lucide-react";
 import StatCard from "./StatCard";
 import { getDashboardStats } from "./utils";
 
-export default function StatsCards({ employees, attendance, permissions }) {
-  const stats = getDashboardStats(employees, attendance, permissions);
-
-  
+export default function StatsCards({
+  employees,
+  attendance,
+  permissions,
+  holidays,
+}) {
+  const stats = getDashboardStats(
+    employees,
+    attendance,
+    permissions,
+    holidays
+  );
 
   const cards = [
     {

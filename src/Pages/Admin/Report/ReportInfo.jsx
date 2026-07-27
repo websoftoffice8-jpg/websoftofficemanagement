@@ -59,12 +59,96 @@ export default function ReportInfo({ employee }) {
 
   const openModal = async () => {
     setIsOpen(true);
+
     try {
       setLoadingLogs(true);
-      const res = await api.get(
-        `${ENDPOINTS.ATTENDANCE}?employeeId=${employee.employeeId}`
-      );
-      setLogs(res.data || []);
+
+      const [attendanceRes, permissionsRes, holidaysRes] = await Promise.all([
+        api.get(`${ENDPOINTS.ATTENDANCE}?employeeId=${employee.employeeId}`),
+        api.get(`${ENDPOINTS.PERMISSIONS}?employeeId=${employee.employeeId}`),
+        api.get(ENDPOINTS.HOLIDAYS),
+      ]);
+
+      const attendance = attendanceRes.data || [];
+      const permissions = permissionsRes.data || [];
+      const holidays = holidaysRes.data || [];
+
+      // Get all dates from attendance, permissions and holidays
+      const allDates = new Set();
+
+      const start = new Date();
+      start.setDate(1);
+
+      const end = new Date();
+
+      while (start <= end) {
+        const date = start.toISOString().split("T")[0];
+        allDates.add(date);
+
+        start.setDate(start.getDate() + 1);
+      }
+
+      attendance.forEach((a) => allDates.add(a.date));
+      permissions.forEach((p) => allDates.add(p.date));
+      holidays.forEach((h) => allDates.add(h.date));
+
+      const mergedLogs = [...allDates]
+        .sort((a, b) => b.localeCompare(a))
+        .map((date) => {
+          // Holiday has highest priority
+          const holiday = holidays.find((h) => h.date === date);
+
+          if (holiday) {
+            return {
+              id: `holiday-${date}`,
+              date,
+              inTime: "",
+              outTime: "",
+              note: holiday.note || "",
+              status: "Holiday",
+            };
+          }
+
+          // Approved leave
+          const leave = permissions.find(
+            (p) =>
+              p.date === date &&
+              p.status === "Approved"
+          );
+
+          if (leave) {
+            return {
+              id: leave.id,
+              date,
+              inTime: "",
+              outTime: "",
+              note: leave.reason || leave.note || "",
+              status: "Leave",
+            };
+          }
+
+          // Attendance
+          const log = attendance.find((a) => a.date === date);
+
+          if (log) {
+            return {
+              ...log,
+              status: "Present",
+            };
+          }
+
+          // Absent
+          return {
+            id: `absent-${date}`,
+            date,
+            inTime: "",
+            outTime: "",
+            note: "",
+            status: "Absent",
+          };
+        });
+
+      setLogs(mergedLogs);
     } catch (err) {
       console.error(err);
     } finally {
@@ -72,6 +156,19 @@ export default function ReportInfo({ employee }) {
     }
   };
 
+
+  const getStatusClass = (status) => {
+    switch (status) {
+      case "Present":
+        return "bg-green-100 text-green-700";
+      case "Holiday":
+        return "bg-blue-100 text-blue-700";
+      case "Leave":
+        return "bg-purple-100 text-purple-700";
+      default:
+        return "bg-amber-100 text-amber-700";
+    }
+  };
   const closeModal = () => setIsOpen(false);
 
   return (
@@ -233,16 +330,9 @@ export default function ReportInfo({ employee }) {
                         </td>
                         <td className="px-5 py-4">
                           <span
-                            className={`px-2 py-1 rounded-full text-xs font-medium ${getStatus(log) === "Present"
-                                ? "bg-green-100 text-green-700"
-                                : getStatus(log) === "Holiday"
-                                  ? "bg-blue-100 text-blue-700"
-                                  : getStatus(log) === "Leave"
-                                    ? "bg-purple-100 text-purple-700"
-                                    : "bg-amber-100 text-amber-700"
-                              }`}
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusClass(log.status)}`}
                           >
-                            {getStatus(log)}
+                            {log.status}
                           </span>
                         </td>
                         <td className="px-5 py-4 text-slate-600 max-w-sm">

@@ -1,11 +1,23 @@
-import React from 'react'
+const DATE_FORMAT = {
+  year: "numeric",
+  month: "long",
+  day: "numeric",
+};
 
-const HolidayUtils = () => {
-  return (
-    <div>
-      this is holiday utils
-    </div>
-  )
-}
+export const formatHolidayDate = (date) => {
+  return new Date(date).toLocaleDateString("en-US", DATE_FORMAT);
+};
 
-export default HolidayUtils
+export const sortHolidaysByDate = (holidays) => {
+  return [...holidays].sort((a, b) =>
+    a.date.localeCompare(b.date)
+  );
+};
+
+export const holidayExists = (holidays, date, editingId = null) => {
+  return holidays.some(
+    (holiday) =>
+      holiday.date === date &&
+      holiday.id !== editingId
+  );
+};

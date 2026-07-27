@@ -13,28 +13,31 @@ export default function Dashboard() {
   const [attendance, setAttendance] = useState([]);
   const [loading, setLoading] = useState(true);
   const [permissions, setPermissions] = useState([]);
+  const [holidays, setHolidays] = useState([]);
 
   useEffect(() => {
     fetchDashboardData();
   }, []);
 
   async function fetchDashboardData() {
-  try {
-    const [employeeRes, attendanceRes, permissionRes] = await Promise.all([
-      api.get(ENDPOINTS.EMPLOYEES),
-      api.get(ENDPOINTS.ATTENDANCE),
-      api.get(ENDPOINTS.PERMISSIONS),
-    ]);
+    try {
+      const [employeeRes, attendanceRes, permissionRes, holidayRes] = await Promise.all([
+        api.get(ENDPOINTS.EMPLOYEES),
+        api.get(ENDPOINTS.ATTENDANCE),
+        api.get(ENDPOINTS.PERMISSIONS),
+        api.get(ENDPOINTS.HOLIDAYS),
+      ]);
 
-    setEmployees(employeeRes.data);
-    setAttendance(attendanceRes.data);
-    setPermissions(permissionRes.data);
-  } catch (error) {
-    console.error(error);
-  } finally {
-    setLoading(false);
+      setEmployees(employeeRes.data);
+      setAttendance(attendanceRes.data);
+      setPermissions(permissionRes.data);
+      setHolidays(holidayRes.data);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   }
-}
 
   if (loading) return <p>Loading...</p>;
 
@@ -44,20 +47,25 @@ export default function Dashboard() {
       <StatsCards
         employees={employees}
         attendance={attendance}
-         permissions={permissions}
+        permissions={permissions}
+        holidays={holidays}
       />
 
-      
+
       {/* 40 / 60 split: pie chart takes 2fr, trend chart takes 3fr,
           so trend chart reads as the larger, primary panel. */}
       <div className="grid grid-cols-1 xl:grid-cols-[2fr_4fr] gap-6">
         <DepartmentPieChart />
         <WeeklyTrendChart />
       </div>
-        <div className="mt-10">
-           <RecentAttendance attendance={attendance} />
-        </div>
-     
+      <div className="mt-10">
+      <RecentAttendance
+  attendance={attendance}
+  permissions={permissions}
+  holidays={holidays}
+/>
+      </div>
+
 
 
     </>

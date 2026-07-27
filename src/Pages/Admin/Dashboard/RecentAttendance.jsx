@@ -1,7 +1,13 @@
-import {getRecentAttendance} from './Utils'
+import { getRecentAttendance } from './Utils'
 
-export default function RecentAttendance({ attendance }) {
-  const recentLogs = getRecentAttendance(attendance);
+export default function RecentAttendance({ attendance,
+  permissions,
+  holidays, }) {
+  const recentLogs = getRecentAttendance(
+    attendance,
+    permissions,
+    holidays
+  );
 
   return (
     <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6">
@@ -37,13 +43,14 @@ export default function RecentAttendance({ attendance }) {
 
                 <td>
                   <span
-                    className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      log.status === "Present"
+                    className={`px-2 py-1 rounded-full text-xs font-medium ${log.status === "Present"
                         ? "bg-green-100 text-green-700"
                         : log.status === "Absent"
-                        ? "bg-red-100 text-red-700"
-                        : "bg-yellow-100 text-yellow-700"
-                    }`}
+                          ? "bg-red-100 text-red-700"
+                          : log.status === "Leave"
+                            ? "bg-purple-100 text-purple-700"
+                            : "bg-blue-100 text-blue-700"
+                      }`}
                   >
                     {log.status}
                   </span>
