@@ -34,10 +34,20 @@ const getInitials = (name = '') =>
         .map((part) => part[0]?.toUpperCase() ?? '')
         .join('')
 
-const ADMIN_NAME = 'Admin'
+// Reads the logged-in admin's name from localStorage (falls back to 'Admin').
+// Adjust the key/shape here to match however your auth flow actually stores it.
+const getLoggedInName = () => {
+    try {
+        const user = JSON.parse(localStorage.getItem('user'))
+        return user?.name || 'Admin'
+    } catch {
+        return 'Admin'
+    }
+}
 
 const DashboardHeader = () => {
     const [now, setNow] = useState(new Date())
+    const adminName = getLoggedInName()
 
     useEffect(() => {
         const interval = setInterval(() => setNow(new Date()), 1000)
@@ -61,7 +71,7 @@ const DashboardHeader = () => {
                         </span>
                     </div>
                     <h1 className="text-2xl font-bold tracking-tight text-slate-900">
-                        {getGreeting(now)}, {ADMIN_NAME}
+                        {getGreeting(now)}, {adminName}
                     </h1>
                     <p className="text-sm text-slate-500">
                         Here's an overview of today's attendance.
@@ -84,7 +94,7 @@ const DashboardHeader = () => {
 
                     {/* <div className="relative shrink-0">
                         <div className="flex h-11 w-11 items-center justify-center rounded-full bg-green-600 text-sm font-semibold text-white ring-2 ring-white shadow-sm">
-                            {getInitials(ADMIN_NAME)}
+                            {getInitials(adminName)}
                         </div>
                         <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-green-400 ring-2 ring-white" />
                     </div> */}

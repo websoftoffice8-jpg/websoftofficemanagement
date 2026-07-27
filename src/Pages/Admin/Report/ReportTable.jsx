@@ -49,6 +49,8 @@ function SortHeader({
   );
 }
 
+const COLUMN_COUNT = 8; // Employee, Present, Absent, Holiday, Leave, Rate, Hours, Last Logged
+
 export default function ReportTable({
   employees,
   loading,
@@ -138,7 +140,7 @@ export default function ReportTable({
         <tbody>
           {loading && (
             <tr>
-              <td colSpan={8} className="py-10 text-center text-slate-400">
+              <td colSpan={COLUMN_COUNT} className="py-10 text-center text-slate-400">
                 Loading report...
               </td>
             </tr>
@@ -146,7 +148,7 @@ export default function ReportTable({
 
           {!loading && employees.length === 0 && (
             <tr>
-              <td colSpan={6} className="py-10 text-center text-slate-400">
+              <td colSpan={COLUMN_COUNT} className="py-10 text-center text-slate-400">
                 No matching records found
               </td>
             </tr>

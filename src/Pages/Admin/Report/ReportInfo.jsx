@@ -83,12 +83,12 @@ export default function ReportInfo({ employee }) {
         <td className="px-5 py-4 text-slate-800 font-medium whitespace-nowrap">
           {employee.name}
         </td>
-        <td className="px-5 py-4 text-slate-700">{employee.present}</td>
-        <td className="px-5 py-4 text-slate-700">{employee.absent}</td>
-        <td className="px-5 py-4 text-slate-700">{employee.holiday}</td>
-        <td className="px-5 py-4 text-slate-700">{employee.leave}</td>
+        <td className="px-5 py-4 text-slate-700 text-center">{employee.present}</td>
+        <td className="px-5 py-4 text-slate-700 text-center">{employee.absent}</td>
+        <td className="px-5 py-4 text-slate-700 text-center">{employee.holiday}</td>
+        <td className="px-5 py-4 text-slate-700 text-center">{employee.leave}</td>
         <td className="px-5 py-4">
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-center gap-2">
             <div className="w-24 h-1.5 rounded-full bg-slate-100 overflow-hidden">
               <div
                 className="h-full bg-green-600 rounded-full"
@@ -100,7 +100,7 @@ export default function ReportInfo({ employee }) {
             </span>
           </div>
         </td>
-        <td className="px-5 py-4 text-slate-700 whitespace-nowrap">
+        <td className="px-5 py-4 text-slate-700 text-center whitespace-nowrap">
           {employee.avgHours > 0 ? `${employee.avgHours.toFixed(1)}h` : "—"}
         </td>
         <td className="px-5 py-4 text-slate-500 whitespace-nowrap">
