@@ -1,4 +1,4 @@
-import { getRecentAttendance } from "./utils";
+import {getRecentAttendance} from './Utils'
 
 export default function RecentAttendance({ attendance }) {
   const recentLogs = getRecentAttendance(attendance);

@@ -8,6 +8,7 @@ import {
     Tooltip,
     ResponsiveContainer,
 } from 'recharts'
+import { ChevronLeft, ChevronRight } from 'lucide-react'
 import api from '../../../API/Axios'
 import ENDPOINTS from '../../../API/endpoints'
 
@@ -17,11 +18,28 @@ const STATUS_CONFIG = [
     { key: 'Leave', label: 'Leave', color: '#8b5cf6' },
 ]
 
-const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+
+// Midnight of the Sunday that starts the current week (local time)
+const getStartOfCurrentWeek = () => {
+    const now = new Date()
+    const start = new Date(now.getFullYear(), now.getMonth(), now.getDate())
+    start.setDate(start.getDate() - start.getDay()) // getDay(): 0 = Sunday
+    return start
+}
+
+const formatRange = (start, end) => {
+    const opts = { month: 'short', day: 'numeric' }
+    const startLabel = start.toLocaleDateString(undefined, opts)
+    const endLabel = end.toLocaleDateString(undefined, opts)
+    return `${startLabel} – ${endLabel}`
+}
 
 const WeeklyTrendChart = () => {
     const [records, setRecords] = useState([])
     const [status, setStatus] = useState('loading')
+    // 0 = current week, 1 = one week ago, 2 = two weeks ago, etc.
+    const [weekOffset, setWeekOffset] = useState(0)
 
     useEffect(() => {
         let cancelled = false
@@ -43,6 +61,14 @@ const WeeklyTrendChart = () => {
         }
     }, [])
 
+    const { weekStart, weekEnd } = useMemo(() => {
+        const start = getStartOfCurrentWeek()
+        start.setDate(start.getDate() - weekOffset * 7)
+        const end = new Date(start)
+        end.setDate(end.getDate() + 7) // exclusive upper bound (next Sunday)
+        return { weekStart: start, weekEnd: end }
+    }, [weekOffset])
+
     const data = useMemo(() => {
         const buckets = WEEKDAYS.map((day) => ({
             day,
@@ -52,16 +78,27 @@ const WeeklyTrendChart = () => {
         }))
 
         records.forEach((record) => {
-            const jsDay = new Date(record.date).getDay()
-            const index = jsDay === 0 ? 6 : jsDay - 1
-            if (index < 0 || index > 5) return
+            const recordDate = new Date(record.date)
+            if (recordDate < weekStart || recordDate >= weekEnd) return // outside selected week
+
+            const index = recordDate.getDay() // 0 = Sun ... 6 = Sat, matches WEEKDAYS directly
             if (buckets[index][record.status] !== undefined) {
                 buckets[index][record.status] += 1
             }
         })
 
         return buckets
-    }, [records])
+    }, [records, weekStart, weekEnd])
+
+    const rangeLabel = useMemo(() => {
+        const lastDayOfWeek = new Date(weekEnd)
+        lastDayOfWeek.setDate(lastDayOfWeek.getDate() - 1)
+        return formatRange(weekStart, lastDayOfWeek)
+    }, [weekStart, weekEnd])
+
+    const goToPreviousWeek = () => setWeekOffset((prev) => prev + 1)
+    const goToNextWeek = () => setWeekOffset((prev) => Math.max(0, prev - 1))
+    const isCurrentWeek = weekOffset === 0
 
     if (status === 'loading') {
         return (
@@ -93,9 +130,34 @@ const WeeklyTrendChart = () => {
             {/* subtle top sheen to sell the glass effect */}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-transparent" />
 
-            <span className="relative text-xs font-semibold uppercase tracking-wider text-slate-500">
-                Weekly Attendance Trend
-            </span>
+            <div className="relative flex items-center justify-between">
+                <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                    Weekly Attendance Trend
+                </span>
+
+                <div className="flex items-center gap-1">
+                    <button
+                        type="button"
+                        onClick={goToPreviousWeek}
+                        aria-label="Previous week"
+                        className="flex h-6 w-6 items-center justify-center rounded-full text-slate-500 transition hover:bg-white/40 hover:text-slate-700"
+                    >
+                        <ChevronLeft size={14} />
+                    </button>
+                    <span className="min-w-[104px] text-center text-xs font-medium text-slate-600">
+                        {isCurrentWeek ? 'This Week' : rangeLabel}
+                    </span>
+                    <button
+                        type="button"
+                        onClick={goToNextWeek}
+                        disabled={isCurrentWeek}
+                        aria-label="Next week"
+                        className="flex h-6 w-6 items-center justify-center rounded-full text-slate-500 transition hover:bg-white/40 hover:text-slate-700 disabled:cursor-not-allowed disabled:opacity-30 disabled:hover:bg-transparent"
+                    >
+                        <ChevronRight size={14} />
+                    </button>
+                </div>
+            </div>
 
             {/* flex-1 fills leftover height after header + legend */}
             <div className="relative mt-4 min-h-0 flex-1 w-full">
