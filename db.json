@@ -80,17 +80,6 @@
   ],
   "attendance": [
     {
-      "employeeId": "EMP01",
-      "userId": "wpZVldvOPJ4",
-      "name": "Rachit tiwari",
-      "date": "2026-07-27",
-      "inTime": "10:30",
-      "outTime": "16:00",
-      "note": "",
-      "id": "82jW0D9DEGg",
-      "status": "Leave"
-    },
-    {
       "employeeId": "EMP02",
       "userId": "o4TsZLXPASM",
       "name": "Prashant Sunar",
