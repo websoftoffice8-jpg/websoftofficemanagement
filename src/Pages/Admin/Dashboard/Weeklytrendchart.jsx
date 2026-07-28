@@ -12,6 +12,10 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import api from '../../../API/Axios'
 import ENDPOINTS from '../../../API/endpoints'
 
+// Note: Holiday is still tracked internally (see resolveDailyStatus /
+// the Holiday bucket below) so holiday days correctly skip Present/
+// Absent/Leave counting — it's just not rendered as its own bar/legend
+// entry here.
 const STATUS_CONFIG = [
     { key: 'Present', label: 'Present', color: '#16a34a' },
     { key: 'Absent', label: 'Absent', color: '#ef4444' },
@@ -20,23 +24,24 @@ const STATUS_CONFIG = [
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
-
-const { weekStart, weekEnd } = useMemo(() => {
-    const start = getStartOfCurrentWeek();
-    start.setDate(start.getDate() - weekOffset * 7);
-
-    const end = new Date(start);
-    end.setDate(end.getDate() + 7);
-
-    return { weekStart: start, weekEnd: end };
-}, [weekOffset]);
-
 // Midnight of the Sunday that starts the current week (local time)
 const getStartOfCurrentWeek = () => {
     const now = new Date()
     const start = new Date(now.getFullYear(), now.getMonth(), now.getDate())
     start.setDate(start.getDate() - start.getDay()) // getDay(): 0 = Sunday
     return start
+}
+
+// IMPORTANT: don't use toISOString() here — it converts to UTC first,
+// which shifts the date backwards for any timezone ahead of UTC
+// (e.g. local midnight in Nepal/UTC+5:45 becomes the previous day in UTC).
+// This formats using the LOCAL calendar date, matching how dates are
+// stored in the JSON ("YYYY-MM-DD").
+const toLocalISODate = (date) => {
+    const y = date.getFullYear()
+    const m = String(date.getMonth() + 1).padStart(2, '0')
+    const d = String(date.getDate()).padStart(2, '0')
+    return `${y}-${m}-${d}`
 }
 
 const formatRange = (start, end) => {
@@ -53,10 +58,9 @@ const WeeklyTrendChart = () => {
         permissions: [],
         holidays: [],
     })
-    const [weekOffset, setWeekOffset] = useState(0);
+    const [weekOffset, setWeekOffset] = useState(0)
     const [status, setStatus] = useState('loading')
     // 0 = current week, 1 = one week ago, 2 = two weeks ago, etc.
-
 
     useEffect(() => {
         let cancelled = false
@@ -100,13 +104,58 @@ const WeeklyTrendChart = () => {
         }
     }, [])
 
+    // Shift the base week by weekOffset weeks so Prev/Next actually navigate
     const { weekStart, weekEnd } = useMemo(() => {
         const start = getStartOfCurrentWeek()
+        start.setDate(start.getDate() - weekOffset * 7)
+
         const end = new Date(start)
         end.setDate(end.getDate() + 7)
 
         return { weekStart: start, weekEnd: end }
-    }, [])
+    }, [weekOffset])
+
+    // ------------------------------------------------------------------
+    // Attendance-status resolution — tied directly to your db.json shape:
+    //
+    //   holidays:    [{ date: "YYYY-MM-DD", ... }]
+    //   permissions: [{ employeeId, date: "YYYY-MM-DD", status: "Approved" | "Rejected" | "Pending" }]
+    //   attendance:  [{ employeeId, date: "YYYY-MM-DD", inTime, outTime, ... }]
+    //
+    // Note: some attendance records also carry their own `status` field
+    // (e.g. EMP01 on 2026-07-27 has status: "Leave"). That field is NOT
+    // used to decide Present/Leave — the RULES below are the single
+    // source of truth. A row simply existing in `attendance` for that
+    // employeeId + date means "they checked in", full stop.
+    //
+    // Priority order per employee, per day (first match wins):
+    //   1. Holiday      -> every employee counted as Holiday, no per-employee checks
+    //   2. Present       -> an attendance row exists for this employeeId + date
+    //   3. Leave         -> no attendance row, but a permissions row exists
+    //                       for this employeeId + date with status === "Approved"
+    //   4. Absent        -> none of the above matched
+    // ------------------------------------------------------------------
+
+    const isHolidayDate = (date, holidays) =>
+        holidays.some((h) => h.date === date)
+
+    const hasAttendanceRecord = (employeeId, date, attendance) =>
+        attendance.some((a) => a.employeeId === employeeId && a.date === date)
+
+    const hasApprovedLeave = (employeeId, date, permissions) =>
+        permissions.some(
+            (p) =>
+                p.employeeId === employeeId &&
+                p.date === date &&
+                p.status === "Approved"
+        )
+
+    // Resolves exactly one status per employee per day, in strict priority order.
+    const resolveDailyStatus = (employeeId, date, { attendance, permissions }) => {
+        if (hasAttendanceRecord(employeeId, date, attendance)) return "Present"
+        if (hasApprovedLeave(employeeId, date, permissions)) return "Leave"
+        return "Absent"
+    }
 
     const data = useMemo(() => {
         const buckets = WEEKDAYS.map(day => ({
@@ -114,77 +163,53 @@ const WeeklyTrendChart = () => {
             Present: 0,
             Absent: 0,
             Leave: 0,
-        }));
+            Holiday: 0,
+        }))
 
         const {
             employees,
             attendance,
             permissions,
             holidays,
-        } = records;
+        } = records
 
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
+        const today = new Date()
+        today.setHours(0, 0, 0, 0)
 
         for (
             let d = new Date(weekStart);
             d < weekEnd;
             d.setDate(d.getDate() + 1)
         ) {
-            const currentDate = new Date(d);
-            currentDate.setHours(0, 0, 0, 0);
+            const currentDate = new Date(d)
+            currentDate.setHours(0, 0, 0, 0)
 
-            const today = new Date();
-            today.setHours(0, 0, 0, 0);
-
-            // Skip future days only for the current week
-            if (weekOffset === 0 && currentDate > today) {
-                continue;
+            // Skip only days strictly after today (so today itself is always included)
+            if (currentDate > today) {
+                continue
             }
 
-            const date = currentDate.toISOString().split("T")[0];
-            const weekday = currentDate.getDay();
+            const date = toLocalISODate(currentDate)
+            const weekday = currentDate.getDay()
 
-            const isHoliday = holidays.some((h) => h.date === date);
+            // Rule 1: Holiday overrides everything else for the whole company.
+            if (isHolidayDate(date, holidays)) {
+                buckets[weekday].Holiday += employees.length
+                continue
+            }
 
+            // Rules 2-4: resolved per employee via resolveDailyStatus()
             employees.forEach((emp) => {
-                // Holiday (don't count absent/present/leave)
-                if (isHoliday) {
-                    return;
-                }
-
-                // Approved Leave
-                const leave = permissions.find(
-                    (p) =>
-                        p.employeeId === emp.employeeId &&
-                        p.date === date &&
-                        p.status === "Approved"
-                );
-
-                if (leave) {
-                    buckets[weekday].Leave++;
-                    return;
-                }
-
-                // Present
-                const present = attendance.find(
-                    (a) =>
-                        a.employeeId === emp.employeeId &&
-                        a.date === date
-                );
-
-                if (present) {
-                    buckets[weekday].Present++;
-                } else {
-                    // Absent
-                    buckets[weekday].Absent++;
-                }
-            });
+                const dailyStatus = resolveDailyStatus(emp.employeeId, date, {
+                    attendance,
+                    permissions,
+                })
+                buckets[weekday][dailyStatus]++
+            })
         }
 
-        return buckets;
-    }, [records, weekStart, weekEnd]);
-
+        return buckets
+    }, [records, weekStart, weekEnd])
 
     const rangeLabel = useMemo(() => {
         const lastDayOfWeek = new Date(weekEnd)
@@ -219,7 +244,6 @@ const WeeklyTrendChart = () => {
     }
 
     return (
-
         <div className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-white/40 bg-white/20 px-6 py-6 shadow-xl backdrop-blur-xl">
             {/* subtle top sheen to sell the glass effect */}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-transparent" />
