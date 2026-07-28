@@ -20,6 +20,17 @@ const STATUS_CONFIG = [
 
 const WEEKDAYS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
 
+
+const { weekStart, weekEnd } = useMemo(() => {
+    const start = getStartOfCurrentWeek();
+    start.setDate(start.getDate() - weekOffset * 7);
+
+    const end = new Date(start);
+    end.setDate(end.getDate() + 7);
+
+    return { weekStart: start, weekEnd: end };
+}, [weekOffset]);
+
 // Midnight of the Sunday that starts the current week (local time)
 const getStartOfCurrentWeek = () => {
     const now = new Date()
@@ -36,22 +47,50 @@ const formatRange = (start, end) => {
 }
 
 const WeeklyTrendChart = () => {
-    const [records, setRecords] = useState([])
+    const [records, setRecords] = useState({
+        employees: [],
+        attendance: [],
+        permissions: [],
+        holidays: [],
+    })
+    const [weekOffset, setWeekOffset] = useState(0);
     const [status, setStatus] = useState('loading')
     // 0 = current week, 1 = one week ago, 2 = two weeks ago, etc.
-    const [weekOffset, setWeekOffset] = useState(0)
+
 
     useEffect(() => {
         let cancelled = false
 
         const load = async () => {
             try {
-                const res = await api.get(ENDPOINTS.ATTENDANCE)
+                const [
+                    employeeRes,
+                    attendanceRes,
+                    permissionRes,
+                    holidayRes,
+                ] = await Promise.all([
+                    api.get(ENDPOINTS.EMPLOYEES),
+                    api.get(ENDPOINTS.ATTENDANCE),
+                    api.get(ENDPOINTS.PERMISSIONS),
+                    api.get(ENDPOINTS.HOLIDAYS),
+                ])
+
                 if (cancelled) return
-                setRecords(res.data)
-                setStatus('ready')
+
+                const employees = employeeRes.data.filter(
+                    (e) => e.role === "employee"
+                )
+
+                setRecords({
+                    employees,
+                    attendance: attendanceRes.data,
+                    permissions: permissionRes.data,
+                    holidays: holidayRes.data,
+                })
+
+                setStatus("ready")
             } catch (err) {
-                if (!cancelled) setStatus('error')
+                if (!cancelled) setStatus("error")
             }
         }
 
@@ -63,32 +102,89 @@ const WeeklyTrendChart = () => {
 
     const { weekStart, weekEnd } = useMemo(() => {
         const start = getStartOfCurrentWeek()
-        start.setDate(start.getDate() - weekOffset * 7)
         const end = new Date(start)
-        end.setDate(end.getDate() + 7) // exclusive upper bound (next Sunday)
+        end.setDate(end.getDate() + 7)
+
         return { weekStart: start, weekEnd: end }
-    }, [weekOffset])
+    }, [])
 
     const data = useMemo(() => {
-        const buckets = WEEKDAYS.map((day) => ({
+        const buckets = WEEKDAYS.map(day => ({
             day,
             Present: 0,
             Absent: 0,
             Leave: 0,
-        }))
+        }));
 
-        records.forEach((record) => {
-            const recordDate = new Date(record.date)
-            if (recordDate < weekStart || recordDate >= weekEnd) return // outside selected week
+        const {
+            employees,
+            attendance,
+            permissions,
+            holidays,
+        } = records;
 
-            const index = recordDate.getDay() // 0 = Sun ... 6 = Sat, matches WEEKDAYS directly
-            if (buckets[index][record.status] !== undefined) {
-                buckets[index][record.status] += 1
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+
+        for (
+            let d = new Date(weekStart);
+            d < weekEnd;
+            d.setDate(d.getDate() + 1)
+        ) {
+            const currentDate = new Date(d);
+            currentDate.setHours(0, 0, 0, 0);
+
+            const today = new Date();
+            today.setHours(0, 0, 0, 0);
+
+            // Skip future days only for the current week
+            if (weekOffset === 0 && currentDate > today) {
+                continue;
             }
-        })
 
-        return buckets
-    }, [records, weekStart, weekEnd])
+            const date = currentDate.toISOString().split("T")[0];
+            const weekday = currentDate.getDay();
+
+            const isHoliday = holidays.some((h) => h.date === date);
+
+            employees.forEach((emp) => {
+                // Holiday (don't count absent/present/leave)
+                if (isHoliday) {
+                    return;
+                }
+
+                // Approved Leave
+                const leave = permissions.find(
+                    (p) =>
+                        p.employeeId === emp.employeeId &&
+                        p.date === date &&
+                        p.status === "Approved"
+                );
+
+                if (leave) {
+                    buckets[weekday].Leave++;
+                    return;
+                }
+
+                // Present
+                const present = attendance.find(
+                    (a) =>
+                        a.employeeId === emp.employeeId &&
+                        a.date === date
+                );
+
+                if (present) {
+                    buckets[weekday].Present++;
+                } else {
+                    // Absent
+                    buckets[weekday].Absent++;
+                }
+            });
+        }
+
+        return buckets;
+    }, [records, weekStart, weekEnd]);
+
 
     const rangeLabel = useMemo(() => {
         const lastDayOfWeek = new Date(weekEnd)
@@ -123,9 +219,7 @@ const WeeklyTrendChart = () => {
     }
 
     return (
-        // Glassmorphism: translucent white fill + backdrop-blur, matching
-        // DepartmentPieChart. h-full + flex-col still fills whatever height
-        // the grid's default "align-items: stretch" gives this cell.
+
         <div className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-white/40 bg-white/20 px-6 py-6 shadow-xl backdrop-blur-xl">
             {/* subtle top sheen to sell the glass effect */}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-transparent" />

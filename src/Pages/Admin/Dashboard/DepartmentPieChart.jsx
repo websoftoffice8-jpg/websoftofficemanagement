@@ -201,11 +201,7 @@ const DepartmentPieChart = () => {
     }
 
     return (
-        // Glassmorphism: translucent white fill + backdrop-blur so whatever
-        // is behind the card (gradient, image, other cards) shows through
-        // softly. Border uses white/40 instead of solid slate for the
-        // frosted-edge highlight look, and shadow is heavier to lift the
-        // glass off the background.
+       
         <div className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-white/40 bg-white/20 shadow-xl backdrop-blur-xl">
             {/* subtle top sheen to sell the glass effect */}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-transparent" />
