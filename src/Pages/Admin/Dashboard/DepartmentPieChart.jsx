@@ -48,20 +48,79 @@ const DepartmentPieChart = () => {
 
         const load = async () => {
             try {
-                const res = await api.get(ENDPOINTS.ATTENDANCE)
-                const data = res.data
-                if (cancelled) return
+                const [employeeRes, attendanceRes, permissionRes, holidayRes] =
+                    await Promise.all([
+                        api.get(ENDPOINTS.EMPLOYEES),
+                        api.get(ENDPOINTS.ATTENDANCE),
+                        api.get(ENDPOINTS.PERMISSIONS),
+                        api.get(ENDPOINTS.HOLIDAYS),
+                    ]);
 
-                const latestDate = data.reduce(
-                    (max, r) => (r.date > max ? r.date : max),
-                    data[0]?.date ?? ''
-                )
-                setRecords(data.filter((r) => r.date === latestDate))
-                setStatus('ready')
+                if (cancelled) return;
+
+                const employees = employeeRes.data.filter(
+                    (u) => u.role === "employee"
+                );
+
+                const attendance = attendanceRes.data;
+                const permissions = permissionRes.data;
+                const holidays = holidayRes.data;
+
+                const latestDate =
+                    attendance.reduce(
+                        (max, r) => (r.date > max ? r.date : max),
+                        new Date().toISOString().split("T")[0]
+                    ) || new Date().toISOString().split("T")[0];
+
+                const records = employees.map((emp) => {
+                    const holiday = holidays.find((h) => h.date === latestDate);
+
+                    if (holiday) {
+                        return {
+                            employeeId: emp.employeeId,
+                            status: "Holiday",
+                        };
+                    }
+
+                    const leave = permissions.find(
+                        (p) =>
+                            p.employeeId === emp.employeeId &&
+                            p.date === latestDate &&
+                            p.status === "Approved"
+                    );
+
+                    if (leave) {
+                        return {
+                            employeeId: emp.employeeId,
+                            status: "Leave",
+                        };
+                    }
+
+                    const present = attendance.find(
+                        (a) =>
+                            a.employeeId === emp.employeeId &&
+                            a.date === latestDate
+                    );
+
+                    if (present) {
+                        return {
+                            employeeId: emp.employeeId,
+                            status: "Present",
+                        };
+                    }
+
+                    return {
+                        employeeId: emp.employeeId,
+                        status: "Absent",
+                    };
+                });
+
+                setRecords(records);
+                setStatus("ready");
             } catch (err) {
-                if (!cancelled) setStatus('error')
+                if (!cancelled) setStatus("error");
             }
-        }
+        };
 
         load()
         return () => {
