@@ -12,10 +12,8 @@ import { ChevronLeft, ChevronRight } from 'lucide-react'
 import api from '../../../API/Axios'
 import ENDPOINTS from '../../../API/endpoints'
 
-// Note: Holiday is still tracked internally (see resolveDailyStatus /
-// the Holiday bucket below) so holiday days correctly skip Present/
-// Absent/Leave counting — it's just not rendered as its own bar/legend
-// entry here.
+
+
 const STATUS_CONFIG = [
     { key: 'Present', label: 'Present', color: '#16a34a' },
     { key: 'Absent', label: 'Absent', color: '#ef4444' },
@@ -32,16 +30,17 @@ const getStartOfCurrentWeek = () => {
     return start
 }
 
-// IMPORTANT: don't use toISOString() here — it converts to UTC first,
-// which shifts the date backwards for any timezone ahead of UTC
-// (e.g. local midnight in Nepal/UTC+5:45 becomes the previous day in UTC).
-// This formats using the LOCAL calendar date, matching how dates are
-// stored in the JSON ("YYYY-MM-DD").
-const toLocalISODate = (date) => {
-    const y = date.getFullYear()
-    const m = String(date.getMonth() + 1).padStart(2, '0')
-    const d = String(date.getDate()).padStart(2, '0')
-    return `${y}-${m}-${d}`
+// Local YYYY-MM-DD string. IMPORTANT: we deliberately avoid
+// `date.toISOString().split('T')[0]` here. toISOString() converts to UTC
+// first, so for any timezone ahead of UTC (e.g. NPT, UTC+5:45), local
+// midnight becomes the *previous* day in UTC — which silently shifted
+// every lookup below by one day (today's data showed as wrong / the
+// previous day's data appeared to go missing).
+const toLocalDateString = (d) => {
+    const year = d.getFullYear()
+    const month = String(d.getMonth() + 1).padStart(2, '0')
+    const day = String(d.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
 }
 
 const formatRange = (start, end) => {
@@ -52,15 +51,13 @@ const formatRange = (start, end) => {
 }
 
 const WeeklyTrendChart = () => {
-    const [records, setRecords] = useState({
-        employees: [],
-        attendance: [],
-        permissions: [],
-        holidays: [],
-    })
-    const [weekOffset, setWeekOffset] = useState(0)
+    const [employees, setEmployees] = useState([])
+    const [attendance, setAttendance] = useState([])
+    const [permissions, setPermissions] = useState([])
+    const [holidays, setHolidays] = useState([])
     const [status, setStatus] = useState('loading')
     // 0 = current week, 1 = one week ago, 2 = two weeks ago, etc.
+    const [weekOffset, setWeekOffset] = useState(0)
 
     useEffect(() => {
         let cancelled = false
@@ -68,10 +65,10 @@ const WeeklyTrendChart = () => {
         const load = async () => {
             try {
                 const [
-                    employeeRes,
+                    employeesRes,
                     attendanceRes,
-                    permissionRes,
-                    holidayRes,
+                    permissionsRes,
+                    holidaysRes,
                 ] = await Promise.all([
                     api.get(ENDPOINTS.EMPLOYEES),
                     api.get(ENDPOINTS.ATTENDANCE),
@@ -81,16 +78,13 @@ const WeeklyTrendChart = () => {
 
                 if (cancelled) return
 
-                const employees = employeeRes.data.filter(
-                    (e) => e.role === "employee"
+                setEmployees(
+                    employeesRes.data.filter((u) => u.role === "employee")
                 )
 
-                setRecords({
-                    employees,
-                    attendance: attendanceRes.data,
-                    permissions: permissionRes.data,
-                    holidays: holidayRes.data,
-                })
+                setAttendance(attendanceRes.data)
+                setPermissions(permissionsRes.data)
+                setHolidays(holidaysRes.data)
 
                 setStatus("ready")
             } catch (err) {
@@ -108,108 +102,83 @@ const WeeklyTrendChart = () => {
     const { weekStart, weekEnd } = useMemo(() => {
         const start = getStartOfCurrentWeek()
         start.setDate(start.getDate() - weekOffset * 7)
-
         const end = new Date(start)
-        end.setDate(end.getDate() + 7)
-
+        end.setDate(end.getDate() + 7) // exclusive upper bound (next Sunday)
         return { weekStart: start, weekEnd: end }
     }, [weekOffset])
 
-    // ------------------------------------------------------------------
-    // Attendance-status resolution — tied directly to your db.json shape:
-    //
-    //   holidays:    [{ date: "YYYY-MM-DD", ... }]
-    //   permissions: [{ employeeId, date: "YYYY-MM-DD", status: "Approved" | "Rejected" | "Pending" }]
-    //   attendance:  [{ employeeId, date: "YYYY-MM-DD", inTime, outTime, ... }]
-    //
-    // Note: some attendance records also carry their own `status` field
-    // (e.g. EMP01 on 2026-07-27 has status: "Leave"). That field is NOT
-    // used to decide Present/Leave — the RULES below are the single
-    // source of truth. A row simply existing in `attendance` for that
-    // employeeId + date means "they checked in", full stop.
-    //
-    // Priority order per employee, per day (first match wins):
-    //   1. Holiday      -> every employee counted as Holiday, no per-employee checks
-    //   2. Present       -> an attendance row exists for this employeeId + date
-    //   3. Leave         -> no attendance row, but a permissions row exists
-    //                       for this employeeId + date with status === "Approved"
-    //   4. Absent        -> none of the above matched
-    // ------------------------------------------------------------------
-
-    const isHolidayDate = (date, holidays) =>
-        holidays.some((h) => h.date === date)
-
-    const hasAttendanceRecord = (employeeId, date, attendance) =>
-        attendance.some((a) => a.employeeId === employeeId && a.date === date)
-
-    const hasApprovedLeave = (employeeId, date, permissions) =>
-        permissions.some(
-            (p) =>
-                p.employeeId === employeeId &&
-                p.date === date &&
-                p.status === "Approved"
-        )
-
-    // Resolves exactly one status per employee per day, in strict priority order.
-    const resolveDailyStatus = (employeeId, date, { attendance, permissions }) => {
-        if (hasAttendanceRecord(employeeId, date, attendance)) return "Present"
-        if (hasApprovedLeave(employeeId, date, permissions)) return "Leave"
-        return "Absent"
-    }
-
     const data = useMemo(() => {
-        const buckets = WEEKDAYS.map(day => ({
+        const buckets = WEEKDAYS.map((day) => ({
             day,
             Present: 0,
             Absent: 0,
             Leave: 0,
-            Holiday: 0,
         }))
-
-        const {
-            employees,
-            attendance,
-            permissions,
-            holidays,
-        } = records
 
         const today = new Date()
         today.setHours(0, 0, 0, 0)
 
         for (
-            let d = new Date(weekStart);
-            d < weekEnd;
-            d.setDate(d.getDate() + 1)
+            let current = new Date(weekStart);
+            current < weekEnd;
+            current.setDate(current.getDate() + 1)
         ) {
-            const currentDate = new Date(d)
+            const currentDate = new Date(current)
             currentDate.setHours(0, 0, 0, 0)
 
-            // Skip only days strictly after today (so today itself is always included)
+            // Skip future dates
             if (currentDate > today) {
                 continue
             }
 
-            const date = toLocalISODate(currentDate)
-            const weekday = currentDate.getDay()
+            const date = toLocalDateString(current)
+            const dayIndex = current.getDay()
 
-            // Rule 1: Holiday overrides everything else for the whole company.
-            if (isHolidayDate(date, holidays)) {
-                buckets[weekday].Holiday += employees.length
-                continue
-            }
+            const holiday = holidays.find((h) => h.date === date)
 
-            // Rules 2-4: resolved per employee via resolveDailyStatus()
-            employees.forEach((emp) => {
-                const dailyStatus = resolveDailyStatus(emp.employeeId, date, {
-                    attendance,
-                    permissions,
-                })
-                buckets[weekday][dailyStatus]++
+            employees.forEach((employee) => {
+                // Holiday (skip counting absent/present/leave)
+                if (holiday) {
+                    return
+                }
+
+                const permission = permissions.find(
+                    (p) =>
+                        p.employeeId === employee.employeeId &&
+                        p.date === date &&
+                        p.status === "Approved"
+                )
+
+                if (permission) {
+                    buckets[dayIndex].Leave++
+                    return
+                }
+
+                const log = attendance.find(
+                    (a) =>
+                        a.employeeId === employee.employeeId &&
+                        a.date === date
+                )
+
+                if (log?.status === "Leave") {
+                    buckets[dayIndex].Leave++
+                } else if (log?.inTime) {
+                    buckets[dayIndex].Present++
+                } else {
+                    buckets[dayIndex].Absent++
+                }
             })
         }
 
         return buckets
-    }, [records, weekStart, weekEnd])
+    }, [
+        employees,
+        attendance,
+        permissions,
+        holidays,
+        weekStart,
+        weekEnd,
+    ])
 
     const rangeLabel = useMemo(() => {
         const lastDayOfWeek = new Date(weekEnd)
@@ -244,6 +213,9 @@ const WeeklyTrendChart = () => {
     }
 
     return (
+        // Glassmorphism: translucent white fill + backdrop-blur, matching
+        // DepartmentPieChart. h-full + flex-col still fills whatever height
+        // the grid's default "align-items: stretch" gives this cell.
         <div className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-white/40 bg-white/20 px-6 py-6 shadow-xl backdrop-blur-xl">
             {/* subtle top sheen to sell the glass effect */}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-transparent" />
