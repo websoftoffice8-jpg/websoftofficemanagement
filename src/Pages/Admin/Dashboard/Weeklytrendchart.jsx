@@ -92,6 +92,7 @@ const WeeklyTrendChart = () => {
         }
     }, [])
 
+    // Shift the base week by weekOffset weeks so Prev/Next actually navigate
     const { weekStart, weekEnd } = useMemo(() => {
         const start = getStartOfCurrentWeek()
         start.setDate(start.getDate() - weekOffset * 7)
