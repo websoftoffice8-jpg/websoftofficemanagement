@@ -5,6 +5,17 @@ import ReportHeader from "./ReportHeader";
 import ReportSort from "./SortReport";
 import ReportTable, { SORT_FIELDS } from "./ReportTable";
 
+// Local YYYY-MM-DD string. Deliberately NOT using
+// `date.toISOString().split('T')[0]` — toISOString() converts to UTC first,
+// which shifts the calendar date by one day for timezones ahead of UTC
+// (e.g. NPT, UTC+5:45) during early-morning hours.
+const toLocalDateString = (d = new Date()) => {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 export default function Reports() {
   const [employees, setEmployees] = useState([]);
   const [attendance, setAttendance] = useState([]);
@@ -68,16 +79,27 @@ export default function Reports() {
     const last = new Date(end);
 
     while (current <= last) {
-      dates.push(current.toISOString().split("T")[0]);
+      dates.push(toLocalDateString(current));
       current.setDate(current.getDate() + 1);
     }
 
     return dates;
   };
+
+  // Earliest attendance date for one specific employee, or null if they've
+  // never logged attendance. Days before this shouldn't count as "Absent"
+  // for them — they simply weren't using the system yet.
+  const getEmployeeFirstDate = (employeeId) =>
+    attendance.reduce((earliest, log) => {
+      if (log.employeeId !== employeeId) return earliest;
+      if (!earliest || log.date < earliest) return log.date;
+      return earliest;
+    }, null);
+
   const employeeStats = useMemo(() => {
     if (employees.length === 0) return [];
 
-    const today = new Date().toISOString().split("T")[0];
+    const today = toLocalDateString(new Date());
 
     const start =
       fromDate ||
@@ -100,7 +122,13 @@ export default function Reports() {
       let totalMinutes = 0;
       let workedDays = 0;
 
+      const employeeFirstDate = getEmployeeFirstDate(employee.employeeId);
+
       dates.forEach((date) => {
+        // Employee hadn't started using the system yet on this date —
+        // don't count it toward present/absent/holiday/leave at all.
+        if (!employeeFirstDate || date < employeeFirstDate) return;
+
         const holidayExists = holidays.some((h) => h.date === date);
 
         if (holidayExists) {
@@ -127,6 +155,28 @@ export default function Reports() {
         );
 
         if (attendanceLog) {
+          // Respect an explicitly-set status (e.g. the employee marked
+          // this day as Holiday/Absent themselves via handleMarkHoliday /
+          // handleMarkAbsent). Only fall back to "Present" when no status
+          // was set at all — a record existing doesn't automatically mean
+          // Present.
+          const explicitStatus = attendanceLog.status;
+
+          if (explicitStatus === "Holiday") {
+            holiday++;
+            return;
+          }
+
+          if (explicitStatus === "Absent") {
+            absent++;
+            return;
+          }
+
+          if (explicitStatus === "Leave") {
+            leave++;
+            return;
+          }
+
           present++;
 
           if (attendanceLog.inTime && attendanceLog.outTime) {
@@ -152,6 +202,14 @@ export default function Reports() {
 
       const total = present + absent + holiday + leave;
 
+      // Most recent attendance record for this employee, regardless of
+      // status — shown in the "Last Logged" column.
+      const lastDate = attendance.reduce((latest, log) => {
+        if (log.employeeId !== employee.employeeId) return latest;
+        if (!latest || log.date > latest) return log.date;
+        return latest;
+      }, null);
+
       return {
         employeeId: employee.employeeId,
         name: employee.name,
@@ -163,6 +221,7 @@ export default function Reports() {
         totalMinutes,
         avgHours: workedDays > 0 ? totalMinutes / workedDays / 60 : 0,
         rate: total > 0 ? (present / total) * 100 : 0,
+        lastDate,
       };
     });
   }, [

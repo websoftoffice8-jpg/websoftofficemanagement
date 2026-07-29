@@ -4,6 +4,17 @@ import ENDPOINTS from "../../../API/endpoints";
 
 const MONTH_LABEL_FORMAT = { month: "long", year: "numeric" };
 
+// Local YYYY-MM-DD string. Deliberately NOT using
+// `date.toISOString().split('T')[0]` — toISOString() converts to UTC first,
+// which shifts the calendar date by one day for timezones ahead of UTC
+// (e.g. NPT, UTC+5:45) during early-morning hours.
+const toLocalDateString = (d = new Date()) => {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
 const getStatus = (log) => {
   if (log.status === "Holiday") return "Holiday";
   if (log.status === "Leave") return "Leave";
@@ -53,7 +64,7 @@ export default function ReportInfo({ employee }) {
       ? monthFilter
       : logs.length > 0
         ? getMonthKey([...logs].sort((a, b) => b.date.localeCompare(a.date))[0].date)
-        : getMonthKey(new Date().toISOString());
+        : getMonthKey(toLocalDateString(new Date()));
 
   const goToMonth = (delta) => setMonthFilter(shiftMonth(activeMonth, delta));
 
@@ -73,6 +84,14 @@ export default function ReportInfo({ employee }) {
       const permissions = permissionsRes.data || [];
       const holidays = holidaysRes.data || [];
 
+      // This employee's own first attendance record. Days before this
+      // shouldn't be treated as "Absent" — they simply hadn't started
+      // using the system yet.
+      const employeeFirstDate = attendance.reduce(
+        (earliest, log) => (!earliest || log.date < earliest ? log.date : earliest),
+        null
+      );
+
       // Get all dates from attendance, permissions and holidays
       const allDates = new Set();
 
@@ -82,9 +101,7 @@ export default function ReportInfo({ employee }) {
       const end = new Date();
 
       while (start <= end) {
-        const date = start.toISOString().split("T")[0];
-        allDates.add(date);
-
+        allDates.add(toLocalDateString(start));
         start.setDate(start.getDate() + 1);
       }
 
@@ -93,6 +110,10 @@ export default function ReportInfo({ employee }) {
       holidays.forEach((h) => allDates.add(h.date));
 
       const mergedLogs = [...allDates]
+        // Drop any date before this employee's first-ever attendance
+        // record — nothing (Absent/Holiday/Leave) should be shown for
+        // days before they were actually using the system.
+        .filter((date) => !employeeFirstDate || date >= employeeFirstDate)
         .sort((a, b) => b.localeCompare(a))
         .map((date) => {
           // Holiday has highest priority
@@ -131,9 +152,12 @@ export default function ReportInfo({ employee }) {
           const log = attendance.find((a) => a.date === date);
 
           if (log) {
+            // Respect an explicitly-set status (e.g. marked Holiday/Absent
+            // via the employee's own attendance page). Only default to
+            // "Present" when the record has no status at all.
             return {
               ...log,
-              status: "Present",
+              status: log.status || "Present",
             };
           }
 

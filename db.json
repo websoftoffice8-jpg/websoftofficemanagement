@@ -49,33 +49,6 @@
       "position": "HR Officer",
       "role": "employee",
       "id": "6iQ0WjvZ7Yo"
-    },
-    {
-      "employeeId": "EMP05",
-      "name": "Ram",
-      "password": "employee",
-      "department": "IT",
-      "position": "Accountant",
-      "role": "employee",
-      "id": "5vgospkuMZ4"
-    },
-    {
-      "employeeId": "EMP06",
-      "name": "Aakash",
-      "password": "employee",
-      "department": "HR",
-      "position": "Accountant",
-      "role": "employee",
-      "id": "BXEatSXgPqo"
-    },
-    {
-      "employeeId": "EMP09",
-      "name": "Satkar",
-      "password": "employee",
-      "department": "IT",
-      "position": "Manager",
-      "role": "employee",
-      "id": "QJAFvPWtBig"
     }
   ],
   "attendance": [
@@ -83,78 +56,217 @@
       "employeeId": "EMP01",
       "userId": "wpZVldvOPJ4",
       "name": "Rachit tiwari",
-      "date": "2026-07-27",
-      "inTime": "10:30",
+      "date": "2026-07-28",
+      "inTime": "10:00",
       "outTime": "16:00",
-      "note": "",
-      "id": "82jW0D9DEGg",
-      "status": "Leave"
+      "note": "test",
+      "id": "21qt6nCudGc"
     },
     {
       "employeeId": "EMP02",
       "userId": "o4TsZLXPASM",
       "name": "Prashant Sunar",
-      "date": "2026-07-27",
-      "inTime": "10:30",
+      "date": "2026-07-28",
+      "inTime": "10:00",
       "outTime": "16:00",
-      "note": "test",
-      "id": "l3ciEgZ-OJ4"
+      "note": "",
+      "id": "KE2J1ij4rpk"
+    },
+    {
+      "employeeId": "EMP03",
+      "userId": "XSGJYJeYPCo",
+      "name": "Sujan",
+      "date": "2026-07-28",
+      "inTime": "10:00",
+      "outTime": "17:00",
+      "note": "",
+      "id": "Ae5hYQRmkc8"
+    },
+    {
+      "employeeId": "EMP04",
+      "userId": "6iQ0WjvZ7Yo",
+      "name": "Dona",
+      "date": "2026-07-28",
+      "inTime": "09:00",
+      "outTime": "16:00",
+      "note": "",
+      "id": "-FDvWMMJ3yM"
     },
     {
       "employeeId": "EMP01",
       "userId": "wpZVldvOPJ4",
       "name": "Rachit tiwari",
-      "date": "2026-07-28",
+      "date": "2026-07-29",
       "inTime": "10:30",
-      "outTime": "16:00",
-      "note": "test",
-      "id": "AdFOSGY24n8"
+      "outTime": "04:00",
+      "note": "Design",
+      "id": "MqilmLzFyAI"
+    },
+    {
+      "employeeId": "EMP03",
+      "userId": "XSGJYJeYPCo",
+      "name": "Sujan",
+      "date": "2026-07-29",
+      "inTime": null,
+      "outTime": null,
+      "note": "fever ",
+      "status": "Leave",
+      "id": "OMNaXXxRVnw"
+    },
+    {
+      "employeeId": "EMP02",
+      "userId": "o4TsZLXPASM",
+      "name": "Prashant Sunar",
+      "date": "2026-07-29",
+      "inTime": "10:00",
+      "outTime": "04:30",
+      "note": "UI ",
+      "id": "O-9YGQzYxLM"
     }
   ],
   "permissions": [
     {
-      "employeeId": "EMP02",
-      "userId": "o4TsZLXPASM",
-      "name": "Prashant Sunar",
-      "date": "2026-07-27",
-      "reason": "fever",
-      "status": "Rejected",
-      "id": "V0O-GSoh9zo"
-    },
-    {
       "employeeId": "EMP03",
       "userId": "XSGJYJeYPCo",
       "name": "Sujan",
-      "date": "2026-07-27",
-      "reason": "fever",
+      "date": "2026-07-29",
+      "reason": "fever ",
       "status": "Approved",
-      "id": "u6FXPj3nrtk"
-    },
-    {
-      "employeeId": "EMP01",
-      "userId": "wpZVldvOPJ4",
-      "name": "Rachit tiwari",
-      "date": "2026-07-27",
-      "reason": "",
-      "status": "Approved",
-      "id": "h4SpN1ZeDZk"
-    },
-    {
-      "employeeId": "EMP03",
-      "userId": "XSGJYJeYPCo",
-      "name": "Sujan",
-      "date": "2026-07-28",
-      "reason": "request leave test",
-      "status": "Approved",
-      "id": "SGs80QEZVYY"
+      "id": "5OCrSiobBes"
     }
   ],
   "holiday": [
     {
+      "date": "2026-05-02",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "pMDjIdDKsLE"
+    },
+    {
+      "date": "2026-08-22",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "7LunQalhd0k"
+    },
+    {
+      "date": "2026-08-15",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "inMuF_u93io"
+    },
+    {
+      "date": "2026-09-12",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "kCCwNFzqTnw"
+    },
+    {
+      "date": "2026-08-29",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "ws1CJqGSRcA"
+    },
+    {
+      "date": "2026-09-05",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "M72ViqIngck"
+    },
+    {
+      "date": "2026-05-16",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "TqhocIbQP2U"
+    },
+    {
+      "date": "2026-05-09",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "UCj23YWTEU8"
+    },
+    {
+      "date": "2026-09-26",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "1bPsz01n7ug"
+    },
+    {
+      "date": "2026-09-19",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "j8L1Wqpw9qo"
+    },
+    {
+      "date": "2026-06-06",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "T8Nu6q8MtrA"
+    },
+    {
+      "date": "2026-05-23",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "U5G2qfRowt4"
+    },
+    {
+      "date": "2026-06-13",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "21WxPbuPQCA"
+    },
+    {
+      "date": "2026-06-20",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "hTW-W_eg7gw"
+    },
+    {
+      "date": "2026-06-27",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "1quxlxhLrlo"
+    },
+    {
+      "date": "2026-05-30",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "ZcC4PzoSR8g"
+    },
+    {
+      "date": "2026-07-04",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "zNBQBc8fkkk"
+    },
+    {
+      "date": "2026-07-11",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "R7LeaWEv40I"
+    },
+    {
       "date": "2026-08-01",
-      "title": "satudray",
-      "description": "saturday",
-      "id": "jFiqZ3AipkY"
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "qj8Z4x9zwD0"
+    },
+    {
+      "date": "2026-07-25",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "UjWDff4RZ6o"
+    },
+    {
+      "date": "2026-07-18",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "_jZ2quNtRy8"
+    },
+    {
+      "date": "2026-08-08",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "quua4je7szU"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"
