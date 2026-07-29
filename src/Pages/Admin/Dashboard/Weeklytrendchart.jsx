@@ -30,12 +30,6 @@ const getStartOfCurrentWeek = () => {
     return start
 }
 
-// Local YYYY-MM-DD string. IMPORTANT: we deliberately avoid
-// `date.toISOString().split('T')[0]` here. toISOString() converts to UTC
-// first, so for any timezone ahead of UTC (e.g. NPT, UTC+5:45), local
-// midnight becomes the *previous* day in UTC — which silently shifted
-// every lookup below by one day (today's data showed as wrong / the
-// previous day's data appeared to go missing).
 const toLocalDateString = (d) => {
     const year = d.getFullYear()
     const month = String(d.getMonth() + 1).padStart(2, '0')

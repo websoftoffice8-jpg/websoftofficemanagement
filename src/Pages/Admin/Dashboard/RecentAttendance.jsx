@@ -2,11 +2,11 @@ import { getRecentAttendance } from './Utils'
 
 export default function RecentAttendance({ attendance,
   permissions,
-  holidays, }) {
+   }) {
   const recentLogs = getRecentAttendance(
     attendance,
     permissions,
-    holidays
+    
   );
 
   return (

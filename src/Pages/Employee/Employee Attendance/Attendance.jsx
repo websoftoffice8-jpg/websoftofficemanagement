@@ -3,20 +3,18 @@ import api from "../../../API/Axios";
 import ENDPOINTS from "../../../API/endpoints";
 import EmployeePostModal from "./EmployeePostModal";
 import EmployeeTable from "./EmployeeTable";
-import EmployeeSort, { getMonthKey, getFilteredSortedLogs } from "./EmployeeSort";
+import EmployeeSort, { getMonthKey, getFilteredSortedLogs, toLocalDateString } from "./EmployeeSort";
 
 export default function Attendance() {
   const [logs, setLogs] = useState([]);
-  const [date, setDate] = useState(
-    new Date().toISOString().split("T")[0]
-  );
+  const [date, setDate] = useState(toLocalDateString(new Date()));
   const [inTime, setInTime] = useState("");
   const [outTime, setOutTime] = useState("");
   const [note, setNote] = useState("");
   const [expanded, setExpanded] = useState({});
   const [editingDate, setEditingDate] = useState(null);
   const [editText, setEditText] = useState("");
-  const [selectedMonth, setSelectedMonth] = useState(getMonthKey(new Date().toISOString()));
+  const [selectedMonth, setSelectedMonth] = useState(getMonthKey(toLocalDateString(new Date())));
   const [sortOrder, setSortOrder] = useState("desc");
   const [statusFilter, setStatusFilter] = useState("all");
 

@@ -1,3 +1,5 @@
+import { toLocalDateString } from "./EmployeeSort";
+
 export default function EmployeePostModal({
   date,
   setDate,
@@ -10,7 +12,7 @@ export default function EmployeePostModal({
   handleAddEntry,
   handleMarkLeave,
 }) {
-  const today = new Date().toISOString().split("T")[0];
+  const today = toLocalDateString(new Date());
 
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-6 mb-8">
