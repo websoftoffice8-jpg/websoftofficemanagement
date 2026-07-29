@@ -31,38 +31,12 @@ export default function Permissions() {
 
     const handleApprove = async (permission) => {
         try {
-            // Update permission
-            await api.patch(`${ENDPOINTS.PERMISSIONS}/${permission.id}`, {
-                status: "Approved",
-            });
-
-            // Find attendance for same employee & date
-            const attendance = await api.get(
-                `${ENDPOINTS.ATTENDANCE}?employeeId=${permission.employeeId}&date=${permission.date}`
+            await api.patch(
+                `${ENDPOINTS.PERMISSIONS}/${permission.id}`,
+                {
+                    status: "Approved",
+                }
             );
-
-            if (attendance.data.length > 0) {
-                // Update attendance
-                await api.patch(
-                    `${ENDPOINTS.ATTENDANCE}/${attendance.data[0].id}`,
-                    {
-                        status: "Leave",
-                        note: permission.reason,
-                    }
-                );
-            } else {
-                // Create attendance
-                await api.post(ENDPOINTS.ATTENDANCE, {
-                    employeeId: permission.employeeId,
-                    userId: permission.userId,
-                    name: permission.name,
-                    date: permission.date,
-                    inTime: null,
-                    outTime: null,
-                    note: permission.reason,
-                    status: "Leave",
-                });
-            }
 
             fetchPermissions();
         } catch (err) {
@@ -72,33 +46,12 @@ export default function Permissions() {
 
     const handleReject = async (permission) => {
         try {
-            await api.patch(`${ENDPOINTS.PERMISSIONS}/${permission.id}`, {
-                status: "Rejected",
-            });
-
-            const attendance = await api.get(
-                `${ENDPOINTS.ATTENDANCE}?employeeId=${permission.employeeId}&date=${permission.date}`
+            await api.patch(
+                `${ENDPOINTS.PERMISSIONS}/${permission.id}`,
+                {
+                    status: "Rejected",
+                }
             );
-
-            if (attendance.data.length > 0) {
-                await api.patch(
-                    `${ENDPOINTS.ATTENDANCE}/${attendance.data[0].id}`,
-                    {
-                        status: "Absent",
-                    }
-                );
-            } else {
-                await api.post(ENDPOINTS.ATTENDANCE, {
-                    employeeId: permission.employeeId,
-                    userId: permission.userId,
-                    name: permission.name,
-                    date: permission.date,
-                    inTime: null,
-                    outTime: null,
-                    note: "",
-                    status: "Absent",
-                });
-            }
 
             fetchPermissions();
         } catch (err) {

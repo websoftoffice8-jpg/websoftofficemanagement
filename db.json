@@ -103,17 +103,6 @@
       "id": "MqilmLzFyAI"
     },
     {
-      "employeeId": "EMP03",
-      "userId": "XSGJYJeYPCo",
-      "name": "Sujan",
-      "date": "2026-07-29",
-      "inTime": null,
-      "outTime": null,
-      "note": "fever ",
-      "status": "Leave",
-      "id": "OMNaXXxRVnw"
-    },
-    {
       "employeeId": "EMP02",
       "userId": "o4TsZLXPASM",
       "name": "Prashant Sunar",
@@ -122,6 +111,16 @@
       "outTime": "04:30",
       "note": "UI ",
       "id": "O-9YGQzYxLM"
+    },
+    {
+      "employeeId": "EMP04",
+      "userId": "6iQ0WjvZ7Yo",
+      "name": "Dona",
+      "date": "2026-07-29",
+      "inTime": "09:00",
+      "outTime": "04:00",
+      "note": "test",
+      "id": "-_1BMxIC4_c"
     }
   ],
   "permissions": [
@@ -130,9 +129,9 @@
       "userId": "XSGJYJeYPCo",
       "name": "Sujan",
       "date": "2026-07-29",
-      "reason": "fever ",
+      "reason": "test",
       "status": "Approved",
-      "id": "5OCrSiobBes"
+      "id": "gRadRV7DzBg"
     }
   ],
   "holiday": [
