@@ -6,6 +6,7 @@ import EmployeeTable from "./EmployeeTable";
 import EmployeeSort, { getMonthKey, getFilteredSortedLogs, toLocalDateString } from "./EmployeeSort";
 
 export default function Attendance() {
+  const [permissions, setPermissions] = useState([]);
   const [logs, setLogs] = useState([]);
   const [date, setDate] = useState(toLocalDateString(new Date()));
   const [inTime, setInTime] = useState("");
@@ -34,16 +35,18 @@ export default function Attendance() {
     }
   };
 
+
   const fetchAttendance = async () => {
     const user = getUser();
-    if (!user?.employeeId) {
-      setError("No logged-in user found. Please log in again.");
-      return;
-    }
 
     try {
-      const res = await api.get(`${ENDPOINTS.ATTENDANCE}?employeeId=${user.employeeId}`);
-      setLogs(res.data.sort((a, b) => b.date.localeCompare(a.date)));
+      const [attendanceRes, permissionRes] = await Promise.all([
+        api.get(`${ENDPOINTS.ATTENDANCE}?employeeId=${user.employeeId}`),
+        api.get(`${ENDPOINTS.PERMISSIONS}?employeeId=${user.employeeId}`)
+      ]);
+
+      setLogs(attendanceRes.data.sort((a, b) => b.date.localeCompare(a.date)));
+      setPermissions(permissionRes.data);
     } catch (error) {
       console.error(error);
     }
@@ -223,7 +226,25 @@ export default function Attendance() {
     }
   };
 
-  const visibleLogs = getFilteredSortedLogs(logs, selectedMonth, sortOrder, statusFilter);
+  const logsWithLeave = logs.map(log => {
+    const approvedPermission = permissions.find(
+      p =>
+        p.date === log.date &&
+        p.status === "Approved"
+    );
+
+    return approvedPermission
+      ? { ...log, status: "Leave" }
+      : log;
+  });
+
+  const visibleLogs = getFilteredSortedLogs(
+  logs,
+  permissions,
+  selectedMonth,
+  sortOrder,
+  statusFilter
+);
 
   return (
     <div className="max-w-5xl mx-auto p-8">

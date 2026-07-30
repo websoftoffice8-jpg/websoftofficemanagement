@@ -26,7 +26,7 @@ z
   return "Absent";
 };
 
-const buildMonthLogs = (logs, monthKey) => {
+const buildMonthLogs = (logs, permissions, monthKey) => {
   if (logs.length === 0) return [];
 
   const [year, month] = monthKey.split("-").map(Number);
@@ -50,23 +50,52 @@ const buildMonthLogs = (logs, monthKey) => {
     if (dateStr < firstLogDate) continue; // before employee's first entry
     if (dateStr > today) break; // future day
 
-    result.push(
-      logsByDate[dateStr] || {
-        id: `missing-${dateStr}`,
+    const attendance = logsByDate[dateStr];
+
+    if (attendance) {
+      result.push(attendance);
+      continue;
+    }
+
+    const approvedLeave = permissions.find(
+      p =>
+        p.date === dateStr &&
+        p.status === "Approved"
+    );
+
+    if (approvedLeave) {
+      result.push({
+        id: `leave-${dateStr}`,
         date: dateStr,
+        status: "Leave",
         inTime: null,
         outTime: null,
-        note: "",
-      }
-    );
+        note: approvedLeave.reason || "",
+      });
+      continue;
+    }
+
+    result.push({
+      id: `missing-${dateStr}`,
+      date: dateStr,
+      inTime: null,
+      outTime: null,
+      note: "",
+    });
   }
   return result;
 };
 
 // filters logs to the selected "YYYY-MM" month + status, and sorts by date
 // — missing dates (within the employee's active range) are treated as "Absent"
-export const getFilteredSortedLogs = (logs, selectedMonth, sortOrder, statusFilter = "all") => {
-  const monthLogs = buildMonthLogs(logs, selectedMonth);
+export const getFilteredSortedLogs = (
+  logs,
+  permissions,
+  selectedMonth,
+  sortOrder,
+  statusFilter = "all"
+) => {
+  const monthLogs = buildMonthLogs(logs, permissions, selectedMonth);
   const filtered = monthLogs.filter(
     (log) => statusFilter === "all" || getStatus(log) === statusFilter
   );
