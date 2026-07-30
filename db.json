@@ -109,7 +109,7 @@
       "date": "2026-07-29",
       "inTime": "10:00",
       "outTime": "04:30",
-      "note": "UI ",
+      "note": "UI  ",
       "id": "O-9YGQzYxLM"
     },
     {
@@ -148,9 +148,9 @@
       "userId": "o4TsZLXPASM",
       "name": "Prashant Sunar",
       "date": "2026-07-30",
-      "reason": "fever",
+      "reason": "",
       "status": "Approved",
-      "id": "nqu4xkgGDdc"
+      "id": "V6bPybJxmEA"
     }
   ],
   "holiday": [
