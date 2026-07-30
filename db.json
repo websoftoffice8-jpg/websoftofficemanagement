@@ -49,6 +49,42 @@
       "position": "HR Officer",
       "role": "employee",
       "id": "6iQ0WjvZ7Yo"
+    },
+    {
+      "employeeId": "EMP06",
+      "name": "Anmol ",
+      "password": "employee",
+      "department": "IT",
+      "position": "Manager",
+      "role": "employee",
+      "id": "q0RgVrwmhUg"
+    },
+    {
+      "employeeId": "EMP07",
+      "name": "Abiskar",
+      "password": "employee",
+      "department": "HR",
+      "position": "Intern",
+      "role": "employee",
+      "id": "HuK0tbxwdF8"
+    },
+    {
+      "employeeId": "EMP08",
+      "name": "Ashraya",
+      "password": "employee",
+      "department": "IT",
+      "position": "Manager",
+      "role": "employee",
+      "id": "aHveBHy3KoM"
+    },
+    {
+      "employeeId": "EMP09",
+      "name": "Pramish",
+      "password": "employee",
+      "department": "IT",
+      "position": "Marketing Specialist",
+      "role": "employee",
+      "id": "dVwZpGtoAQU"
     }
   ],
   "attendance": [
@@ -131,18 +167,19 @@
       "outTime": "16:00",
       "note": "test",
       "id": "GezXK9kfjss"
+    },
+    {
+      "employeeId": "EMP06",
+      "userId": "q0RgVrwmhUg",
+      "name": "Anmol ",
+      "date": "2026-07-30",
+      "inTime": "10:30",
+      "outTime": "16:00",
+      "note": "this it test",
+      "id": "1QWRbQqNLvE"
     }
   ],
   "permissions": [
-    {
-      "employeeId": "EMP03",
-      "userId": "XSGJYJeYPCo",
-      "name": "Sujan",
-      "date": "2026-07-29",
-      "reason": "test",
-      "status": "Approved",
-      "id": "gRadRV7DzBg"
-    },
     {
       "employeeId": "EMP02",
       "userId": "o4TsZLXPASM",
@@ -151,6 +188,28 @@
       "reason": "",
       "status": "Approved",
       "id": "V6bPybJxmEA"
+    },
+    {
+      "employeeId": "EMP03",
+      "userId": "XSGJYJeYPCo",
+      "name": "Sujan",
+      "fromDate": "2026-07-31",
+      "toDate": "2026-08-04",
+      "reason": "test",
+      "status": "Approved",
+      "requestedAt": "2026-07-30T06:25:24.231Z",
+      "id": "tHKseS-IVPI"
+    },
+    {
+      "employeeId": "EMP07",
+      "userId": "HuK0tbxwdF8",
+      "name": "Abiskar",
+      "fromDate": "2026-07-30",
+      "toDate": "2026-07-30",
+      "reason": "",
+      "status": "Approved",
+      "requestedAt": "2026-07-30T07:22:19.815Z",
+      "id": "5hxrNL_6aWQ"
     }
   ],
   "holiday": [

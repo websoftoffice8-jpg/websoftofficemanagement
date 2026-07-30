@@ -6,6 +6,8 @@ import EmployeeTable from "./EmployeeTable";
 import EmployeeSort, { getMonthKey, getFilteredSortedLogs, toLocalDateString } from "./EmployeeSort";
 
 export default function Attendance() {
+  const [leaveFrom, setLeaveFrom] = useState(toLocalDateString(new Date()));
+  const [leaveTo, setLeaveTo] = useState(toLocalDateString(new Date()));
   const [permissions, setPermissions] = useState([]);
   const [logs, setLogs] = useState([]);
   const [date, setDate] = useState(toLocalDateString(new Date()));
@@ -20,6 +22,54 @@ export default function Attendance() {
   const [statusFilter, setStatusFilter] = useState("all");
 
 
+  const handleMarkLeave = async () => {
+    if (!leaveFrom || !leaveTo) return;
+
+    if (leaveTo < leaveFrom) {
+      alert("End date cannot be before the start date.");
+      return;
+    }
+
+    try {
+      const user = getUser();
+
+      const existing = await api.get(
+        `${ENDPOINTS.PERMISSIONS}?employeeId=${user.employeeId}`
+      );
+
+      // Range overlap check (fallback to legacy `date` field for old records)
+      const overlapping = existing.data.some((p) => {
+        if (p.status === "Rejected") return false;
+        const pFrom = p.fromDate || p.date;
+        const pTo = p.toDate || p.date;
+        return leaveFrom <= pTo && leaveTo >= pFrom;
+      });
+
+      if (overlapping) {
+        alert("You already have a leave request overlapping this date range.");
+        return;
+      }
+
+      await api.post(ENDPOINTS.PERMISSIONS, {
+        employeeId: user.employeeId,
+        userId: user.id,
+        name: user.name,
+        fromDate: leaveFrom,
+        toDate: leaveTo,
+        reason: note,
+        status: "Pending",
+        requestedAt: new Date().toISOString(),
+      });
+
+      setNote("");
+      setLeaveFrom(toLocalDateString(new Date()));
+      setLeaveTo(toLocalDateString(new Date()));
+
+      alert("Leave request submitted successfully.");
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 
   useEffect(() => {
@@ -192,39 +242,7 @@ export default function Attendance() {
     }
   };
 
-  const handleMarkLeave = async () => {
-    if (!date) return;
-
-    try {
-      const user = getUser();
-
-      const existingRequest = await api.get(
-        `${ENDPOINTS.PERMISSIONS}?employeeId=${user.employeeId}&date=${date}`
-      );
-
-      if (existingRequest.data.length > 0) {
-        alert("You have already requested leave for this date.");
-        return;
-      }
-
-      await api.post(ENDPOINTS.PERMISSIONS, {
-        employeeId: user.employeeId,
-        userId: user.id,
-        name: user.name,
-        date,
-        reason: note,
-        status: "Pending",
-      });
-
-      setInTime("");
-      setOutTime("");
-      setNote("");
-
-      alert("Leave request submitted successfully.");
-    } catch (error) {
-      console.error(error);
-    }
-  };
+  
 
   const logsWithLeave = logs.map(log => {
     const approvedPermission = permissions.find(
@@ -239,12 +257,12 @@ export default function Attendance() {
   });
 
   const visibleLogs = getFilteredSortedLogs(
-  logs,
-  permissions,
-  selectedMonth,
-  sortOrder,
-  statusFilter
-);
+    logs,
+    permissions,
+    selectedMonth,
+    sortOrder,
+    statusFilter
+  );
 
   return (
     <div className="max-w-5xl mx-auto p-8">
@@ -260,6 +278,10 @@ export default function Attendance() {
         setOutTime={setOutTime}
         note={note}
         setNote={setNote}
+        leaveFrom={leaveFrom}
+        setLeaveFrom={setLeaveFrom}
+        leaveTo={leaveTo}
+        setLeaveTo={setLeaveTo}
         handleAddEntry={handleAddEntry}
         handleMarkLeave={handleMarkLeave}
       />

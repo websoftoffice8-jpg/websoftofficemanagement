@@ -89,12 +89,21 @@ export default function Reports() {
   // Earliest attendance date for one specific employee, or null if they've
   // never logged attendance. Days before this shouldn't count as "Absent"
   // for them — they simply weren't using the system yet.
-  const getEmployeeFirstDate = (employeeId) =>
-    attendance.reduce((earliest, log) => {
-      if (log.employeeId !== employeeId) return earliest;
-      if (!earliest || log.date < earliest) return log.date;
-      return earliest;
-    }, null);
+  const getEmployeeFirstDate = (employeeId) => {
+    const attendanceDates = attendance
+      .filter((log) => log.employeeId === employeeId)
+      .map((log) => log.date);
+
+    const permissionDates = permissions
+      .filter((p) => p.employeeId === employeeId)
+      .map((p) => p.fromDate || p.date);
+
+    const allDates = [...attendanceDates, ...permissionDates];
+
+    return allDates.length > 0
+      ? allDates.reduce((earliest, d) => (d < earliest ? d : earliest))
+      : null;
+  };
 
   const employeeStats = useMemo(() => {
     if (employees.length === 0) return [];
@@ -108,6 +117,7 @@ export default function Reports() {
           !earliest || log.date < earliest ? log.date : earliest,
         today
       );
+
 
     const end = toDate || today;
 
@@ -127,8 +137,8 @@ export default function Reports() {
       dates.forEach((date) => {
         // Employee hadn't started using the system yet on this date —
         // don't count it toward present/absent/holiday/leave at all.
+        if (!toDate && date > today) return;
         if (!employeeFirstDate || date < employeeFirstDate) return;
-
         const holidayExists = holidays.some((h) => h.date === date);
 
         if (holidayExists) {
@@ -136,12 +146,12 @@ export default function Reports() {
           return;
         }
 
-        const approvedLeave = permissions.find(
-          (p) =>
-            p.employeeId === employee.employeeId &&
-            p.date === date &&
-            p.status === "Approved"
-        );
+        const approvedLeave = permissions.find((p) => {
+          if (p.employeeId !== employee.employeeId || p.status !== "Approved") return false;
+          const from = p.fromDate || p.date;
+          const to = p.toDate || p.date;
+          return date >= from && date <= to;
+        });
 
         if (approvedLeave) {
           leave++;
@@ -154,12 +164,8 @@ export default function Reports() {
             a.date === date
         );
 
+
         if (attendanceLog) {
-          // Respect an explicitly-set status (e.g. the employee marked
-          // this day as Holiday/Absent themselves via handleMarkHoliday /
-          // handleMarkAbsent). Only fall back to "Present" when no status
-          // was set at all — a record existing doesn't automatically mean
-          // Present.
           const explicitStatus = attendanceLog.status;
 
           if (explicitStatus === "Holiday") {
@@ -183,10 +189,7 @@ export default function Reports() {
             const [inH, inM] = attendanceLog.inTime.split(":").map(Number);
             const [outH, outM] = attendanceLog.outTime.split(":").map(Number);
 
-            let minutes =
-              outH * 60 +
-              outM -
-              (inH * 60 + inM);
+            let minutes = outH * 60 + outM - (inH * 60 + inM);
 
             if (minutes < 0) minutes += 24 * 60;
 
@@ -197,7 +200,11 @@ export default function Reports() {
           return;
         }
 
-        absent++;
+        // Only past dates without attendance are absent.
+        if (date < today) {
+          absent++;
+        }
+
       });
 
       const total = present + absent + holiday + leave;
@@ -323,41 +330,41 @@ export default function Reports() {
   };
 
   return (
-  <div className="max-w-6xl mx-auto p-8">
-    <h1 className="text-3xl font-bold text-slate-800 mb-1">
-      Attendance Reports
-    </h1>
+    <div className="max-w-6xl mx-auto p-8">
+      <h1 className="text-3xl font-bold text-slate-800 mb-1">
+        Attendance Reports
+      </h1>
 
-    <p className="text-slate-500 text-sm mb-8">
-      Overview of employee attendance, sortable and filterable by date range.
-    </p>
+      <p className="text-slate-500 text-sm mb-8">
+        Overview of employee attendance, sortable and filterable by date range.
+      </p>
 
-    {error && (
-      <div className="mb-6 px-4 py-3 rounded-lg bg-red-50 text-red-700 text-sm border border-red-200">
-        {error}
-      </div>
-    )}
+      {error && (
+        <div className="mb-6 px-4 py-3 rounded-lg bg-red-50 text-red-700 text-sm border border-red-200">
+          {error}
+        </div>
+      )}
 
-    <ReportHeader summary={summary} />
+      <ReportHeader summary={summary} />
 
-    <ReportSort
-      search={search}
-      setSearch={setSearch}
-      fromDate={fromDate}
-      setFromDate={setFromDate}
-      toDate={toDate}
-      setToDate={setToDate}
-      clearFilters={clearFilters}
-    />
+      <ReportSort
+        search={search}
+        setSearch={setSearch}
+        fromDate={fromDate}
+        setFromDate={setFromDate}
+        toDate={toDate}
+        setToDate={setToDate}
+        clearFilters={clearFilters}
+      />
 
-    <ReportTable
-      employees={filteredAndSorted}
-      loading={loading}
-      sortField={sortField}
-      sortDir={sortDir}
-      handleSort={handleSort}
-    />
-  </div>
-  
-);
+      <ReportTable
+        employees={filteredAndSorted}
+        loading={loading}
+        sortField={sortField}
+        sortDir={sortDir}
+        handleSort={handleSort}
+      />
+    </div>
+
+  );
 }

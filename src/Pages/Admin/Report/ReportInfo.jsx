@@ -15,6 +15,14 @@ const toLocalDateString = (d = new Date()) => {
   return `${year}-${month}-${day}`;
 };
 
+// Local-date parser — new Date("YYYY-MM-DD") parses as UTC and can shift
+// by a day for timezones ahead of UTC (same reasoning as toLocalDateString
+// above). Always use this for arithmetic on date strings.
+const parseLocalDate = (dateStr) => {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  return new Date(y, m - 1, d);
+};
+
 const getStatus = (log) => {
   if (log.status === "Holiday") return "Holiday";
   if (log.status === "Leave") return "Leave";
@@ -50,21 +58,25 @@ const getFilteredSortedLogs = (logs, sortOrder, statusFilter, monthFilter) => {
 };
 
 export default function ReportInfo({ employee }) {
+  const today = toLocalDateString(new Date());
+  const currentRealMonth = getMonthKey(today);
+
   const [isOpen, setIsOpen] = useState(false);
   const [logs, setLogs] = useState(employee.logs || []);
   const [loadingLogs, setLoadingLogs] = useState(false);
   const [sortOrder, setSortOrder] = useState("desc");
   const [statusFilter, setStatusFilter] = useState("all");
-  const [monthFilter, setMonthFilter] = useState("all");
+  // Default to the REAL current calendar month, not "all" — otherwise once
+  // a new month starts, last month's leave/attendance still shows mixed in
+  // under the "all" bucket instead of the modal opening on this month.
+  const [monthFilter, setMonthFilter] = useState(currentRealMonth);
 
   const monthLogs = getFilteredSortedLogs(logs, sortOrder, statusFilter, monthFilter);
 
-  const activeMonth =
-    monthFilter !== "all"
-      ? monthFilter
-      : logs.length > 0
-        ? getMonthKey([...logs].sort((a, b) => b.date.localeCompare(a.date))[0].date)
-        : getMonthKey(toLocalDateString(new Date()));
+  // Grounded on the real current month whenever "All months" isn't
+  // explicitly selected — never derived from the latest log's date, which
+  // could itself be a stale past-month record.
+  const activeMonth = monthFilter !== "all" ? monthFilter : currentRealMonth;
 
   const goToMonth = (delta) => setMonthFilter(shiftMonth(activeMonth, delta));
 
@@ -84,35 +96,67 @@ export default function ReportInfo({ employee }) {
       const permissions = permissionsRes.data || [];
       const holidays = holidaysRes.data || [];
 
-      // This employee's own first attendance record. Days before this
-      // shouldn't be treated as "Absent" — they simply hadn't started
-      // using the system yet.
-      const employeeFirstDate = attendance.reduce(
-        (earliest, log) => (!earliest || log.date < earliest ? log.date : earliest),
-        null
-      );
+      // This employee's earliest record — attendance OR a permission
+      // request — so a new hire whose first-ever action is requesting
+      // leave isn't skipped entirely. Days before this shouldn't be
+      // treated as "Absent" — they hadn't started using the system yet.
+      const employeeFirstDate = (() => {
+        const dates = [
+          ...attendance.map((a) => a.date),
+          ...permissions.map((p) => p.fromDate || p.date),
+        ];
+        return dates.length > 0
+          ? dates.reduce((earliest, d) => (d < earliest ? d : earliest))
+          : null;
+      })();
 
-      // Get all dates from attendance, permissions and holidays
+      const today = toLocalDateString(new Date());
+
+      // Furthest-out approved leave date, if any — so future months with
+      // approved leave actually render instead of showing nothing.
+      const latestApprovedLeaveDate = permissions.reduce((latest, p) => {
+        if (p.status !== "Approved") return latest;
+        const to = p.toDate || p.date;
+        return !latest || to > latest ? to : latest;
+      }, null);
+
+      const rangeStart = employeeFirstDate || today;
+      const rangeEnd =
+        latestApprovedLeaveDate && latestApprovedLeaveDate > today
+          ? latestApprovedLeaveDate
+          : today;
+
+      // Get every date in the full span (not just the current calendar
+      // month) so navigating to any past or future month shows a
+      // complete day grid, with correct Absent placeholders, rather than
+      // only the dates that happen to have a record.
       const allDates = new Set();
 
-      const start = new Date();
-      start.setDate(1);
+      let cursor = parseLocalDate(rangeStart);
+      const last = parseLocalDate(rangeEnd);
 
-      const end = new Date();
-
-      while (start <= end) {
-        allDates.add(toLocalDateString(start));
-        start.setDate(start.getDate() + 1);
+      while (cursor <= last) {
+        allDates.add(toLocalDateString(cursor));
+        cursor.setDate(cursor.getDate() + 1);
       }
 
       attendance.forEach((a) => allDates.add(a.date));
-      permissions.forEach((p) => allDates.add(p.date));
+      permissions.forEach((p) => {
+        const from = p.fromDate || p.date;
+        const to = p.toDate || p.date;
+        let d = parseLocalDate(from);
+        const permLast = parseLocalDate(to);
+        while (d <= permLast) {
+          allDates.add(toLocalDateString(d));
+          d.setDate(d.getDate() + 1);
+        }
+      });
       holidays.forEach((h) => allDates.add(h.date));
 
       const mergedLogs = [...allDates]
-        // Drop any date before this employee's first-ever attendance
-        // record — nothing (Absent/Holiday/Leave) should be shown for
-        // days before they were actually using the system.
+        // Drop any date before this employee's first-ever record — nothing
+        // (Absent/Holiday/Leave) should be shown for days before they were
+        // actually using the system.
         .filter((date) => !employeeFirstDate || date >= employeeFirstDate)
         .sort((a, b) => b.localeCompare(a))
         .map((date) => {
@@ -130,16 +174,17 @@ export default function ReportInfo({ employee }) {
             };
           }
 
-          // Approved leave
-          const leave = permissions.find(
-            (p) =>
-              p.date === date &&
-              p.status === "Approved"
-          );
+          // Approved leave (range-aware, falls back to legacy single `date`)
+          const leave = permissions.find((p) => {
+            if (p.status !== "Approved") return false;
+            const from = p.fromDate || p.date;
+            const to = p.toDate || p.date;
+            return date >= from && date <= to;
+          });
 
           if (leave) {
             return {
-              id: leave.id,
+              id: `${leave.id}-${date}`,
               date,
               inTime: "",
               outTime: "",

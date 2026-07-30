@@ -81,7 +81,7 @@ export function getRecentAttendance(
         id: `leave-${permission.id}`,
         employeeId: permission.employeeId,
         name: permission.name,
-        date: permission.date,
+        date: permission.fromDate || permission.date,
         inTime: "",
         outTime: "",
         note: permission.reason || "",
@@ -101,7 +101,10 @@ export function getRecentAttendance(
     });
   });
 
+  const today = new Date().toISOString().split("T")[0];
+
   return logs
+    .filter((log) => log.date <= today)
     .sort((a, b) => {
       if (a.date !== b.date) {
         return b.date.localeCompare(a.date);

@@ -1,11 +1,5 @@
 const MONTH_LABEL_FORMAT = { month: "long", year: "numeric" };
 
-// Local YYYY-MM-DD string. Deliberately NOT using
-// `date.toISOString().split('T')[0]` — toISOString() converts to UTC first,
-// so for timezones ahead of UTC (e.g. NPT, UTC+5:45), the early-morning
-// hours (~00:00–05:45 local) resolve to the *previous* calendar day. That
-// silently shifted "today" and mis-filed check-ins under the wrong date,
-// which then showed up as false "Absent" entries.
 export const toLocalDateString = (d = new Date()) => {
   const year = d.getFullYear();
   const month = String(d.getMonth() + 1).padStart(2, "0");
@@ -13,17 +7,58 @@ export const toLocalDateString = (d = new Date()) => {
   return `${year}-${month}-${day}`;
 };
 
+// Parses "YYYY-MM-DD" as a *local* date, same reasoning as toLocalDateString:
+// `new Date("2026-07-29")` is parsed as UTC and can shift a day in some
+// timezones. Used anywhere we need to do date math on a permission range.
+const parseLocalDate = (dateStr) => {
+  const [y, m, d] = dateStr.split("-").map(Number);
+  return new Date(y, m - 1, d);
+};
+
 // "2026-07-13" -> "2026-07"
 export const getMonthKey = (dateStr) => dateStr.slice(0, 7);
 
 export const getStatus = (log) => {
   if (log.status) return log.status;
-
-  // Any attendance record means Present
   if (log.inTime) return "Present";
-
-  // Placeholder created by buildMonthLogs
   return "Absent";
+};
+
+// Inclusive day count between fromDate/toDate.
+export const getPermissionDays = (fromDate, toDate) => {
+  const from = parseLocalDate(fromDate);
+  const to = parseLocalDate(toDate || fromDate);
+  const diffDays = Math.round((to - from) / (1000 * 60 * 60 * 24));
+  return diffDays + 1;
+};
+
+// "2026-07-25", "2026-07-27" -> "Jul 25 – Jul 27, 2026"
+// Falls back gracefully to a single date when fromDate === toDate.
+export const formatDateRange = (fromDate, toDate) => {
+  if (!toDate || fromDate === toDate) {
+    return parseLocalDate(fromDate).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+    });
+  }
+
+  const from = parseLocalDate(fromDate);
+  const to = parseLocalDate(toDate);
+  const sameYear = from.getFullYear() === to.getFullYear();
+
+  const fromLabel = from.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    ...(sameYear ? {} : { year: "numeric" }),
+  });
+  const toLabel = to.toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+  });
+
+  return `${fromLabel} – ${toLabel}`;
 };
 
 const buildMonthLogs = (logs, permissions, monthKey) => {
@@ -47,8 +82,8 @@ const buildMonthLogs = (logs, permissions, monthKey) => {
   const result = [];
   for (let day = 1; day <= daysInMonth; day++) {
     const dateStr = `${year}-${String(month).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
-    if (dateStr < firstLogDate) continue; // before employee's first entry
-    if (dateStr > today) break; // future day
+    if (dateStr < firstLogDate) continue;
+    if (dateStr > today) break;
 
     const attendance = logsByDate[dateStr];
 
@@ -57,11 +92,13 @@ const buildMonthLogs = (logs, permissions, monthKey) => {
       continue;
     }
 
-    const approvedLeave = permissions.find(
-      p =>
-        p.date === dateStr &&
-        p.status === "Approved"
-    );
+    // Range-aware: falls back to legacy `p.date` for old single-date records
+    const approvedLeave = permissions.find((p) => {
+      if (p.status !== "Approved") return false;
+      const from = p.fromDate || p.date;
+      const to = p.toDate || p.date;
+      return dateStr >= from && dateStr <= to;
+    });
 
     if (approvedLeave) {
       result.push({
@@ -86,8 +123,6 @@ const buildMonthLogs = (logs, permissions, monthKey) => {
   return result;
 };
 
-// filters logs to the selected "YYYY-MM" month + status, and sorts by date
-// — missing dates (within the employee's active range) are treated as "Absent"
 export const getFilteredSortedLogs = (
   logs,
   permissions,
@@ -159,7 +194,6 @@ export default function EmployeeSort({
             <option value="Absent">Absent</option>
             <option value="Holiday">Holiday</option>
             <option value="Leave">Leave</option>
-
           </select>
         </div>
 

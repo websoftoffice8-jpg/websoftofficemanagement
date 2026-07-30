@@ -11,16 +11,24 @@ export default function Permissions() {
     const [statusFilter, setStatusFilter] = useState("all");
     const [sortOrder, setSortOrder] = useState("desc");
 
+
+
     useEffect(() => {
         fetchPermissions();
     }, []);
+
+
+
+
 
     const fetchPermissions = async () => {
         try {
             const res = await api.get(ENDPOINTS.PERMISSIONS);
 
             setPermissions(
-                res.data.sort((a, b) => b.date.localeCompare(a.date))
+                res.data.sort((a, b) =>
+                    (b.fromDate || b.date).localeCompare(a.fromDate || a.date)
+                )
             );
         } catch (err) {
             console.error(err);
@@ -28,6 +36,26 @@ export default function Permissions() {
             setLoading(false);
         }
     };
+
+
+    const filteredPermissions = permissions
+        .filter((permission) => {
+            const matchesSearch =
+                permission.name.toLowerCase().includes(search.toLowerCase()) ||
+                permission.employeeId.toLowerCase().includes(search.toLowerCase());
+
+            const matchesStatus =
+                statusFilter === "all" || permission.status === statusFilter;
+
+            return matchesSearch && matchesStatus;
+        })
+        .sort((a, b) =>
+            sortOrder === "desc"
+                ? (b.fromDate || b.date).localeCompare(a.fromDate || a.date)
+                : (a.fromDate || a.date).localeCompare(b.fromDate || b.date)
+        );
+
+
 
     const handleApprove = async (permission) => {
         try {
@@ -67,27 +95,7 @@ export default function Permissions() {
         );
     }
 
-    const filteredPermissions = permissions
-        .filter((permission) => {
-            const matchesSearch =
-                permission.name
-                    .toLowerCase()
-                    .includes(search.toLowerCase()) ||
-                permission.employeeId
-                    .toLowerCase()
-                    .includes(search.toLowerCase());
 
-            const matchesStatus =
-                statusFilter === "all" ||
-                permission.status === statusFilter;
-
-            return matchesSearch && matchesStatus;
-        })
-        .sort((a, b) =>
-            sortOrder === "desc"
-                ? b.date.localeCompare(a.date)
-                : a.date.localeCompare(b.date)
-        );
 
     return (
         <div className="max-w-7xl mx-auto p-8">
