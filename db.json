@@ -121,6 +121,16 @@
       "outTime": "04:00",
       "note": "test",
       "id": "-_1BMxIC4_c"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "date": "2026-07-30",
+      "inTime": "10:00",
+      "outTime": "16:00",
+      "note": "test",
+      "id": "GezXK9kfjss"
     }
   ],
   "permissions": [
@@ -132,6 +142,15 @@
       "reason": "test",
       "status": "Approved",
       "id": "gRadRV7DzBg"
+    },
+    {
+      "employeeId": "EMP02",
+      "userId": "o4TsZLXPASM",
+      "name": "Prashant Sunar",
+      "date": "2026-07-30",
+      "reason": "fever",
+      "status": "Approved",
+      "id": "nqu4xkgGDdc"
     }
   ],
   "holiday": [
