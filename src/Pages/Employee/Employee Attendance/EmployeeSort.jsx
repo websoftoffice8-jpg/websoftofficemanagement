@@ -16,7 +16,7 @@ export const toLocalDateString = (d = new Date()) => {
 // "2026-07-13" -> "2026-07"
 export const getMonthKey = (dateStr) => dateStr.slice(0, 7);
 
-export const getStatus = (log) => {
+z
   if (log.status) return log.status;
 
   // Any attendance record means Present
