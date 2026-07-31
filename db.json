@@ -43,51 +43,23 @@
       "id": "6iQ0WjvZ7Yo"
     },
     {
-      "employeeId": "EMP05",
-      "name": "Anmol ",
-      "password": "employee",
-      "department": "IT",
-      "position": "Manager",
-      "role": "employee",
-      "id": "q0RgVrwmhUg",
-      "employeeID": "EMP05"
-    },
-    {
-      "employeeId": "EMP06",
-      "name": "Abiskar",
-      "password": "employee",
-      "department": "HR",
-      "position": "Intern",
-      "role": "employee",
-      "id": "HuK0tbxwdF8",
-      "employeeID": "EMP06"
-    },
-    {
-      "employeeId": "EMP07",
-      "name": "Ashraya",
-      "password": "employee",
-      "department": "IT",
-      "position": "Manager",
-      "role": "employee",
-      "id": "aHveBHy3KoM"
-    },
-    {
-      "employeeId": "EMP08",
-      "name": "Pramish",
-      "password": "employee",
-      "department": "IT",
-      "position": "Marketing Specialist",
-      "role": "employee",
-      "id": "dVwZpGtoAQU"
-    },
-    {
       "employeeId": "EMP03",
-      "name": "Ram",
+      "name": "Sujan",
       "password": "employee",
       "department": "HR",
       "position": "Accountant",
       "role": "employee",
-      "id": "KRaDAh08eJU"
+      "id": "KRaDAh08eJU",
+      "employeeID": ""
+    },
+    {
+      "employeeId": "EMP05",
+      "name": "Pujan",
+      "password": "employee",
+      "department": "HR",
+      "position": "Accountant",
+      "role": "employee",
+      "id": "2IA7VYfQq2U"
     }
   ],
   "attendance": [
@@ -173,7 +145,7 @@
     },
     {
       "employeeId": "EMP06",
-      "userId": "q0RgVrwmhUg",
+      "userId": null,
       "name": "Anmol ",
       "date": "2026-07-30",
       "inTime": "10:30",
@@ -225,7 +197,7 @@
     },
     {
       "employeeId": "EMP07",
-      "userId": "HuK0tbxwdF8",
+      "userId": null,
       "name": "Abiskar",
       "fromDate": "2026-07-30",
       "toDate": "2026-07-30",
@@ -247,7 +219,7 @@
     },
     {
       "employeeId": "EMP06",
-      "userId": "q0RgVrwmhUg",
+      "userId": null,
       "name": "Anmol ",
       "fromDate": "2026-07-31",
       "toDate": "2026-07-31",

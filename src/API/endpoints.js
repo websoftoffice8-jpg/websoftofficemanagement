@@ -7,7 +7,7 @@ const ENDPOINTS = {
 
   // Attendance
   ATTENDANCE: "/attendance",
-
+ 
   // Reports
   REPORTS: "/reports",
 
