@@ -73,7 +73,13 @@ const DepartmentPieChart = () => {
                     ) || new Date().toISOString().split("T")[0];
 
                 const records = employees.map((emp) => {
-                    const holiday = holidays.find((h) => h.date === latestDate);
+                    // Holiday (date range)
+                    const holiday = holidays.find((h) => {
+                        const from = h.fromDate || h.date;
+                        const to = h.toDate || h.date;
+
+                        return latestDate >= from && latestDate <= to;
+                    });
 
                     if (holiday) {
                         return {
@@ -82,12 +88,20 @@ const DepartmentPieChart = () => {
                         };
                     }
 
-                    const leave = permissions.find(
-                        (p) =>
-                            p.employeeId === emp.employeeId &&
-                            p.date === latestDate &&
-                            p.status === "Approved"
-                    );
+                    // Approved Leave (date range)
+                    const leave = permissions.find((p) => {
+                        if (
+                            p.employeeId !== emp.employeeId ||
+                            p.status !== "Approved"
+                        ) {
+                            return false;
+                        }
+
+                        const from = p.fromDate || p.date;
+                        const to = p.toDate || p.date;
+
+                        return latestDate >= from && latestDate <= to;
+                    });
 
                     if (leave) {
                         return {
@@ -201,7 +215,7 @@ const DepartmentPieChart = () => {
     }
 
     return (
-       
+
         <div className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-white/40 bg-white/20 shadow-xl backdrop-blur-xl">
             {/* subtle top sheen to sell the glass effect */}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-transparent" />

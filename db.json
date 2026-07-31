@@ -178,6 +178,26 @@
       "outTime": "16:00",
       "note": "this it test",
       "id": "1QWRbQqNLvE"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "date": "2026-07-31",
+      "inTime": "10:30",
+      "outTime": "15:00",
+      "note": "test",
+      "id": "RJmaNqKkk6I"
+    },
+    {
+      "employeeId": "EMP02",
+      "userId": "o4TsZLXPASM",
+      "name": "Prashant Sunar",
+      "date": "2026-07-31",
+      "inTime": "10:00",
+      "outTime": "17:00",
+      "note": "test",
+      "id": "ZdA4cUNJR24"
     }
   ],
   "permissions": [
@@ -211,6 +231,28 @@
       "status": "Approved",
       "requestedAt": "2026-07-30T07:22:19.815Z",
       "id": "5hxrNL_6aWQ"
+    },
+    {
+      "employeeId": "EMP04",
+      "userId": "6iQ0WjvZ7Yo",
+      "name": "Dona",
+      "fromDate": "2026-07-31",
+      "toDate": "2026-07-31",
+      "reason": "leave test",
+      "status": "Approved",
+      "requestedAt": "2026-07-31T04:49:44.969Z",
+      "id": "UtD4McYnfok"
+    },
+    {
+      "employeeId": "EMP06",
+      "userId": "q0RgVrwmhUg",
+      "name": "Anmol ",
+      "fromDate": "2026-07-31",
+      "toDate": "2026-07-31",
+      "reason": "leave test",
+      "status": "Approved",
+      "requestedAt": "2026-07-31T04:52:07.837Z",
+      "id": "k0cJrrHC-7k"
     }
   ],
   "holiday": [

@@ -16,7 +16,12 @@ export function getDashboardStats(
   let holiday = 0;
   let leave = 0;
 
-  const isHoliday = holidays.some((h) => h.date === today);
+  const isHoliday = holidays.some((holiday) => {
+    const from = holiday.fromDate || holiday.date;
+    const to = holiday.toDate || holiday.date;
+
+    return today >= from && today <= to;
+  });
 
   employeeUsers.forEach((employee) => {
     // Company holiday
@@ -26,18 +31,21 @@ export function getDashboardStats(
     }
 
     // Approved leave
-    const approvedLeave = permissions.find(
-      (p) =>
-        p.employeeId === employee.employeeId &&
-        p.date === today &&
-        p.status === "Approved",
-    );
+    const approvedLeave = permissions.find((p) => {
+      if (p.employeeId !== employee.employeeId || p.status !== "Approved") {
+        return false;
+      }
+
+      const from = p.fromDate || p.date;
+      const to = p.toDate || p.date;
+
+      return today >= from && today <= to;
+    });
 
     if (approvedLeave) {
       leave++;
       return;
     }
-
     // Attendance exists
     const attendanceLog = attendance.find(
       (a) => a.employeeId === employee.employeeId && a.date === today,
@@ -77,16 +85,27 @@ export function getRecentAttendance(
   permissions
     .filter((p) => p.status === "Approved")
     .forEach((permission) => {
-      logs.push({
-        id: `leave-${permission.id}`,
-        employeeId: permission.employeeId,
-        name: permission.name,
-        date: permission.fromDate || permission.date,
-        inTime: "",
-        outTime: "",
-        note: permission.reason || "",
-        status: "Leave",
-      });
+      const start = new Date(permission.fromDate || permission.date);
+      const end = new Date(permission.toDate || permission.date);
+
+      for (
+        let current = new Date(start);
+        current <= end;
+        current.setDate(current.getDate() + 1)
+      ) {
+        const date = current.toISOString().split("T")[0];
+
+        logs.push({
+          id: `leave-${permission.id}-${date}`,
+          employeeId: permission.employeeId,
+          name: permission.name,
+          date,
+          inTime: "",
+          outTime: "",
+          note: permission.reason || "",
+          status: "Leave",
+        });
+      }
     });
 
   holidays.forEach((holiday) => {

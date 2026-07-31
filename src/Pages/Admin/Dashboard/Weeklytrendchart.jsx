@@ -128,40 +128,53 @@ const WeeklyTrendChart = () => {
             const date = toLocalDateString(current)
             const dayIndex = current.getDay()
 
-            const holiday = holidays.find((h) => h.date === date)
+            // Company holiday (date range)
+            const isHoliday = holidays.some((h) => {
+                const from = h.fromDate || h.date;
+                const to = h.toDate || h.date;
+
+                return date >= from && date <= to;
+            });
 
             employees.forEach((employee) => {
-                // Holiday (skip counting absent/present/leave)
-                if (holiday) {
-                    return
+                // Skip holidays completely
+                if (isHoliday) {
+                    return;
                 }
 
-                const permission = permissions.find(
-                    (p) =>
-                        p.employeeId === employee.employeeId &&
-                        p.date === date &&
-                        p.status === "Approved"
-                )
+                // Approved leave (date range)
+                const leave = permissions.find((p) => {
+                    if (
+                        p.employeeId !== employee.employeeId ||
+                        p.status !== "Approved"
+                    ) {
+                        return false;
+                    }
 
-                if (permission) {
-                    buckets[dayIndex].Leave++
-                    return
+                    const from = p.fromDate || p.date;
+                    const to = p.toDate || p.date;
+
+                    return date >= from && date <= to;
+                });
+
+                if (leave) {
+                    buckets[dayIndex].Leave++;
+                    return;
                 }
 
+                // Attendance
                 const log = attendance.find(
                     (a) =>
                         a.employeeId === employee.employeeId &&
                         a.date === date
-                )
+                );
 
-                if (log?.status === "Leave") {
-                    buckets[dayIndex].Leave++
-                } else if (log?.inTime) {
-                    buckets[dayIndex].Present++
+                if (log?.inTime) {
+                    buckets[dayIndex].Present++;
                 } else {
-                    buckets[dayIndex].Absent++
+                    buckets[dayIndex].Absent++;
                 }
-            })
+            });
         }
 
         return buckets
@@ -207,9 +220,6 @@ const WeeklyTrendChart = () => {
     }
 
     return (
-        // Glassmorphism: translucent white fill + backdrop-blur, matching
-        // DepartmentPieChart. h-full + flex-col still fills whatever height
-        // the grid's default "align-items: stretch" gives this cell.
         <div className="relative flex h-full w-full flex-col overflow-hidden rounded-2xl border border-white/40 bg-white/20 px-6 py-6 shadow-xl backdrop-blur-xl">
             {/* subtle top sheen to sell the glass effect */}
             <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-transparent" />
