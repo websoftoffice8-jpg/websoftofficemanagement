@@ -14,16 +14,8 @@
       "department": "IT",
       "position": "Manager",
       "role": "employee",
-      "id": "wpZVldvOPJ4"
-    },
-    {
-      "employeeId": "EMP03",
-      "name": "Sujan",
-      "password": "employee",
-      "department": "IT",
-      "position": "Manager",
-      "role": "employee",
-      "id": "XSGJYJeYPCo"
+      "id": "wpZVldvOPJ4",
+      "employeeID": ""
     },
     {
       "employeeId": "EMP02",
@@ -51,7 +43,7 @@
       "id": "6iQ0WjvZ7Yo"
     },
     {
-      "employeeId": "EMP06",
+      "employeeId": "EMP05",
       "name": "Anmol ",
       "password": "employee",
       "department": "IT",
@@ -61,16 +53,17 @@
       "employeeID": "EMP05"
     },
     {
-      "employeeId": "EMP07",
+      "employeeId": "EMP06",
       "name": "Abiskar",
       "password": "employee",
       "department": "HR",
       "position": "Intern",
       "role": "employee",
-      "id": "HuK0tbxwdF8"
+      "id": "HuK0tbxwdF8",
+      "employeeID": "EMP06"
     },
     {
-      "employeeId": "EMP08",
+      "employeeId": "EMP07",
       "name": "Ashraya",
       "password": "employee",
       "department": "IT",
@@ -79,13 +72,22 @@
       "id": "aHveBHy3KoM"
     },
     {
-      "employeeId": "EMP09",
+      "employeeId": "EMP08",
       "name": "Pramish",
       "password": "employee",
       "department": "IT",
       "position": "Marketing Specialist",
       "role": "employee",
       "id": "dVwZpGtoAQU"
+    },
+    {
+      "employeeId": "EMP03",
+      "name": "Ram",
+      "password": "employee",
+      "department": "HR",
+      "position": "Accountant",
+      "role": "employee",
+      "id": "KRaDAh08eJU"
     }
   ],
   "attendance": [
@@ -111,7 +113,7 @@
     },
     {
       "employeeId": "EMP03",
-      "userId": "XSGJYJeYPCo",
+      "userId": null,
       "name": "Sujan",
       "date": "2026-07-28",
       "inTime": "10:00",
@@ -212,7 +214,7 @@
     },
     {
       "employeeId": "EMP03",
-      "userId": "XSGJYJeYPCo",
+      "userId": null,
       "name": "Sujan",
       "fromDate": "2026-07-31",
       "toDate": "2026-08-04",
