@@ -61,7 +61,7 @@ export const formatDateRange = (fromDate, toDate) => {
   return `${fromLabel} – ${toLabel}`;
 };
 
-const buildMonthLogs = (logs, permissions, monthKey) => {
+const buildMonthLogs = (logs, permissions, holidays, monthKey) => {
   if (logs.length === 0) return [];
 
   const [year, month] = monthKey.split("-").map(Number);
@@ -89,6 +89,22 @@ const buildMonthLogs = (logs, permissions, monthKey) => {
 
     if (attendance) {
       result.push(attendance);
+      continue;
+    }
+
+    const holiday = holidays.find((h) => h.date === dateStr);
+
+    if (holiday) {
+      result.push({
+        id: `holiday-${dateStr}`,
+        date: dateStr,
+        status: holiday.title === "Saturday" ? "Saturday" : "Holiday",
+        title: holiday.title,
+        inTime: null,
+        outTime: null,
+        note: holiday.description || "",
+      });
+
       continue;
     }
 
@@ -126,11 +142,13 @@ const buildMonthLogs = (logs, permissions, monthKey) => {
 export const getFilteredSortedLogs = (
   logs,
   permissions,
+  holidays,
   selectedMonth,
   sortOrder,
   statusFilter = "all"
 ) => {
-  const monthLogs = buildMonthLogs(logs, permissions, selectedMonth);
+  const monthLogs = buildMonthLogs(logs, permissions, holidays, selectedMonth);
+
   const filtered = monthLogs.filter(
     (log) => statusFilter === "all" || getStatus(log) === statusFilter
   );

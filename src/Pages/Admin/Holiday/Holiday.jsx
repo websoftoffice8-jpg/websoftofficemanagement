@@ -265,7 +265,9 @@ export default function Holiday() {
             />
 
             <HolidayTable
-                holidays={holidays}
+                holidays={holidays.filter(
+                    (holiday) => holiday.title !== SATURDAY_TITLE
+                )}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
             />

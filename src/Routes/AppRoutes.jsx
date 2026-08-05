@@ -16,7 +16,7 @@ import Holiday from "../Pages/Admin/Holiday/Holiday";
 
 // Employee
 import AttendancePage from "../Pages/Employee/Employee Attendance/Attendance";
-import EmployeeDashboard from '../Pages/Employee/EmployeeDashboard'
+import EmployeeDashboard from "../Pages/Employee/Employee Dashboard/EmployeeDashboard";
 
     
 import React from 'react'

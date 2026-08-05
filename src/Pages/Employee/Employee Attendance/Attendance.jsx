@@ -6,6 +6,7 @@ import EmployeeTable from "./EmployeeTable";
 import EmployeeSort, { getMonthKey, getFilteredSortedLogs, toLocalDateString } from "./EmployeeSort";
 
 export default function Attendance() {
+  const [holidays, setHolidays] = useState([]);
   const [leaveFrom, setLeaveFrom] = useState(toLocalDateString(new Date()));
   const [leaveTo, setLeaveTo] = useState(toLocalDateString(new Date()));
   const [permissions, setPermissions] = useState([]);
@@ -20,7 +21,6 @@ export default function Attendance() {
   const [selectedMonth, setSelectedMonth] = useState(getMonthKey(toLocalDateString(new Date())));
   const [sortOrder, setSortOrder] = useState("desc");
   const [statusFilter, setStatusFilter] = useState("all");
-
 
   const handleMarkLeave = async () => {
     if (!leaveFrom || !leaveTo) return;
@@ -71,7 +71,6 @@ export default function Attendance() {
     }
   };
 
-
   useEffect(() => {
     fetchAttendance();
   }, []);
@@ -85,15 +84,16 @@ export default function Attendance() {
     }
   };
 
-
   const fetchAttendance = async () => {
     const user = getUser();
 
     try {
-      const [attendanceRes, permissionRes] = await Promise.all([
+      const [attendanceRes, permissionRes, holidayRes] = await Promise.all([
         api.get(`${ENDPOINTS.ATTENDANCE}?employeeId=${user.employeeId}`),
-        api.get(`${ENDPOINTS.PERMISSIONS}?employeeId=${user.employeeId}`)
+        api.get(`${ENDPOINTS.PERMISSIONS}?employeeId=${user.employeeId}`),
+        api.get(ENDPOINTS.HOLIDAYS),
       ]);
+      setHolidays(holidayRes.data);
 
       setLogs(attendanceRes.data.sort((a, b) => b.date.localeCompare(a.date)));
       setPermissions(permissionRes.data);
@@ -242,23 +242,10 @@ export default function Attendance() {
     }
   };
 
-  
-
-  const logsWithLeave = logs.map(log => {
-    const approvedPermission = permissions.find(
-      p =>
-        p.date === log.date &&
-        p.status === "Approved"
-    );
-
-    return approvedPermission
-      ? { ...log, status: "Leave" }
-      : log;
-  });
-
   const visibleLogs = getFilteredSortedLogs(
     logs,
     permissions,
+    holidays,
     selectedMonth,
     sortOrder,
     statusFilter
@@ -305,7 +292,6 @@ export default function Attendance() {
         startEditing={startEditing}
         cancelEditing={cancelEditing}
         saveEditing={saveEditing}
-
       />
     </div>
   );

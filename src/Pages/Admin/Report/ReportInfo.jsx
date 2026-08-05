@@ -171,6 +171,7 @@ export default function ReportInfo({ employee }) {
               outTime: "",
               note: holiday.note || "",
               status: "Holiday",
+              title: holiday.title,
             };
           }
 
@@ -224,7 +225,6 @@ export default function ReportInfo({ employee }) {
       setLoadingLogs(false);
     }
   };
-
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -401,7 +401,7 @@ export default function ReportInfo({ employee }) {
                           <span
                             className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusClass(log.status)}`}
                           >
-                            {log.status}
+                            {log.status === "Holiday" ? (log.title || "Holiday") : log.status}
                           </span>
                         </td>
                         <td className="px-5 py-4 text-slate-600 max-w-sm">

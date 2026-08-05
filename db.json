@@ -60,6 +60,13 @@
       "position": "Accountant",
       "role": "employee",
       "id": "2IA7VYfQq2U"
+    },
+    {
+      "employeeId": "EMP11",
+      "name": "sujan",
+      "password": "admin",
+      "role": "admin",
+      "id": "fKCcLxdgIUg"
     }
   ],
   "attendance": [
@@ -247,6 +254,39 @@
       "status": "Approved",
       "requestedAt": "2026-07-31T04:52:07.837Z",
       "id": "k0cJrrHC-7k"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "fromDate": "2026-08-05",
+      "toDate": "2026-08-05",
+      "reason": "fever",
+      "status": "Approved",
+      "requestedAt": "2026-08-05T05:27:35.501Z",
+      "id": "mYOnNlNinvw"
+    },
+    {
+      "employeeId": "EMP02",
+      "userId": "o4TsZLXPASM",
+      "name": "Prashant Sunar",
+      "fromDate": "2026-08-05",
+      "toDate": "2026-08-05",
+      "reason": "leave test",
+      "status": "Approved",
+      "requestedAt": "2026-08-05T06:25:19.834Z",
+      "id": "yg_mSyVgGMg"
+    },
+    {
+      "employeeId": "EMP04",
+      "userId": "6iQ0WjvZ7Yo",
+      "name": "Dona",
+      "fromDate": "2026-08-06",
+      "toDate": "2026-08-06",
+      "reason": "leave test",
+      "status": "Approved",
+      "requestedAt": "2026-08-05T06:26:59.486Z",
+      "id": "37Z9IX3OdKY"
     }
   ],
   "holiday": [
@@ -381,6 +421,42 @@
       "title": "Saturday",
       "description": "Weekly off (auto-added)",
       "id": "dCuJXQF0-eo"
+    },
+    {
+      "date": "2026-10-03",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "5QzcGgnI4xI"
+    },
+    {
+      "date": "2026-10-24",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "2RRLAYoGIKs"
+    },
+    {
+      "date": "2026-10-31",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "aMetAzQpNtM"
+    },
+    {
+      "date": "2026-10-10",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "RK5fg9i8_UQ"
+    },
+    {
+      "date": "2026-10-17",
+      "title": "Saturday",
+      "description": "Weekly off (auto-added)",
+      "id": "0iahOxQy-Es"
+    },
+    {
+      "date": "2026-08-06",
+      "title": "Dashain",
+      "description": "holiday hai ta",
+      "id": "wfYGxlpR35c"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

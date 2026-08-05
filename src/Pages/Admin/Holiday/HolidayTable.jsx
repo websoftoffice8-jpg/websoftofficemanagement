@@ -1,5 +1,5 @@
 import HolidayRow from "./HolidayRow";
-
+import { useMemo, useState } from "react";
 // Local date +1 day, as a YYYY-MM-DD string (no UTC-shift issues since we
 // only ever operate on plain date strings here, not Date "now" instants).
 const nextDateStr = (dateStr) => {
@@ -57,7 +57,24 @@ export default function HolidayTable({
   handleEdit,
   handleDelete,
 }) {
-  const rows = groupConsecutiveHolidays(holidays);
+ 
+  //pagination
+
+  const ITEMS_PER_PAGE = 5;
+
+const [currentPage, setCurrentPage] = useState(1);
+
+const rows = useMemo(
+  () => groupConsecutiveHolidays(holidays),
+  [holidays]
+);
+
+const totalPages = Math.max(1, Math.ceil(rows.length / ITEMS_PER_PAGE));
+
+const paginatedRows = rows.slice(
+  (currentPage - 1) * ITEMS_PER_PAGE,
+  currentPage * ITEMS_PER_PAGE
+);
 
   return (
     <div className="bg-white border border-slate-200 rounded-xl overflow-hidden">
@@ -85,7 +102,7 @@ export default function HolidayTable({
 
           <tbody className="divide-y divide-slate-200">
             {rows.length > 0 ? (
-              rows.map((holiday) => (
+              paginatedRows.map((holiday) => (
                 <HolidayRow
                   key={holiday.id}
                   holiday={holiday}
@@ -106,6 +123,40 @@ export default function HolidayTable({
           </tbody>
         </table>
       </div>
+      <div className="flex items-center justify-between px-5 py-4 border-t border-slate-200">
+  <p className="text-sm text-slate-500">
+    Showing{" "}
+    {rows.length === 0
+      ? 0
+      : (currentPage - 1) * ITEMS_PER_PAGE + 1}
+    {" - "}
+    {Math.min(currentPage * ITEMS_PER_PAGE, rows.length)}
+    {" of "}
+    {rows.length}
+  </p>
+
+  <div className="flex items-center gap-2">
+    <button
+      onClick={() => setCurrentPage((p) => p - 1)}
+      disabled={currentPage === 1}
+      className="px-3 py-1.5 rounded-lg border disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-100"
+    >
+      Previous
+    </button>
+
+    <span className="text-sm font-medium">
+      {currentPage} / {totalPages}
+    </span>
+
+    <button
+      onClick={() => setCurrentPage((p) => p + 1)}
+      disabled={currentPage === totalPages}
+      className="px-3 py-1.5 rounded-lg border disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-100"
+    >
+      Next
+    </button>
+  </div>
+</div>
     </div>
   );
 }
