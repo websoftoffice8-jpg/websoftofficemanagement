@@ -3,7 +3,7 @@ import { AlertTriangle } from "lucide-react";
 import api from "../../../API/Axios";
 import ENDPOINTS from "../../../API/endpoints";
 
-import DashboardHeader from "./DashboardHeader";
+import ProfileSummary from "./ProfileSummary";
 import HolidayBanner from "./HolidayBanner";
 import NoticeBoard from "./NoticeBoard";
 import StatsCards from "./StatsCards";
@@ -83,7 +83,12 @@ export default function Dashboard() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6">
         <HolidayBanner holidays={holidays} />
 
-        <DashboardHeader user={user} />
+        <ProfileSummary
+          user={user}
+          attendance={attendance}
+          permissions={permissions}
+          holidays={holidays}
+        />
 
         <StatsCards
           attendance={attendance}

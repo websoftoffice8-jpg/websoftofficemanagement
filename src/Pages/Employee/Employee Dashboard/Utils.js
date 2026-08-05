@@ -163,3 +163,38 @@ export function getTodayOrTomorrowHoliday(holidays = []) {
 
   return null;
 }
+
+
+// ==========================
+// Today's Status (Present / Absent / Leave / Holiday)
+// ==========================
+export function getTodayStatus(attendance, permissions, holidays, employeeId) {
+  const today = toLocalDateString(new Date());
+
+  // Holiday takes top priority
+  const holidayToday = holidays.find((h) => (h.date || h.from) === today);
+  if (holidayToday) {
+    return { status: "Holiday", label: holidayToday.title || holidayToday.name };
+  }
+
+  // Approved leave covering today (range-aware, falls back to legacy `date`)
+  const leaveToday = permissions.find((p) => {
+    if (p.employeeId !== employeeId || p.status !== "Approved") return false;
+    const from = p.fromDate || p.date;
+    const to = p.toDate || p.date;
+    return today >= from && today <= to;
+  });
+  if (leaveToday) return { status: "Leave" };
+
+  // Today's attendance record, if any
+  const record = attendance.find(
+    (a) => a.employeeId === employeeId && a.date === today
+  );
+  if (record) {
+    const status = record.status || (record.inTime ? "Present" : "Absent");
+    return { status };
+  }
+
+  // No record yet — day may not be over, don't assume Absent
+  return { status: "Not Marked" };
+}

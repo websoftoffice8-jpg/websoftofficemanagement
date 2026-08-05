@@ -199,6 +199,16 @@
       "outTime": "16:00",
       "note": "test",
       "id": "tZatsRD3O_A"
+    },
+    {
+      "employeeId": "EMP03",
+      "userId": "KRaDAh08eJU",
+      "name": "Sujan",
+      "date": "2026-08-05",
+      "inTime": "10:30",
+      "outTime": "16:00",
+      "note": "present",
+      "id": "O1c84QBsULw"
     }
   ],
   "permissions": [
@@ -256,17 +266,6 @@
       "id": "k0cJrrHC-7k"
     },
     {
-      "employeeId": "EMP01",
-      "userId": "wpZVldvOPJ4",
-      "name": "Rachit tiwari",
-      "fromDate": "2026-08-05",
-      "toDate": "2026-08-05",
-      "reason": "fever",
-      "status": "Approved",
-      "requestedAt": "2026-08-05T05:27:35.501Z",
-      "id": "mYOnNlNinvw"
-    },
-    {
       "employeeId": "EMP02",
       "userId": "o4TsZLXPASM",
       "name": "Prashant Sunar",
@@ -287,6 +286,17 @@
       "status": "Approved",
       "requestedAt": "2026-08-05T06:26:59.486Z",
       "id": "37Z9IX3OdKY"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "fromDate": "2026-08-06",
+      "toDate": "2026-08-07",
+      "reason": "fever",
+      "status": "Approved",
+      "requestedAt": "2026-08-05T08:31:45.586Z",
+      "id": "zmgEWdBMd4Y"
     }
   ],
   "holiday": [
