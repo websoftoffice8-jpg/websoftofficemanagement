@@ -4,6 +4,7 @@ import api from "../../../API/Axios";
 import ENDPOINTS from "../../../API/endpoints";
 
 import ProfileSummary from "./ProfileSummary";
+import TodayStatus from "./TodayStatus";
 import HolidayBanner from "./HolidayBanner";
 import NoticeBoard from "./NoticeBoard";
 import StatsCards from "./StatsCards";
@@ -83,12 +84,17 @@ export default function Dashboard() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 py-8 space-y-6">
         <HolidayBanner holidays={holidays} />
 
-        <ProfileSummary
-          user={user}
-          attendance={attendance}
-          permissions={permissions}
-          holidays={holidays}
-        />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2">
+            <ProfileSummary user={user} />
+          </div>
+          <TodayStatus
+            attendance={attendance}
+            permissions={permissions}
+            holidays={holidays}
+            employeeId={user.employeeId}
+          />
+        </div>
 
         <StatsCards
           attendance={attendance}

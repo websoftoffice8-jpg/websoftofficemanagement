@@ -209,6 +209,16 @@
       "outTime": "16:00",
       "note": "present",
       "id": "O1c84QBsULw"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "date": "2026-08-05",
+      "inTime": "10:30",
+      "outTime": "16:00",
+      "note": "",
+      "id": "tM5jXX-Mnbc"
     }
   ],
   "permissions": [
