@@ -16,6 +16,7 @@ export default function EmployeePostModal({
   handleAddEntry,
   handleMarkLeave,
 }) {
+   const today = toLocalDateString(new Date());
   
 
   return (

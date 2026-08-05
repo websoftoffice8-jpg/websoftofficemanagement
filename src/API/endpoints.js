@@ -18,7 +18,7 @@ const ENDPOINTS = {
   PERMISSIONS: "/permissions",
 
   // holiday
-  HOLIDAYS: "/holiday"
+  HOLIDAYS: "/holiday",
 };
 
 export default ENDPOINTS;
