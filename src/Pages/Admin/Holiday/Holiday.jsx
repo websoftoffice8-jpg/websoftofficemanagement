@@ -7,6 +7,8 @@ import HolidayTable from "./HolidayTable";
 import {
     sortHolidaysByDate,
     holidayExists,
+    sortNoticesByDate,
+    noticeExists,
 } from "./HolidayUtils";
 
 // How many months back/forward (relative to today) to auto-detect and
@@ -70,6 +72,13 @@ export default function Holiday() {
 
     const [editingId, setEditingId] = useState(null);
 
+    // --- Notices ---
+    const [notices, setNotices] = useState([]);
+    const [noticeDate, setNoticeDate] = useState("");
+    const [noticeTitle, setNoticeTitle] = useState("");
+    const [noticeDescription, setNoticeDescription] = useState("");
+    const [editingNoticeId, setEditingNoticeId] = useState(null);
+
     // Guards so the auto-add routine only runs once per mount, not on
     // every holidays state update (fetchHolidays is called after every
     // save/delete too).
@@ -77,6 +86,7 @@ export default function Holiday() {
 
     useEffect(() => {
         fetchHolidays();
+        fetchNotices();
     }, []);
 
     const fetchHolidays = async () => {
@@ -240,6 +250,79 @@ export default function Holiday() {
         }
     };
 
+    // --- Notice handlers ---
+
+    const fetchNotices = async () => {
+        try {
+            const res = await api.get(ENDPOINTS.NOTICE);
+            setNotices(sortNoticesByDate(res.data));
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const resetNoticeForm = () => {
+        setNoticeDate("");
+        setNoticeTitle("");
+        setNoticeDescription("");
+        setEditingNoticeId(null);
+    };
+
+    const handleNoticeSave = async () => {
+        if (!noticeDate || !noticeTitle.trim()) return;
+
+        if (noticeExists(notices, noticeDate, noticeTitle, editingNoticeId)) {
+            alert("A notice with this title already exists for this date.");
+            return;
+        }
+
+        try {
+            if (editingNoticeId) {
+                await api.patch(`${ENDPOINTS.NOTICE}/${editingNoticeId}`, {
+                    date: noticeDate,
+                    title: noticeTitle.trim(),
+                    description: noticeDescription.trim(),
+                });
+            } else {
+                await api.post(ENDPOINTS.NOTICE, {
+                    date: noticeDate,
+                    title: noticeTitle.trim(),
+                    description: noticeDescription.trim(),
+                });
+            }
+
+            await fetchNotices();
+            resetNoticeForm();
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleNoticeEdit = (notice) => {
+        setEditingNoticeId(notice.id);
+        setNoticeDate(notice.date);
+        setNoticeTitle(notice.title);
+        setNoticeDescription(notice.description || "");
+    };
+
+    const handleNoticeDelete = async (id) => {
+        const confirmed = window.confirm("Delete this notice?");
+
+        if (!confirmed) return;
+
+        try {
+            await api.delete(`${ENDPOINTS.NOTICE}/${id}`);
+
+            await fetchNotices();
+
+            if (editingNoticeId === id) {
+                resetNoticeForm();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
     return (
         <div className="max-w-5xl mx-auto p-8">
             <h1 className="text-3xl font-bold text-slate-800 mb-1">
@@ -270,6 +353,34 @@ export default function Holiday() {
                 )}
                 handleEdit={handleEdit}
                 handleDelete={handleDelete}
+            />
+
+            <h2 className="text-2xl font-bold text-slate-800 mb-1 mt-12">
+                Notices
+            </h2>
+
+            <p className="text-slate-500 text-sm mb-8">
+                Manage company notices and announcements.
+            </p>
+
+            <HolidayForm
+                fromDate={noticeDate}
+                setFromDate={setNoticeDate}
+                toDate={noticeDate}
+                setToDate={setNoticeDate}
+                title={noticeTitle}
+                setTitle={setNoticeTitle}
+                description={noticeDescription}
+                setDescription={setNoticeDescription}
+                editingId={editingNoticeId}
+                handleSave={handleNoticeSave}
+                resetForm={resetNoticeForm}
+            />
+
+            <HolidayTable
+                holidays={notices}
+                handleEdit={handleNoticeEdit}
+                handleDelete={handleNoticeDelete}
             />
         </div>
     );

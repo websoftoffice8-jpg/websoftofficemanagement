@@ -479,5 +479,13 @@
       "id": "wfYGxlpR35c"
     }
   ],
+  "notice": [
+    {
+      "date": "2026-08-06",
+      "title": "notice test",
+      "description": "notice test hai",
+      "id": "gbNtKeZ-5Qg"
+    }
+  ],
   "$schema": "./node_modules/json-server/schema.json"
 }

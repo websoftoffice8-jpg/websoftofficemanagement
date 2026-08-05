@@ -26,7 +26,7 @@ export const adminLinks = [
     icon: "ShieldCheck",
   },
   {
-    name: " Set Holiday",
+    name: " Holiday/Notice",
     path: "/admin/holiday",
     icon: "Palmtree",
   },

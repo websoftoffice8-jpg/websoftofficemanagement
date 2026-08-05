@@ -19,6 +19,9 @@ const ENDPOINTS = {
 
   // holiday
   HOLIDAYS: "/holiday",
+
+  //notice
+  NOTICE: "/notice",
 };
 
 export default ENDPOINTS;
