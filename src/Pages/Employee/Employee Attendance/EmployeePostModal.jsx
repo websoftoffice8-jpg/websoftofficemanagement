@@ -15,9 +15,11 @@ export default function EmployeePostModal({
   setLeaveTo,
   handleAddEntry,
   handleMarkLeave,
+  holidays = [],
 }) {
-   const today = toLocalDateString(new Date());
-  
+  const today = toLocalDateString(new Date());
+  const todaysHoliday = holidays.find((h) => h.date === date);
+  const isHoliday = Boolean(todaysHoliday);
 
   return (
     <div className="bg-white border border-slate-200 rounded-xl p-6 mb-8">
@@ -66,13 +68,19 @@ export default function EmployeePostModal({
           </label>
           <button
             onClick={handleAddEntry}
-            disabled={!date || !inTime}
+            disabled={!date || !inTime || isHoliday}
             className="w-full px-4 py-2.5 rounded-lg bg-green-600 text-white text-sm font-medium disabled:opacity-40 disabled:cursor-not-allowed hover:bg-green-700"
           >
             Save Entry
           </button>
         </div>
       </div>
+
+      {isHoliday && (
+        <p className="mt-2 text-xs text-amber-600">
+          Today is a holiday{todaysHoliday.title ? ` (${todaysHoliday.title})` : ""} — check-in is disabled.
+        </p>
+      )}
 
       <div className="mt-6 pt-5 border-t border-slate-100">
         <p className="text-xs font-medium text-slate-500 mb-3">Request Leave</p>

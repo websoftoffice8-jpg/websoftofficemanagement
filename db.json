@@ -145,7 +145,6 @@
       "note": "test",
       "id": "GezXK9kfjss"
     },
-    
     {
       "employeeId": "EMP01",
       "userId": "wpZVldvOPJ4",
@@ -205,16 +204,6 @@
       "outTime": "16:00",
       "note": "",
       "id": "tM5jXX-Mnbc"
-    },
-    {
-      "employeeId": "EMP06",
-      "userId": "lXCuDYL60Z4",
-      "name": "Gaurav",
-      "date": "2026-08-07",
-      "inTime": "10:30",
-      "outTime": "16:00",
-      "note": "",
-      "id": "CTu24qsrvJ4"
     }
   ],
   "permissions": [
@@ -260,7 +249,6 @@
       "requestedAt": "2026-07-31T04:49:44.969Z",
       "id": "UtD4McYnfok"
     },
-    
     {
       "employeeId": "EMP02",
       "userId": "o4TsZLXPASM",
@@ -293,6 +281,28 @@
       "status": "Approved",
       "requestedAt": "2026-08-05T08:31:45.586Z",
       "id": "zmgEWdBMd4Y"
+    },
+    {
+      "employeeId": "EMP06",
+      "userId": "lXCuDYL60Z4",
+      "name": "Gaurav",
+      "fromDate": "2026-08-07",
+      "toDate": "2026-08-07",
+      "reason": "",
+      "status": "Rejected",
+      "requestedAt": "2026-08-07T07:52:57.170Z",
+      "id": "3-9htSxWFmo"
+    },
+    {
+      "employeeId": "EMP04",
+      "userId": "6iQ0WjvZ7Yo",
+      "name": "Dona",
+      "fromDate": "2026-08-07",
+      "toDate": "2026-08-07",
+      "reason": "",
+      "status": "Rejected",
+      "requestedAt": "2026-08-07T08:20:39.543Z",
+      "id": "W8_-XoBua-I"
     }
   ],
   "holiday": [

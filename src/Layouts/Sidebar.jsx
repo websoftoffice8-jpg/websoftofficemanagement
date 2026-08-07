@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import {
@@ -12,6 +12,8 @@ import {
   LogOut,
   X,
 } from "lucide-react";
+import api from "../API/Axios";
+import ENDPOINTS from "../API/endpoints";
 
 const icons = {
   LayoutDashboard,
@@ -23,20 +25,35 @@ const icons = {
   Palmtree,
 };
 
-
-
-
 const Sidebar = ({ links, isOpen, setIsOpen }) => {
-
   const navigate = useNavigate();
+  const [pendingCount, setPendingCount] = useState(0);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
     navigate("/", { replace: true });
   };
+
+  useEffect(() => {
+    const fetchPendingCount = async () => {
+      try {
+        const res = await api.get(
+          `${ENDPOINTS.PERMISSIONS}?status=Pending`
+        );
+        setPendingCount(res.data.length);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchPendingCount();
+
+    // Optional: keep the badge fresh without a full page reload
+    const interval = setInterval(fetchPendingCount, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
   return (
-
-
     <>
       {/* Mobile Overlay */}
       {isOpen && (
@@ -58,7 +75,6 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
         `}
       >
         {/* Header */}
-        {/* Header */}
         <div className="flex items-center justify-between px-6 h-16 shrink-0">
           <div className="flex items-center gap-2.5">
             <img src="/websoft.png" alt="AttendEase" className="h-10 w-44 object-contain" />
@@ -77,6 +93,7 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
         <nav className="px-3 py-5 flex flex-col gap-1 flex-1 overflow-y-auto">
           {links.map((item) => {
             const Icon = icons[item.icon];
+            const isPermissionsLink = item.path === "/admin/permissions";
 
             return (
               <NavLink
@@ -98,7 +115,13 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
                     className="shrink-0"
                   />
                 )}
-                <span className="text-[13.5px] font-medium">{item.name}</span>
+                <span className="text-[13.5px] font-medium flex-1">{item.name}</span>
+
+                {isPermissionsLink && pendingCount > 0 && (
+                  <span className="flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-red-500 text-white text-[11px] font-semibold leading-none">
+                    {pendingCount > 99 ? "99+" : pendingCount}
+                  </span>
+                )}
               </NavLink>
             );
           })}
@@ -120,3 +143,4 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
 };
 
 export default Sidebar;
+

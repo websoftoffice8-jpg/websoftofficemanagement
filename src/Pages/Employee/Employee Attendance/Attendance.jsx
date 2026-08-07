@@ -22,6 +22,8 @@ export default function Attendance() {
   const [sortOrder, setSortOrder] = useState("desc");
   const [statusFilter, setStatusFilter] = useState("all");
 
+
+
   const handleMarkLeave = async () => {
     if (!leaveFrom || !leaveTo) return;
 
@@ -108,6 +110,11 @@ export default function Attendance() {
 
   const handleAddEntry = async () => {
     if (!date || !inTime) return;
+    const isHoliday = holidays.some((h) => h.date === date);
+    if (isHoliday) {
+      alert("You can't check in on a holiday.");
+      return;
+    }
 
     try {
       const user = getUser();
@@ -271,6 +278,7 @@ export default function Attendance() {
         setLeaveTo={setLeaveTo}
         handleAddEntry={handleAddEntry}
         handleMarkLeave={handleMarkLeave}
+        holidays={holidays}
       />
 
       <EmployeeSort
