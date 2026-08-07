@@ -10,7 +10,7 @@ export default function ProfileSummary({ user }) {
   return (
     <div className="bg-white rounded-2xl shadow-sm ring-1 ring-slate-900/5 p-6 h-full">
       <div className="flex items-center gap-4">
-        <div className="w-12 h-12 shrink-0 rounded-full bg-gradient-to-br from-emerald-500 to-emerald-700 flex items-center justify-center text-white font-semibold text-sm tracking-wide">
+        <div className="w-12 h-12 shrink-0 rounded-full bg-gradient-to-br from-emerald-500 bg-green-600 flex items-center justify-center text-white font-semibold text-sm tracking-wide">
           {getInitials(user?.name)}
         </div>
 

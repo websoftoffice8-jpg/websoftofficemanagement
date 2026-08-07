@@ -16,7 +16,7 @@ export default function HolidayBanner({ holidays }) {
     <div
       className={`relative rounded-2xl p-4 sm:p-5 flex items-center gap-4 shadow-sm ring-1 ${
         isToday
-          ? "bg-emerald-600 ring-emerald-600 text-white"
+          ? "bg-emerald-60 bg-green-600 text-white"
           : "bg-white ring-slate-900/5 text-slate-800"
       }`}
     >
