@@ -7,10 +7,8 @@ import Navbar from "./Navbar";
 const DashboardLayout = ({ links, userName }) => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const user = JSON.parse(localStorage.getItem("user"));
-
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="min-h-screen bg-slate-50 flex">
       {/* Sidebar */}
       <Sidebar
         links={links}
@@ -18,14 +16,16 @@ const DashboardLayout = ({ links, userName }) => {
         setIsOpen={setIsOpen}
       />
 
-      {/* Main Content */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      {/* Main Area */}
+      <div className="flex-1 min-w-0 flex flex-col min-h-screen">
+        {/* Navbar */}
         <Navbar
           userName={userName}
           setIsOpen={setIsOpen}
         />
 
-        <main className="flex-1 overflow-y-auto p-6">
+        {/* Page Content */}
+        <main className="flex-1 overflow-y-auto p-4 sm:p-5 lg:p-6">
           <Outlet />
         </main>
       </div>

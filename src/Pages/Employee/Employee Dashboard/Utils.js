@@ -209,3 +209,21 @@ export function getTodayStatus(attendance, permissions, holidays, employeeId) {
   // No record yet — day may not be over, don't assume Absent
   return { status: "Not Marked" };
 }
+
+export function getLatestHoliday(holidays = []) {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const upcoming = holidays
+    .filter((holiday) => {
+      const date = new Date(holiday.date);
+      date.setHours(0, 0, 0, 0);
+
+      return date >= today;
+    })
+    .sort((a, b) => {
+      return new Date(a.date) - new Date(b.date);
+    });
+
+  return upcoming[0] || null;
+}

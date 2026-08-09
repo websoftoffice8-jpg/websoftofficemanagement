@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+
 import {
   LayoutDashboard,
   CalendarCheck,
@@ -12,6 +12,7 @@ import {
   LogOut,
   X,
 } from "lucide-react";
+
 import api from "../API/Axios";
 import ENDPOINTS from "../API/endpoints";
 
@@ -40,6 +41,7 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
         const res = await api.get(
           `${ENDPOINTS.PERMISSIONS}?status=Pending`
         );
+
         setPendingCount(res.data.length);
       } catch (error) {
         console.error(error);
@@ -48,8 +50,8 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
 
     fetchPendingCount();
 
-    // Optional: keep the badge fresh without a full page reload
     const interval = setInterval(fetchPendingCount, 30000);
+
     return () => clearInterval(interval);
   }, []);
 
@@ -66,34 +68,69 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
       {/* Sidebar */}
       <aside
         className={`
-          fixed lg:static top-0 left-0 z-50
-          h-screen w-64 bg-white
-          shadow-[1px_0_0_0_rgba(15,23,42,0.06),8px_0_24px_-8px_rgba(15,23,42,0.08)]
-          transform transition-transform duration-300 ease-out
-          flex flex-col
-          ${isOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
+          fixed lg:sticky
+          top-0 left-0
+          z-50
+          h-screen
+          w-64
+          shrink-0
+          bg-white
+          border-r border-slate-100
+
+          transform
+          transition-transform
+          duration-300
+          ease-out
+
+          flex
+          flex-col
+
+          ${
+            isOpen
+              ? "translate-x-0"
+              : "-translate-x-full lg:translate-x-0"
+          }
         `}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 h-16 shrink-0">
-          <div className="flex items-center gap-2.5">
-            <img src="/websoft.png" alt="AttendEase" className="h-10 w-44 object-contain" />
+        <div className="h-16 shrink-0 flex items-center justify-between px-5 sm:px-6">
+          <div className="flex items-center min-w-0">
+            <img
+              src="/websoft.png"
+              alt="AttendEase"
+              className="h-10 w-44 object-contain"
+            />
           </div>
 
+          {/* Close button - Mobile only */}
           <button
+            type="button"
             onClick={() => setIsOpen(false)}
-            className="lg:hidden text-slate-400 hover:text-slate-600 transition-colors"
+            className="
+              lg:hidden
+              shrink-0
+              p-1.5
+              rounded-lg
+              text-slate-400
+              hover:text-slate-700
+              hover:bg-slate-100
+              transition-colors
+            "
+            aria-label="Close sidebar"
           >
             <X size={20} />
           </button>
         </div>
-        <div className="h-px bg-slate-100 mx-6" />
+
+        <div className="h-px bg-slate-100 mx-5 sm:mx-6" />
 
         {/* Navigation */}
         <nav className="px-3 py-5 flex flex-col gap-1 flex-1 overflow-y-auto">
           {links.map((item) => {
             const Icon = icons[item.icon];
-            const isPermissionsLink = item.path === "/admin/permissions";
+
+            const isPermissionsLink =
+              item.path === "/admin/permissions";
 
             return (
               <NavLink
@@ -101,11 +138,23 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
                 to={item.path}
                 onClick={() => setIsOpen(false)}
                 className={({ isActive }) =>
-                  `group flex items-center gap-3 px-3.5 py-2.5 rounded-xl transition-all duration-200
-                  ${isActive
-                    ? "bg-green-600 text-white shadow-sm shadow-blue-600/25"
-                    : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
-                  }`
+                  `
+                  group
+                  flex
+                  items-center
+                  gap-3
+                  px-3.5
+                  py-2.5
+                  rounded-xl
+                  transition-all
+                  duration-200
+
+                  ${
+                    isActive
+                      ? "bg-green-600 text-white shadow-sm shadow-green-600/25"
+                      : "text-slate-500 hover:bg-slate-50 hover:text-slate-800"
+                  }
+                  `
                 }
               >
                 {Icon && (
@@ -115,10 +164,29 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
                     className="shrink-0"
                   />
                 )}
-                <span className="text-[13.5px] font-medium flex-1">{item.name}</span>
+
+                <span className="text-[13.5px] font-medium flex-1 truncate">
+                  {item.name}
+                </span>
 
                 {isPermissionsLink && pendingCount > 0 && (
-                  <span className="flex items-center justify-center min-w-[20px] h-5 px-1.5 rounded-full bg-red-500 text-white text-[11px] font-semibold leading-none">
+                  <span
+                    className="
+                      flex
+                      items-center
+                      justify-center
+                      min-w-[20px]
+                      h-5
+                      px-1.5
+                      rounded-full
+                      bg-red-500
+                      text-white
+                      text-[11px]
+                      font-semibold
+                      leading-none
+                      shrink-0
+                    "
+                  >
                     {pendingCount > 99 ? "99+" : pendingCount}
                   </span>
                 )}
@@ -130,11 +198,26 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
         {/* Logout */}
         <div className="shrink-0 p-3 border-t border-slate-100">
           <button
+            type="button"
             onClick={handleLogout}
-            className="flex items-center gap-2 w-full px-4 py-3 hover:bg-red-50 text-red-600"
+            className="
+              flex
+              items-center
+              gap-2
+              w-full
+              px-4
+              py-3
+              rounded-xl
+              text-red-600
+              hover:bg-red-50
+              transition-colors
+            "
           >
             <LogOut size={18} />
-            Logout
+
+            <span className="text-sm font-medium">
+              Logout
+            </span>
           </button>
         </div>
       </aside>
@@ -143,4 +226,3 @@ const Sidebar = ({ links, isOpen, setIsOpen }) => {
 };
 
 export default Sidebar;
-

@@ -204,6 +204,16 @@
       "outTime": "16:00",
       "note": "",
       "id": "tM5jXX-Mnbc"
+    },
+    {
+      "employeeId": "EMP03",
+      "userId": "KRaDAh08eJU",
+      "name": "Sujan",
+      "date": "2026-08-09",
+      "inTime": "10:00",
+      "outTime": "16:00",
+      "note": "",
+      "id": "3yI2VMV1K8o"
     }
   ],
   "permissions": [
@@ -303,6 +313,39 @@
       "status": "Rejected",
       "requestedAt": "2026-08-07T08:20:39.543Z",
       "id": "W8_-XoBua-I"
+    },
+    {
+      "employeeId": "EMP01",
+      "userId": "wpZVldvOPJ4",
+      "name": "Rachit tiwari",
+      "fromDate": "2026-08-09",
+      "toDate": "2026-08-09",
+      "reason": "",
+      "status": "Approved",
+      "requestedAt": "2026-08-09T06:20:02.889Z",
+      "id": "MpET5GxlPdQ"
+    },
+    {
+      "employeeId": "EMP02",
+      "userId": "o4TsZLXPASM",
+      "name": "Prashant Sunar",
+      "fromDate": "2026-08-09",
+      "toDate": "2026-08-09",
+      "reason": "",
+      "status": "Approved",
+      "requestedAt": "2026-08-09T06:23:37.336Z",
+      "id": "_XCOHm1opxc"
+    },
+    {
+      "employeeId": "EMP06",
+      "userId": "lXCuDYL60Z4",
+      "name": "Gaurav",
+      "fromDate": "2026-08-09",
+      "toDate": "2026-08-09",
+      "reason": "test",
+      "status": "Approved",
+      "requestedAt": "2026-08-09T06:47:50.656Z",
+      "id": "hQ51wUCwDJc"
     }
   ],
   "holiday": [
@@ -481,6 +524,30 @@
       "title": "notice test",
       "description": "notice test hai",
       "id": "gbNtKeZ-5Qg"
+    },
+    {
+      "date": "2026-08-10",
+      "title": "notice test",
+      "description": "test",
+      "id": "KZJw-32blVo"
+    },
+    {
+      "date": "2026-08-11",
+      "title": "test",
+      "description": "test",
+      "id": "AIVvdcDqKMg"
+    },
+    {
+      "date": "2026-08-12",
+      "title": "test",
+      "description": "",
+      "id": "NIzYFM0CJxQ"
+    },
+    {
+      "date": "2026-08-13",
+      "title": "test",
+      "description": "test",
+      "id": "GAA6PAiock4"
     }
   ],
   "$schema": "./node_modules/json-server/schema.json"

@@ -101,6 +101,16 @@ const WeeklyTrendChart = () => {
         return { weekStart: start, weekEnd: end }
     }, [weekOffset])
 
+    // Earliest date we actually have attendance data for.
+    // Days before this are excluded entirely (not counted as Absent).
+    const earliestAttendanceDate = useMemo(() => {
+        if (!attendance.length) return null
+        return attendance.reduce(
+            (min, a) => (a.date < min ? a.date : min),
+            attendance[0].date
+        )
+    }, [attendance])
+
     const data = useMemo(() => {
         const buckets = WEEKDAYS.map((day) => ({
             day,
@@ -126,6 +136,12 @@ const WeeklyTrendChart = () => {
             }
 
             const date = toLocalDateString(current)
+
+            // Skip days before attendance tracking started
+            if (earliestAttendanceDate && date < earliestAttendanceDate) {
+                continue
+            }
+
             const dayIndex = current.getDay()
 
             // Company holiday (date range)
@@ -185,6 +201,7 @@ const WeeklyTrendChart = () => {
         holidays,
         weekStart,
         weekEnd,
+        earliestAttendanceDate,
     ])
 
     const rangeLabel = useMemo(() => {
