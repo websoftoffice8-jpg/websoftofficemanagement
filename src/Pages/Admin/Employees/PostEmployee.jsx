@@ -152,8 +152,21 @@ export default function PostEmployee({ isOpen, onClose }) {
           </div>
 
           <div className="grid grid-cols-2 gap-4">
-            <div><label>Department</label><div className="relative"><Building2 size={18} className="absolute left-3 top-1/2 -translate-y-1/2"/><select required value={form.department} onChange={handleChange("department")} className="w-full py-2.5 pl-10 border rounded-xl"><option value="">Select</option>{DEPARTMENTS.map(d=><option key={d}>{d}</option>)}</select></div></div>
-            <div><label>Position</label><div className="relative"><Briefcase size={18} className="absolute left-3 top-1/2 -translate-y-1/2"/><select required value={form.position} onChange={handleChange("position")} className="w-full py-2.5 pl-10 border rounded-xl"><option value="">Select</option>{POSITIONS.map(p=><option key={p}>{p}</option>)}</select></div></div>
+            <div>
+            <label className="block mb-1.5 text-sm font-medium">Department</label>
+            <div className="relative">
+              <User size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"/>
+              <input required value={form.department} onChange={handleChange("department")} className="w-full py-2.5 pl-10 pr-4 bg-slate-50 border rounded-xl"/>
+            </div>
+          </div>
+          <div>
+            <label className="block mb-1.5 text-sm font-medium">Position</label>
+            <div className="relative">
+              <User size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"/>
+              <input required value={form.position} onChange={handleChange("position")} className="w-full py-2.5 pl-10 pr-4 bg-slate-50 border rounded-xl"/>
+            </div>
+          </div>
+           
           </div>
 
           <div className="flex justify-end gap-3 pt-2">

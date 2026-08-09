@@ -35,11 +35,15 @@ export function getInitials(name = "") {
 // ==========================
 // Holiday
 // ==========================
-export function getUpcomingHoliday(holidays = []) {
+
+// Returns ALL upcoming holidays that share the nearest upcoming date.
+// (Previously getUpcomingHoliday returned only a single holiday, which
+// silently dropped same-day holidays when more than one existed.)
+export function getUpcomingHolidays(holidays = []) {
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
-  return holidays
+  const normalized = holidays
     .map((h) => ({
       ...h,
       _from: h.from || h.date,
@@ -47,7 +51,18 @@ export function getUpcomingHoliday(holidays = []) {
       _name: h.title || h.name,
     }))
     .filter((h) => h._from && new Date(h._from) >= today)
-    .sort((a, b) => new Date(a._from) - new Date(b._from))[0];
+    .sort((a, b) => new Date(a._from) - new Date(b._from));
+
+  if (normalized.length === 0) return [];
+
+  const nearestDate = normalized[0]._from;
+  return normalized.filter((h) => h._from === nearestDate);
+}
+
+// Kept for backward compatibility with any other callers that still
+// expect a single holiday object.
+export function getUpcomingHoliday(holidays = []) {
+  return getUpcomingHolidays(holidays)[0];
 }
 
 export function formatHolidayRange(from, to) {
@@ -143,9 +158,6 @@ export function toLocalDateString(d = new Date()) {
   return `${year}-${month}-${day}`;
 }
 
-// Returns { when: "today" | "tomorrow", holiday } or null.
-// Matches on `date` (single-day holiday) or `from` (range start),
-// same fallback pattern used elsewhere in the app.
 export function getTodayOrTomorrowHoliday(holidays = []) {
   const today = toLocalDateString(new Date());
 
@@ -163,7 +175,6 @@ export function getTodayOrTomorrowHoliday(holidays = []) {
 
   return null;
 }
-
 
 // ==========================
 // Today's Status (Present / Absent / Leave / Holiday)

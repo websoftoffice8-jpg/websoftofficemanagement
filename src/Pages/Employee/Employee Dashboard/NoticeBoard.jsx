@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Bell, PartyPopper, Megaphone } from "lucide-react";
-import { getUpcomingHoliday, formatHolidayRange } from "./utils";
+import { getUpcomingHolidays, formatHolidayRange } from "./utils";
 import api from "../../../API/Axios";
 import ENDPOINTS from "../../../API/endpoints";
 
@@ -17,7 +17,7 @@ const formatNoticeDate = (date) => {
 const MAX_NOTICES = 3;
 
 export default function NoticeBoard({ holidays }) {
-  const holiday = getUpcomingHoliday(holidays);
+  const upcomingHolidays = getUpcomingHolidays(holidays);
 
   const [notices, setNotices] = useState([]);
   const [noticesLoading, setNoticesLoading] = useState(true);
@@ -30,8 +30,10 @@ export default function NoticeBoard({ holidays }) {
     try {
       const res = await api.get(ENDPOINTS.NOTICE);
 
-      const sorted = [...res.data].sort((a, b) =>
-        b.date.localeCompare(a.date)
+      // Sort by actual date value, not string comparison —
+      // localeCompare only sorts correctly for strict ISO date strings.
+      const sorted = [...res.data].sort(
+        (a, b) => new Date(b.date) - new Date(a.date)
       );
 
       setNotices(sorted.slice(0, MAX_NOTICES));
@@ -51,35 +53,12 @@ export default function NoticeBoard({ holidays }) {
         </h2>
       </div>
 
-      {holiday ? (
-        <div className="rounded-xl border border-blue-100 bg-blue-50/60 p-4 flex gap-3">
-          <div className="w-9 h-9 shrink-0 rounded-lg bg-blue-100 flex items-center justify-center">
-            <PartyPopper className="w-4 h-4 text-blue-600" />
-          </div>
-          <div className="min-w-0">
-            <p className="text-xs font-medium uppercase tracking-wide text-blue-600">
-              Upcoming Holiday
-            </p>
-            <p className="mt-1 text-slate-800 font-semibold truncate">
-              {holiday._name}
-            </p>
-            <p className="text-sm text-slate-500 mt-0.5">
-              {formatHolidayRange(holiday._from, holiday._to)}
-            </p>
-          </div>
-        </div>
-      ) : (
-        <div className="rounded-xl border border-dashed border-slate-200 flex flex-col items-center justify-center text-center py-8 px-4">
-          <p className="text-sm text-slate-400">No upcoming holidays right now.</p>
-        </div>
-      )}
+       
 
       <div className="mt-4 flex-1 rounded-xl border border-slate-100 p-4">
         <div className="flex items-center gap-2 mb-3">
-          <Megaphone className="w-3.5 h-3.5 text-slate-400" />
-          <p className="text-xs font-medium uppercase tracking-wide text-slate-400">
-            Latest Notices
-          </p>
+          
+          
         </div>
 
         {noticesLoading ? (

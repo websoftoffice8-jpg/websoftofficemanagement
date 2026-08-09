@@ -55,7 +55,7 @@ export default function HolidayBanner({ holidays }) {
             ? "text-white/70 hover:bg-white/10 hover:text-white"
             : "text-slate-400 hover:bg-slate-100 hover:text-slate-600"
         }`}
-      >
+      > 
         <X className="w-4 h-4" />
       </button>
     </div>

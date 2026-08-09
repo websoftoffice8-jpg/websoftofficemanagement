@@ -27,13 +27,6 @@
       "id": "o4TsZLXPASM"
     },
     {
-      "employeeId": "admin1",
-      "name": "Manras",
-      "password": "admin",
-      "role": "admin",
-      "id": "YF-MJaKz-Do"
-    },
-    {
       "employeeId": "EMP04",
       "name": "Dona",
       "password": "employee",
@@ -62,11 +55,13 @@
       "id": "2IA7VYfQq2U"
     },
     {
-      "employeeId": "EMP11",
-      "name": "sujan",
-      "password": "admin",
-      "role": "admin",
-      "id": "fKCcLxdgIUg"
+      "employeeId": "EMP06",
+      "name": "Gaurav",
+      "password": "employee",
+      "department": "IT",
+      "position": "Intern",
+      "role": "employee",
+      "id": "lXCuDYL60Z4"
     }
   ],
   "attendance": [
@@ -149,16 +144,6 @@
       "outTime": "16:00",
       "note": "test",
       "id": "GezXK9kfjss"
-    },
-    {
-      "employeeId": "EMP06",
-      "userId": null,
-      "name": "Anmol ",
-      "date": "2026-07-30",
-      "inTime": "10:30",
-      "outTime": "16:00",
-      "note": "this it test",
-      "id": "1QWRbQqNLvE"
     },
     {
       "employeeId": "EMP01",
@@ -265,17 +250,6 @@
       "id": "UtD4McYnfok"
     },
     {
-      "employeeId": "EMP06",
-      "userId": null,
-      "name": "Anmol ",
-      "fromDate": "2026-07-31",
-      "toDate": "2026-07-31",
-      "reason": "leave test",
-      "status": "Approved",
-      "requestedAt": "2026-07-31T04:52:07.837Z",
-      "id": "k0cJrrHC-7k"
-    },
-    {
       "employeeId": "EMP02",
       "userId": "o4TsZLXPASM",
       "name": "Prashant Sunar",
@@ -309,26 +283,26 @@
       "id": "zmgEWdBMd4Y"
     },
     {
-      "employeeId": "EMP02",
-      "userId": "o4TsZLXPASM",
-      "name": "Prashant Sunar",
+      "employeeId": "EMP06",
+      "userId": "lXCuDYL60Z4",
+      "name": "Gaurav",
       "fromDate": "2026-08-07",
       "toDate": "2026-08-07",
       "reason": "",
       "status": "Rejected",
-      "requestedAt": "2026-08-07T08:01:26.719Z",
-      "id": "Ekh5B2lqa-I"
+      "requestedAt": "2026-08-07T07:52:57.170Z",
+      "id": "3-9htSxWFmo"
     },
     {
-      "employeeId": "EMP03",
-      "userId": "KRaDAh08eJU",
-      "name": "Sujan",
+      "employeeId": "EMP04",
+      "userId": "6iQ0WjvZ7Yo",
+      "name": "Dona",
       "fromDate": "2026-08-07",
       "toDate": "2026-08-07",
       "reason": "",
       "status": "Rejected",
-      "requestedAt": "2026-08-07T08:09:35.006Z",
-      "id": "WLq7e4N_05w"
+      "requestedAt": "2026-08-07T08:20:39.543Z",
+      "id": "W8_-XoBua-I"
     }
   ],
   "holiday": [
@@ -495,10 +469,10 @@
       "id": "0iahOxQy-Es"
     },
     {
-      "date": "2026-08-06",
-      "title": "Dashain",
-      "description": "holiday hai ta",
-      "id": "wfYGxlpR35c"
+      "date": "2026-08-11",
+      "title": "Test",
+      "description": "test",
+      "id": "Jc8TCDZFKYU"
     }
   ],
   "notice": [

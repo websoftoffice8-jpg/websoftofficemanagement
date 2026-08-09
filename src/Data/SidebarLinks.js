@@ -1,4 +1,3 @@
-
 export const adminLinks = [
   {
     name: "Dashboard",
@@ -18,7 +17,7 @@ export const adminLinks = [
   {
     name: "Settings",
     path: "/admin/settings",
-    icon: "Settings", 
+    icon: "Settings",
   },
   {
     name: "Permissions",
