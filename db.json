@@ -307,6 +307,28 @@
       "status": "Approved",
       "requestedAt": "2026-08-05T08:31:45.586Z",
       "id": "zmgEWdBMd4Y"
+    },
+    {
+      "employeeId": "EMP02",
+      "userId": "o4TsZLXPASM",
+      "name": "Prashant Sunar",
+      "fromDate": "2026-08-07",
+      "toDate": "2026-08-07",
+      "reason": "",
+      "status": "Rejected",
+      "requestedAt": "2026-08-07T08:01:26.719Z",
+      "id": "Ekh5B2lqa-I"
+    },
+    {
+      "employeeId": "EMP03",
+      "userId": "KRaDAh08eJU",
+      "name": "Sujan",
+      "fromDate": "2026-08-07",
+      "toDate": "2026-08-07",
+      "reason": "",
+      "status": "Rejected",
+      "requestedAt": "2026-08-07T08:09:35.006Z",
+      "id": "WLq7e4N_05w"
     }
   ],
   "holiday": [
